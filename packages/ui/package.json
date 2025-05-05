@@ -1,5 +1,5 @@
 {
-  "name": "@repo/ui",
+  "name": "@audora/ui",
   "version": "0.0.0",
   "private": true,
   "exports": {
@@ -11,8 +11,8 @@
     "check-types": "tsc --noEmit"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
+    "@audora/eslint-config": "*",
+    "@audora/typescript-config": "*",
     "@turbo/gen": "^2.5.0",
     "@types/node": "^22.15.3",
     "@types/react": "19.1.0",
