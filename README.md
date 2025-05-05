@@ -1,84 +1,87 @@
-# Turborepo starter
+# Audora - Riverside.fm Clone
 
-This Turborepo starter is maintained by the Turborepo core team.
+Audora is a web app designed to record high-quality audio and video podcasts, leveraging real-time communication and robust backend processing. The project aims to replicate the functionality of Riverside.fm, focusing on learning WebRTC, video processing, real-time uploads, and ensuring high reliability, especially in terms of S3 multipart uploads and video rendering.
 
-## Using this example
+## Tech Stack
 
-Run the following command:
+- **Frontend**: Next.js (React), Tailwind CSS
+- **Real-time Communication**: WebRTC, WebSocket (Socket.IO for signaling)
+- **Recording**: MediaRecorder API
+- **Uploads**: S3 Multipart, Presigned URLs
+- **Backend**: Node.js (Express/Fastify), FFmpeg/GStreamer for video processing
+- **Queue Processing**: BullMQ or Temporal (for video render jobs)
+- **Storage**: AWS S3
+- **Database**: PostgreSQL (via Prisma)
+- **DevOps**: Docker, CI/CD, Monitoring (Sentry, Grafana)
 
-```sh
-npx create-turbo@latest
-```
+## Features
 
-## What's inside?
+### Core Features
 
-This Turborepo includes the following packages/apps:
+1. **WebRTC Communication**
 
-### Apps and Packages
+   - Real-time video/audio communication.
+   - Support for multiple participants in a room.
+   - Browser-based peer-to-peer connection.
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+2. **Media Recording & Upload**
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+   - Record video/audio using the MediaRecorder API.
+   - Real-time uploads via S3 multipart uploads (supports resume/retry).
 
-### Utilities
+3. **Post-Processing**
 
-This Turborepo has some additional tools already setup for you:
+   - Video and audio transcoding with FFmpeg/GStreamer.
+   - Ability to stitch recordings, normalize audio, and add branding overlays.
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+4. **Session Management**
+   - Generate room links.
+   - Track session states (live, uploading, processing).
+   - Reconnect logic for users who drop from the session.
 
-### Build
+### Planned Features
 
-To build all apps and packages, run the following command:
+1. **UI for Session Playback**
 
-```
-cd my-turborepo
-pnpm build
-```
+   - Display past recordings with playback functionality.
+   - Option to download or stream finalized content.
 
-### Develop
+2. **Scalability & Reliability**
+   - Horizontal scaling for signaling server.
+   - Background queue processing for video rendering jobs (BullMQ/Temporal).
+   - Caching for uploads and transcoding jobs.
 
-To develop all apps and packages, run the following command:
+## Development Roadmap
 
-```
-cd my-turborepo
-pnpm dev
-```
+### Week 1: Core WebRTC and Signaling Server
 
-### Remote Caching
+- Set up signaling server with WebSocket (Socket.IO).
+- Implement WebRTC peer connections and room management.
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+### Week 2: Media Recording and Uploads
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+- Implement recording functionality with MediaRecorder API.
+- Integrate real-time S3 multipart uploads.
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+### Week 3: Video Processing and Post-Processing
 
-```
-cd my-turborepo
-npx turbo login
-```
+- Implement FFmpeg/GStreamer-based processing for audio/video stitching and transcoding.
+- Add overlays and audio normalization.
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+### Week 4: Reliability and Testing
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+- Implement reconnect logic for WebRTC and upload retries.
+- Test edge cases (internet drops, failed uploads, reconnection).
 
-```
-npx turbo link
-```
+### Week 5: Polish and Deployment
 
-## Useful Links
+- Enhance UI/UX for better user experience.
+- Deploy to production with monitoring tools (e.g., Sentry, Grafana).
 
-Learn more about the power of Turborepo:
+## Contributing
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+If you want to contribute to this project, feel free to fork the repo, make changes, and create a pull request. Please ensure your code passes linting and tests before submitting.
+
+## License
+
+This project is licensed under the MIT License.
