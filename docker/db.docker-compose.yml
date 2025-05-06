@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: local_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: audora_user
+      POSTGRES_PASSWORD: supersecret123
+      POSTGRES_DB: audora
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

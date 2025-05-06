@@ -114,6 +114,7 @@
       },
       "devDependencies": {
         "@audora/eslint-config": "*",
+        "@audora/tailwind-css": "*",
         "@audora/typescript-config": "*",
         "@turbo/gen": "^2.5.0",
         "@types/node": "^22.15.3",
