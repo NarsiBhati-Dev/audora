@@ -16,6 +16,14 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "generate": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:deploy": {
+      "cache": false,
+      "env": ["DATABASE_URL"]
     }
   }
 }

@@ -1,0 +1,23 @@
+{
+  "name": "@audora/database",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "scripts": {
+    "generate": "bunx prisma generate",
+    "reset": "bun prisma migrate reset",
+    "migrate": "bun prisma migrate dev",
+    "db:deploy": "bun prisma migrate deploy && bun run generate",
+    "studio": "bunx prisma studio"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.7.0",
+    "prisma": "^6.7.0"
+  }
+}
