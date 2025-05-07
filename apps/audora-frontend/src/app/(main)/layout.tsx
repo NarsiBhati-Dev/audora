@@ -1,3 +1,4 @@
+import BackToTopButton from "@/components/back-to-top-button";
 import Header from "@/components/header";
 import React from "react";
 
@@ -10,6 +11,7 @@ const MainLayout = ({
     <>
       <Header />
       <main className="mt-18 text-white">{children}</main>
+      <BackToTopButton />
     </>
   );
 };

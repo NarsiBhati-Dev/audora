@@ -14,19 +14,19 @@ const values = [
   {
     title: "Innovation",
     description:
-      "We constantly push the boundaries of what's possible in audio creation and sharing.",
+      "We constantly push the boundaries of what's possible in remote content creation, making it easy to collaborate and record from anywhere.",
     icon: <InnovationIcon />,
   },
   {
     title: "Accessibility",
     description:
-      "Making professional-grade audio tools available to creators of all levels.",
+      "Professional-grade recording tools for podcasts, meetings, and more—available to everyone, no matter their experience level.",
     icon: <AccessibilityIcon />,
   },
   {
     title: "Quality",
     description:
-      "Delivering exceptional audio quality and user experience in everything we do.",
+      "Local recording for every participant ensures the best possible audio and video quality, every time.",
     icon: <QualityIcon />,
   },
 ];
@@ -38,36 +38,45 @@ const AboutPage = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Values Section */}
-        <section className="mb-24">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-16">
-            Our Values
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <section className="mb-24 bg-gradient-to-b from-[#0a0a0a] via-[#121212] to-[#1f1f1f] rounded-3xl py-20 px-6 md:px-12 text-white">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold inline-block relative z-10">
+              Our Values
+              <span className="block h-1 w-16 mx-auto mt-3 bg-gradient-to-r from-[#6965db] to-[#a18fff] rounded-full"></span>
+            </h2>
+            <p className="text-lg text-gray-400 mt-4 max-w-xl mx-auto font-medium">
+              The principles that drive our mission and shape every experience
+              on Audora.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-7xl mx-auto">
             {values.map((value, index) => (
               <div
                 key={index}
-                className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center border border-gray-100 hover:border-[#6965db]/20 group"
+                className="relative rounded-3xl p-8 shadow-lg border border-white/10 group overflow-hidden transition-all duration-300 bg-white/10 backdrop-blur-md hover:shadow-2xl hover:scale-105 hover:border-transparent hover:bg-white/20 text-center before:absolute before:inset-0 before:rounded-3xl before:pointer-events-none before:opacity-0 before:transition-opacity before:duration-300 before:bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] before:from-[#a18fff]/40 before:to-transparent group-hover:before:opacity-100"
+                style={{ minHeight: 340 }}
               >
-                <div className="text-[#6965db] mb-6 flex justify-center transform group-hover:scale-110 transition-transform duration-300">
-                  {value.icon}
+                <div className="flex justify-center mb-6">
+                  <span className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-[#6965db] to-[#a18fff] shadow-xl group-hover:shadow-2xl transition-transform duration-300 relative">
+                    <span className="absolute inset-0 rounded-full blur-xl opacity-40 bg-gradient-to-br from-[#a18fff] to-[#6965db] z-0"></span>
+                    <span className="text-white text-4xl z-10 relative">
+                      {value.icon}
+                    </span>
+                  </span>
                 </div>
-                <h3 className="text-2xl font-semibold text-gray-900 mb-4 group-hover:text-[#6965db] transition-colors duration-300">
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 group-hover:text-[#a18fff] transition-colors duration-300">
                   {value.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {(() => {
-                    if (value.title === "Innovation") {
-                      return "We constantly push the boundaries of what's possible in remote content creation, making it easy to collaborate and record from anywhere.";
-                    }
-                    if (value.title === "Accessibility") {
-                      return "Professional-grade recording tools for podcasts, meetings, and more—available to everyone, no matter their experience level.";
-                    }
-                    if (value.title === "Quality") {
-                      return "Local recording for every participant ensures the best possible audio and video quality, every time.";
-                    }
-                    return value.description;
-                  })()}
+                <p className="text-gray-200 leading-relaxed text-base md:text-lg font-light">
+                  {value.description}
                 </p>
+                {/* Animated gradient border on hover */}
+                <span className="pointer-events-none absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-[3px] group-hover:border-gradient-to-r group-hover:from-[#6965db] group-hover:to-[#a18fff] transition-all duration-300" />
+                {/* Subtle noise overlay for texture */}
+                <span
+                  className="pointer-events-none absolute inset-0 rounded-3xl opacity-10 mix-blend-soft-light"
+                  style={{ backgroundImage: 'url("/noise.png")' }}
+                />
               </div>
             ))}
           </div>
@@ -76,7 +85,7 @@ const AboutPage = () => {
         {/* Team Section */}
         <section className="mb-24">
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-16">
-            Meet Our Team
+            {`Who's Behind Audora?`}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {teamMembers.map((member, index) => (
@@ -112,7 +121,7 @@ const AboutPage = () => {
               Follow on X
             </a>
             <a
-              href="https://discord.gg/hwqtjKuz"
+              href={siteMetadata.discord}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center bg-[#5865F2] text-white px-8 py-4 rounded-xl font-semibold hover:bg-[#4752C4] transition-colors shadow-lg hover:shadow-xl"
