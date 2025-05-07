@@ -1,10 +1,17 @@
 import React from "react";
 import Image from "next/image";
 import siteMetadata from "@/lib/siteMetadata";
+import Link from "next/link";
 
-const Logo = ({ scrolled }: { scrolled: boolean }) => {
+interface LogoParams {
+  href?: string;
+  scrolled?: boolean;
+  page?: string;
+}
+
+const Logo = ({ scrolled, page, href = "/" }: LogoParams) => {
   return (
-    <div className="flex items-center space-x-2">
+    <Link href={href} className="flex items-center space-x-1.5">
       <Image
         src={
           scrolled
@@ -12,16 +19,16 @@ const Logo = ({ scrolled }: { scrolled: boolean }) => {
             : "/images/audora-logo-white.webp"
         }
         alt="Audora Logo"
-        width={32}
-        height={26}
+        width={24}
+        height={24}
         className="rounded-sm"
       />
       <span
-        className={`text-xl font-extrabold ${scrolled ? "text-black" : "text-white"}`}
+        className={`text-lg font-semibold ${scrolled ? "text-black" : "text-white"}`}
       >
-        {siteMetadata.header}
+        {siteMetadata.header} {page && ` | ${page}`}
       </span>
-    </div>
+    </Link>
   );
 };
 

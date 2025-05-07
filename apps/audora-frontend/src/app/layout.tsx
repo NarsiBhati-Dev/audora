@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "@audora/tailwind-css";
 import siteMetadata from "@/lib/siteMetadata";
-import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 const open_sans = Open_Sans({
   variable: "--font-open-sans",
@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       {/* favicons */}
       <link
         rel="icon"
@@ -42,10 +42,8 @@ export default function RootLayout({
       <meta name="apple-mobile-web-app-title" content="Audora" />
       <link rel="manifest" href="/favicons/site.webmanifest" />
       <body className={`${open_sans.className} antialiased bg-black`}>
-        <>
-          <Header />
-          {children}
-        </>
+        {children}
+        <Footer />
       </body>
     </html>
   );
