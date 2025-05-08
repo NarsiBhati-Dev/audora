@@ -1,16 +1,19 @@
-import { Podcast, MonitorPlay } from "lucide-react";
-import { BsRecordCircle } from "react-icons/bs";
-import { TbAdjustmentsAlt } from "react-icons/tb";
+import {
+  Podcast,
+  MonitorPlay,
+  SlidersHorizontal,
+  CircleDot,
+} from "lucide-react";
 
 export const products = [
   {
-    icon: BsRecordCircle,
+    icon: CircleDot,
     title: "Recording",
     description: "4K video and audio recorder.",
     href: "/recording",
   },
   {
-    icon: TbAdjustmentsAlt,
+    icon: SlidersHorizontal,
     title: "Editing",
     description: "AI, text-based video editor.",
     href: "/video-editor",

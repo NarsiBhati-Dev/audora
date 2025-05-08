@@ -1,18 +1,19 @@
 import React from "react";
+import HeroSection from "./hero-section";
+import TrustedSection from "./trusted-section";
+import GoLiveSection from "./go-live-section";
+import RecordSection from "./record-section";
+import EditSection from "./edit-section";
 
 const HomePage = () => {
   return (
-    <>
-      <main className="bg-black h-screen w-screen text-7xl font-extrabold text-white flex justify-center items-center">
-        Audora
-      </main>
-      <main className="bg-black h-screen w-screen text-7xl font-extrabold text-white flex justify-center items-center">
-        Audora
-      </main>
-      <main className="bg-black h-screen w-screen text-7xl font-extrabold text-white flex justify-center items-center">
-        Audora
-      </main>
-    </>
+    <main>
+      <HeroSection />
+      <TrustedSection />
+      <RecordSection />
+      <EditSection />
+      <GoLiveSection />
+    </main>
   );
 };
 

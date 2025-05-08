@@ -8,11 +8,11 @@ const MainLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <>
+    <div className="bg-black">
       <Header />
-      <main className="mt-18 text-white">{children}</main>
+      <main className="text-white">{children}</main>
       <BackToTopButton />
-    </>
+    </div>
   );
 };
 

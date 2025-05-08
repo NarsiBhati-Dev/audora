@@ -14,7 +14,7 @@ const Navbar = ({ scrolled }: { scrolled: boolean }) => {
     : "bg-white text-black hover:bg-neutral-100";
 
   return (
-    <nav className="relative z-50 flex justify-between items-center font-semibold pl-12 w-full text-white">
+    <nav className="relative hidden z-50 md:flex justify-between items-center font-semibold pl-12 w-full text-white">
       <ul className="flex space-x-8">
         <li className="relative z-50">
           <HoverCard triggerText={"Product"} className={textColor}>
