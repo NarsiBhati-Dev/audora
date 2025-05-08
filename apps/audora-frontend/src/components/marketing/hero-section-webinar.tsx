@@ -1,43 +1,43 @@
-import React from "react";
-import Image from "next/image";
-import GridBackground from "@/components/ui/GridBackground";
+import React from 'react';
+import Image from 'next/image';
+import GridBackground from '@/components/ui/GridBackground';
 
 const HeroSectionWebinar = () => {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative py-8 md:py-12 flex flex-col items-center text-center px-4 bg-gradient-to-b from-[#0a0a0a] via-[#121212] to-[#1f1f1f]">
+      <section className='relative flex flex-col items-center bg-gradient-to-b from-[#0a0a0a] via-[#121212] to-[#1f1f1f] px-4 py-8 text-center md:py-12'>
         <GridBackground />
-        <div className="max-w-3xl mx-auto relative">
-          <h1 className="text-5xl sm:text-6xl font-extrabold mb-4 text-white leading-tight">
+        <div className='relative mx-auto max-w-3xl'>
+          <h1 className='mb-4 text-5xl leading-tight font-extrabold text-white sm:text-6xl'>
             Host Stunning Webinars Effortlessly
           </h1>
-          <p className="text-lg sm:text-xl text-gray-300 mb-8">
+          <p className='mb-8 text-lg text-gray-300 sm:text-xl'>
             Engage your audience with high-quality, interactive webinars. No
             downloads, no hassle—just seamless live experiences.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 mb-10 justify-center">
+          <div className='mb-10 flex flex-col justify-center gap-4 sm:flex-row'>
             <a
-              href="/dashboard"
-              className="bg-[#7357FF] hover:bg-[#5a3fdc] text-white font-semibold px-8 py-3 rounded-lg text-lg shadow transition"
+              href='/dashboard'
+              className='rounded-lg bg-[#7357FF] px-8 py-3 text-lg font-semibold text-white shadow transition hover:bg-[#5a3fdc]'
             >
               Start Your Webinar
             </a>
             <a
-              href="#features"
-              className="text-[#7357FF] font-medium flex items-center justify-center hover:underline"
+              href='#features'
+              className='flex items-center justify-center font-medium text-[#7357FF] hover:underline'
             >
-              Learn more <span className="ml-1">→</span>
+              Learn more <span className='ml-1'>→</span>
             </a>
           </div>
         </div>
-        <div className="w-full flex relative justify-center">
+        <div className='relative flex w-full justify-center'>
           <Image
-            src="/images/webinar-hero.png"
-            alt="Webinar Hero"
+            src='/images/webinar-hero.png'
+            alt='Webinar Hero'
             width={900}
             height={500}
-            className="rounded-2xl shadow-2xl border border-[#a78bfa] object-cover max-w-full"
+            className='max-w-full rounded-2xl border border-[#a78bfa] object-cover shadow-2xl'
             priority
           />
         </div>

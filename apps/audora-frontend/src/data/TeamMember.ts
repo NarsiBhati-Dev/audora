@@ -1,4 +1,4 @@
-import siteMetadata from "@/lib/siteMetadata";
+import siteMetadata from '@/lib/siteMetadata';
 
 export interface TeamMemberSchema {
   name: string;
@@ -11,10 +11,10 @@ export interface TeamMemberSchema {
 
 export const teamMembers: TeamMemberSchema[] = [
   {
-    name: "Narsi Bhati",
-    role: "Founder & Full-Stack Engineer",
-    image: "/images/team/narsi-bhati.png",
-    bio: "Passionate about real-time media, distributed systems, and building reliable user-first applications. Leads product and tech at Audora.",
+    name: 'Narsi Bhati',
+    role: 'Founder & Full-Stack Engineer',
+    image: '/images/team/narsi-bhati.png',
+    bio: 'Passionate about real-time media, distributed systems, and building reliable user-first applications. Leads product and tech at Audora.',
     linkedin: siteMetadata.linkedIn,
     twitter: siteMetadata.twitter,
   },

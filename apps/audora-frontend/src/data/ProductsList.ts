@@ -3,32 +3,32 @@ import {
   MonitorPlay,
   SlidersHorizontal,
   CircleDot,
-} from "lucide-react";
+} from 'lucide-react';
 
 export const products = [
   {
     icon: CircleDot,
-    title: "Recording",
-    description: "4K video and audio recorder.",
-    href: "/recording",
+    title: 'Recording',
+    description: '4K video and audio recorder.',
+    href: '/recording',
   },
   {
     icon: SlidersHorizontal,
-    title: "Editing",
-    description: "AI, text-based video editor.",
-    href: "/video-editor",
+    title: 'Editing',
+    description: 'AI, text-based video editor.',
+    href: '/video-editor',
   },
   {
     icon: Podcast,
-    title: "Live Streaming",
-    description: "For livestreams in full HD.",
-    href: "/live-streaming",
+    title: 'Live Streaming',
+    description: 'For livestreams in full HD.',
+    href: '/live-streaming',
   },
   {
     icon: MonitorPlay,
-    title: "Webinars",
-    description: "Host, record, and repurpose.",
-    href: "/use-cases/webinars",
+    title: 'Webinars',
+    description: 'Host, record, and repurpose.',
+    href: '/use-cases/webinars',
   },
   // {
   //   icon: Sparkles,

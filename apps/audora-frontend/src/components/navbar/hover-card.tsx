@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { useState, useRef } from "react";
-import DropdownTrigger from "./dropdown-trigger";
+import React, { useState, useRef } from 'react';
+import DropdownTrigger from './dropdown-trigger';
 
 interface HoverCardProps {
   triggerText: string;
@@ -12,7 +12,7 @@ interface HoverCardProps {
 const HoverCard = ({
   triggerText,
   children,
-  className = "",
+  className = '',
 }: HoverCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -28,7 +28,7 @@ const HoverCard = ({
 
   return (
     <div
-      className="relative"
+      className='relative'
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -39,10 +39,10 @@ const HoverCard = ({
       />
 
       <div
-        className={`absolute top-full left-0 mt-7 bg-white border border-gray-300 text-gray-800 shadow-xl rounded-xl w-[800px] transition-all duration-200 ${
+        className={`absolute top-full left-0 mt-7 w-[800px] rounded-xl border border-gray-300 bg-white text-gray-800 shadow-xl transition-all duration-200 ${
           isOpen
-            ? "opacity-100 scale-100 pointer-events-auto"
-            : "opacity-0 scale-95 pointer-events-none"
+            ? 'pointer-events-auto scale-100 opacity-100'
+            : 'pointer-events-none scale-95 opacity-0'
         }`}
       >
         {children}

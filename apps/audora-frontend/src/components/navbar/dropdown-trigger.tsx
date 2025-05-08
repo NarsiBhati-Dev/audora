@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import React from 'react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 interface DropdownTriggerProps {
   text: string;
@@ -11,18 +11,18 @@ interface DropdownTriggerProps {
 
 const DropdownTrigger = ({
   text,
-  className = "",
+  className = '',
   isOpen,
 }: DropdownTriggerProps) => {
   return (
     <span
-      className={`cursor-pointer flex items-center gap-1 font-semibold ${className}`}
+      className={`flex cursor-pointer items-center gap-1 font-semibold ${className}`}
     >
       {text}
       {isOpen ? (
-        <ChevronUp className="w-5 h-5" />
+        <ChevronUp className='h-5 w-5' />
       ) : (
-        <ChevronDown className="w-5 h-5" />
+        <ChevronDown className='h-5 w-5' />
       )}
     </span>
   );

@@ -1,19 +1,19 @@
-import React from "react";
+import React from 'react';
 
 const PrivacyPolicyPage = () => {
   return (
-    <div className="min-h-screen">
-      <div className="prose prose-slate max-w-4xl mx-auto py-20 px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
+    <div className='min-h-screen'>
+      <div className='prose prose-slate mx-auto max-w-4xl px-4 py-20 sm:px-6 lg:px-8'>
+        <div className='mb-16 text-center'>
+          <h1 className='mb-4 text-5xl font-bold text-gray-900'>
             Privacy Policy
           </h1>
-          <p className="text-sm text-gray-500">Last Updated: May 7, 2025</p>
+          <p className='text-sm text-gray-500'>Last Updated: May 7, 2025</p>
         </div>
 
-        <div className="space-y-16">
+        <div className='space-y-16'>
           <section>
-            <p className="text-xl text-gray-700 leading-relaxed">
+            <p className='text-xl leading-relaxed text-gray-700'>
               Welcome to Audora. We are committed to protecting your personal
               data and your privacy rights. This Privacy Policy explains how we
               collect, use, share, and protect your information when you use our
@@ -21,121 +21,121 @@ const PrivacyPolicyPage = () => {
             </p>
           </section>
 
-          <section className="rounded-2xl p-8 shadow-sm border border-gray-100">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8">
+          <section className='rounded-2xl border border-gray-100 p-8 shadow-sm'>
+            <h2 className='mb-8 text-2xl font-bold text-gray-900'>
               Table of Contents
             </h2>
             <nav>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <ul className='grid grid-cols-1 gap-4 md:grid-cols-2'>
                 <li>
                   <a
-                    href="#information-we-collect"
-                    className="flex items-center p-4 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100"
+                    href='#information-we-collect'
+                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
                   >
-                    <span className="text-blue-600 font-medium">1.</span>
-                    <span className="ml-3 text-gray-700">
+                    <span className='font-medium text-blue-600'>1.</span>
+                    <span className='ml-3 text-gray-700'>
                       Information We Collect
                     </span>
                   </a>
                 </li>
                 <li>
                   <a
-                    href="#how-we-use"
-                    className="flex items-center p-4 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100"
+                    href='#how-we-use'
+                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
                   >
-                    <span className="text-blue-600 font-medium">2.</span>
-                    <span className="ml-3 text-gray-700">
+                    <span className='font-medium text-blue-600'>2.</span>
+                    <span className='ml-3 text-gray-700'>
                       How We Use Your Information
                     </span>
                   </a>
                 </li>
                 <li>
                   <a
-                    href="#data-sharing"
-                    className="flex items-center p-4 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100"
+                    href='#data-sharing'
+                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
                   >
-                    <span className="text-blue-600 font-medium">3.</span>
-                    <span className="ml-3 text-gray-700">
+                    <span className='font-medium text-blue-600'>3.</span>
+                    <span className='ml-3 text-gray-700'>
                       Data Sharing and Disclosure
                     </span>
                   </a>
                 </li>
                 <li>
                   <a
-                    href="#your-rights"
-                    className="flex items-center p-4 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100"
+                    href='#your-rights'
+                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
                   >
-                    <span className="text-blue-600 font-medium">4.</span>
-                    <span className="ml-3 text-gray-700">
+                    <span className='font-medium text-blue-600'>4.</span>
+                    <span className='ml-3 text-gray-700'>
                       Your Rights and Choices
                     </span>
                   </a>
                 </li>
                 <li>
                   <a
-                    href="#data-security"
-                    className="flex items-center p-4 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100"
+                    href='#data-security'
+                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
                   >
-                    <span className="text-blue-600 font-medium">5.</span>
-                    <span className="ml-3 text-gray-700">Data Security</span>
+                    <span className='font-medium text-blue-600'>5.</span>
+                    <span className='ml-3 text-gray-700'>Data Security</span>
                   </a>
                 </li>
                 <li>
                   <a
-                    href="#international-transfers"
-                    className="flex items-center p-4 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100"
+                    href='#international-transfers'
+                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
                   >
-                    <span className="text-blue-600 font-medium">6.</span>
-                    <span className="ml-3 text-gray-700">
+                    <span className='font-medium text-blue-600'>6.</span>
+                    <span className='ml-3 text-gray-700'>
                       International Data Transfers
                     </span>
                   </a>
                 </li>
                 <li>
                   <a
-                    href="#children-privacy"
-                    className="flex items-center p-4 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100"
+                    href='#children-privacy'
+                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
                   >
-                    <span className="text-blue-600 font-medium">7.</span>
-                    <span className="ml-3 text-gray-700">
+                    <span className='font-medium text-blue-600'>7.</span>
+                    <span className='ml-3 text-gray-700'>
                       {`Children's Privacy`}
                     </span>
                   </a>
                 </li>
                 <li>
                   <a
-                    href="#policy-changes"
-                    className="flex items-center p-4 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100"
+                    href='#policy-changes'
+                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
                   >
-                    <span className="text-blue-600 font-medium">8.</span>
-                    <span className="ml-3 text-gray-700">
+                    <span className='font-medium text-blue-600'>8.</span>
+                    <span className='ml-3 text-gray-700'>
                       Changes to This Policy
                     </span>
                   </a>
                 </li>
                 <li>
                   <a
-                    href="#contact-us"
-                    className="flex items-center p-4 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100"
+                    href='#contact-us'
+                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
                   >
-                    <span className="text-blue-600 font-medium">9.</span>
-                    <span className="ml-3 text-gray-700">Contact Us</span>
+                    <span className='font-medium text-blue-600'>9.</span>
+                    <span className='ml-3 text-gray-700'>Contact Us</span>
                   </a>
                 </li>
               </ul>
             </nav>
           </section>
 
-          <section id="information-we-collect" className="space-y-8">
-            <h2 className="text-3xl font-bold text-gray-900">
+          <section id='information-we-collect' className='space-y-8'>
+            <h2 className='text-3xl font-bold text-gray-900'>
               1. Information We Collect
             </h2>
-            <div className="space-y-8">
+            <div className='space-y-8'>
               <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-3">
+                <h3 className='mb-3 text-xl font-semibold text-gray-800'>
                   1.1 Information You Provide
                 </h3>
-                <ul className="list-disc pl-6 space-y-3 text-gray-700 text-lg">
+                <ul className='list-disc space-y-3 pl-6 text-lg text-gray-700'>
                   <li>Account information (name, email, password)</li>
                   <li>Profile information (profile picture, bio)</li>
                   <li>
@@ -149,10 +149,10 @@ const PrivacyPolicyPage = () => {
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-3">
+                <h3 className='mb-3 text-xl font-semibold text-gray-800'>
                   1.2 Automatically Collected Information
                 </h3>
-                <ul className="list-disc pl-6 space-y-3 text-gray-700 text-lg">
+                <ul className='list-disc space-y-3 pl-6 text-lg text-gray-700'>
                   <li>
                     Device information (IP address, browser type, operating
                     system)
@@ -165,15 +165,15 @@ const PrivacyPolicyPage = () => {
             </div>
           </section>
 
-          <section id="how-we-use" className="space-y-6">
-            <h2 className="text-3xl font-bold text-gray-900">
+          <section id='how-we-use' className='space-y-6'>
+            <h2 className='text-3xl font-bold text-gray-900'>
               2. How We Use Your Information
             </h2>
-            <div className="space-y-4">
-              <p className="text-gray-700 text-lg">
+            <div className='space-y-4'>
+              <p className='text-lg text-gray-700'>
                 We use your data for the following purposes:
               </p>
-              <ul className="list-disc pl-6 space-y-3 text-gray-700 text-lg">
+              <ul className='list-disc space-y-3 pl-6 text-lg text-gray-700'>
                 <li>Provide, maintain, and improve our services</li>
                 <li>Process transactions and manage your account</li>
                 <li>Send you important service updates and notifications</li>
@@ -186,15 +186,15 @@ const PrivacyPolicyPage = () => {
             </div>
           </section>
 
-          <section id="data-sharing" className="space-y-6">
-            <h2 className="text-3xl font-bold text-gray-900">
+          <section id='data-sharing' className='space-y-6'>
+            <h2 className='text-3xl font-bold text-gray-900'>
               3. Data Sharing and Disclosure
             </h2>
-            <div className="space-y-4">
-              <p className="text-gray-700 text-lg">
+            <div className='space-y-4'>
+              <p className='text-lg text-gray-700'>
                 We may share your information with:
               </p>
-              <ul className="list-disc pl-6 space-y-3 text-gray-700 text-lg">
+              <ul className='list-disc space-y-3 pl-6 text-lg text-gray-700'>
                 <li>
                   Service providers (hosting, payment processing, analytics)
                 </li>
@@ -202,22 +202,22 @@ const PrivacyPolicyPage = () => {
                 <li>Legal authorities (when required by law)</li>
                 <li>Other users (based on your privacy settings)</li>
               </ul>
-              <p className="text-sm text-gray-600 mt-4">
+              <p className='mt-4 text-sm text-gray-600'>
                 All third parties are contractually bound to protect your data
                 and use it only for specified purposes.
               </p>
             </div>
           </section>
 
-          <section id="your-rights" className="space-y-6">
-            <h2 className="text-3xl font-bold text-gray-900">
+          <section id='your-rights' className='space-y-6'>
+            <h2 className='text-3xl font-bold text-gray-900'>
               4. Your Rights and Choices
             </h2>
-            <div className="space-y-4">
-              <p className="text-gray-700 text-lg">
+            <div className='space-y-4'>
+              <p className='text-lg text-gray-700'>
                 You have the following rights regarding your data:
               </p>
-              <ul className="list-disc pl-6 space-y-3 text-gray-700 text-lg">
+              <ul className='list-disc space-y-3 pl-6 text-lg text-gray-700'>
                 <li>Access your personal data</li>
                 <li>Correct inaccurate data</li>
                 <li>Request data deletion</li>
@@ -225,11 +225,11 @@ const PrivacyPolicyPage = () => {
                 <li>Data portability</li>
                 <li>Withdraw consent</li>
               </ul>
-              <p className="mt-4 text-lg">
-                To exercise these rights, contact us at{" "}
+              <p className='mt-4 text-lg'>
+                To exercise these rights, contact us at{' '}
                 <a
-                  href="mailto:privacy@audora.xyz"
-                  className="text-blue-600 hover:text-blue-800 transition-colors font-medium"
+                  href='mailto:privacy@audora.xyz'
+                  className='font-medium text-blue-600 transition-colors hover:text-blue-800'
                 >
                   privacy@audora.xyz
                 </a>
@@ -237,15 +237,15 @@ const PrivacyPolicyPage = () => {
             </div>
           </section>
 
-          <section id="data-security" className="space-y-6">
-            <h2 className="text-3xl font-bold text-gray-900">
+          <section id='data-security' className='space-y-6'>
+            <h2 className='text-3xl font-bold text-gray-900'>
               5. Data Security
             </h2>
-            <p className="text-gray-700 text-lg mb-4">
+            <p className='mb-4 text-lg text-gray-700'>
               We implement industry-standard security measures to protect your
               data, including:
             </p>
-            <ul className="list-disc pl-6 space-y-3 text-gray-700 text-lg">
+            <ul className='list-disc space-y-3 pl-6 text-lg text-gray-700'>
               <li>Encryption of data in transit and at rest</li>
               <li>Regular security assessments</li>
               <li>Access controls and authentication</li>
@@ -253,22 +253,22 @@ const PrivacyPolicyPage = () => {
             </ul>
           </section>
 
-          <section id="international-transfers" className="space-y-6">
-            <h2 className="text-3xl font-bold text-gray-900">
+          <section id='international-transfers' className='space-y-6'>
+            <h2 className='text-3xl font-bold text-gray-900'>
               6. International Data Transfers
             </h2>
-            <p className="text-gray-700 text-lg">
+            <p className='text-lg text-gray-700'>
               Your data may be transferred and processed in countries other than
               your own. We ensure appropriate safeguards are in place for such
               transfers in compliance with applicable data protection laws.
             </p>
           </section>
 
-          <section id="children-privacy" className="space-y-6">
-            <h2 className="text-3xl font-bold text-gray-900">
+          <section id='children-privacy' className='space-y-6'>
+            <h2 className='text-3xl font-bold text-gray-900'>
               7. {` Children's Privacy`}
             </h2>
-            <p className="text-gray-700 text-lg">
+            <p className='text-lg text-gray-700'>
               Our services are not intended for children under 13. We do not
               knowingly collect or maintain information from children under 13.
               If we learn we have collected such information, we will promptly
@@ -276,11 +276,11 @@ const PrivacyPolicyPage = () => {
             </p>
           </section>
 
-          <section id="policy-changes" className="space-y-6">
-            <h2 className="text-3xl font-bold text-gray-900">
+          <section id='policy-changes' className='space-y-6'>
+            <h2 className='text-3xl font-bold text-gray-900'>
               8. Changes to This Policy
             </h2>
-            <p className="text-gray-700 text-lg">
+            <p className='text-lg text-gray-700'>
               We may update this Privacy Policy periodically. We will notify you
               of significant changes through our website or email. Continued use
               of our services after such changes constitutes acceptance of the
@@ -288,14 +288,14 @@ const PrivacyPolicyPage = () => {
             </p>
           </section>
 
-          <section id="contact-us" className="space-y-6">
-            <h2 className="text-3xl font-bold text-gray-900">9. Contact Us</h2>
-            <p className="text-gray-700 text-lg">
+          <section id='contact-us' className='space-y-6'>
+            <h2 className='text-3xl font-bold text-gray-900'>9. Contact Us</h2>
+            <p className='text-lg text-gray-700'>
               For any questions about this Privacy Policy or your data, please
               contact us at: <br />
               <a
-                href="mailto:privacy@audora.xyz"
-                className="text-blue-600 hover:text-blue-800 transition-colors font-medium"
+                href='mailto:privacy@audora.xyz'
+                className='font-medium text-blue-600 transition-colors hover:text-blue-800'
               >
                 privacy@audora.xyz
               </a>

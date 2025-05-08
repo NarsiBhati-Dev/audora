@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface GridBackgroundProps {
   className?: string;
@@ -6,13 +6,13 @@ interface GridBackgroundProps {
 }
 
 const GridBackground: React.FC<GridBackgroundProps> = ({
-  className = "",
+  className = '',
   style,
 }) => (
   <div
-    className={`absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] pointer-events-none ${className}`}
+    className={`pointer-events-none absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center ${className}`}
     style={style}
-    aria-hidden="true"
+    aria-hidden='true'
   />
 );
 

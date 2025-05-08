@@ -1,6 +1,6 @@
-import BackToTopButton from "@/components/back-to-top-button";
-import Header from "@/components/header";
-import React from "react";
+import BackToTopButton from '@/components/back-to-top-button';
+import Header from '@/components/header';
+import React from 'react';
 
 const MarketingLayout = ({
   children,
@@ -8,9 +8,9 @@ const MarketingLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <div className="bg-gray-100">
+    <div className='bg-gray-100'>
       <Header isMarketing={true} />
-      <main className="mt-16 ">{children}</main>
+      <main className='mt-16'>{children}</main>
       <BackToTopButton />
     </div>
   );
