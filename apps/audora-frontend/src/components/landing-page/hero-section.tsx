@@ -4,7 +4,6 @@ import Link from 'next/link';
 const options = [
   'Podcasts',
   'Video interviews',
-  'Social media clips',
   'Transcriptions',
   'Webinars',
   'Video marketing',
@@ -34,9 +33,9 @@ const HeroSection = () => {
       {/* Content */}
       <div className='w-full max-w-2xl items-center px-4 py-12 text-center text-white sm:px-8 md:relative md:z-10 md:items-start md:px-12 md:py-24 md:text-left lg:pl-24'>
         <h1 className='mb-4 text-left text-3xl leading-tight font-extrabold text-white sm:text-4xl md:mb-6 md:text-5xl lg:text-6xl'>
-          Your Podcast
+          Create Your Best
           <br />
-          Studio Anywhere<span className='text-[#7357FF]'>.</span>
+          Content Yet<span className='text-[#7357FF]'>.</span>
         </h1>
         <p className='mb-6 max-w-xl text-left text-base text-gray-200 sm:text-lg md:mb-8 md:text-xl'>
           Record studio-quality podcasts from anywhere. Connect with guests
