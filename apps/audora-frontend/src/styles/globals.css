@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
@@ -12,3 +12,7 @@
   --color-primary-darkest: #4a47b1;
   --color-primary-light: #c1bdf7; /* was #e2e1fc */
 }
+
+/* --color-background: #232329;
+--color-light_background: #2a2a2a;
+--color-lighter_background: #191919; */

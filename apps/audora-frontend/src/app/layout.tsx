@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Open_Sans } from 'next/font/google';
 import '@audora/tailwind-css';
 import siteMetadata from '@/lib/siteMetadata';
-import Footer from '@/components/footer';
 
 const open_sans = Open_Sans({
   variable: '--font-open-sans',
@@ -43,7 +42,6 @@ export default function RootLayout({
       <link rel='manifest' href='/favicons/site.webmanifest' />
       <body className={`${open_sans.className} bg-black antialiased`}>
         {children}
-        <Footer />
       </body>
     </html>
   );
