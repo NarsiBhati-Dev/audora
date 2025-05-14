@@ -5,6 +5,8 @@ import Logo from '@/components/logo';
 import Navbar from './navbar/navbar';
 import MobileNavbar from './navbar/mobile-navbar';
 
+const SCROLL_THRESHOLD = 60;
+
 const Header = ({ isMarketing = false }: { isMarketing?: boolean }) => {
   const [scrolled, setScrolled] = useState(isMarketing);
 
@@ -12,7 +14,13 @@ const Header = ({ isMarketing = false }: { isMarketing?: boolean }) => {
     if (isMarketing) {
       return;
     }
-    const onScroll = () => setScrolled(window.scrollY > 60);
+
+    setScrolled(window.scrollY > SCROLL_THRESHOLD);
+
+    const onScroll = () => {
+      setScrolled(window.scrollY > SCROLL_THRESHOLD);
+    };
+
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, [isMarketing]);

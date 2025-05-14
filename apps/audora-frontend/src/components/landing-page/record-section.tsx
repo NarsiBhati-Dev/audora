@@ -66,11 +66,10 @@ const RecordSection = () => {
           </a>
           <a
             href='/recording'
-            className='flex items-center justify-center font-medium text-[#7357FF] transition-colors duration-300 hover:underline'
-            aria-label='Learn more about recording features'
+            className='group flex items-center justify-center font-medium text-[#7357FF] transition-all duration-300 hover:text-[#5a3fdc] hover:underline'
           >
             Learn more{' '}
-            <span className='ml-1' aria-hidden='true'>
+            <span className='ml-1 transition-transform duration-300 group-hover:translate-x-1'>
               →
             </span>
           </a>
@@ -87,6 +86,7 @@ const RecordSection = () => {
               className='h-auto w-full object-cover'
               priority
               quality={90}
+              sizes='600px'
             />
             {/* REC badge */}
             <div className='absolute top-4 right-4 flex animate-pulse items-center gap-1 rounded-lg bg-red-600 px-3 py-1 text-xs font-bold text-white shadow'>
@@ -114,6 +114,7 @@ const RecordSection = () => {
                             src={p.avatar}
                             alt={`${p.name}'s avatar`}
                             fill
+                            sizes='48px'
                             className='rounded-full border-2 border-zinc-700 object-cover'
                             quality={85}
                           />

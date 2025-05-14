@@ -53,7 +53,7 @@ const TrustedSection = () => {
                       className='h-full w-full object-cover'
                     />
                     <button
-                      className='absolute inset-0 flex items-center justify-center bg-black/30 transition-colors hover:bg-black/40'
+                      className='absolute inset-0 flex cursor-pointer items-center justify-center bg-black/30 transition-colors hover:bg-black/40'
                       onClick={() => setPlayingIdx(i)}
                     >
                       <div className='rounded-full bg-black/70 p-2'>

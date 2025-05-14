@@ -20,11 +20,10 @@ const EditSection = () => {
           </a>
           <a
             href='/video-editor'
-            className='flex items-center justify-center font-medium text-[#a78bfa] transition-colors duration-300 hover:underline'
-            aria-label='Learn more about editing features'
+            className='group flex items-center justify-center font-medium text-[#7357FF] transition-all duration-300 hover:text-[#5a3fdc] hover:underline'
           >
             Learn more{' '}
-            <span className='ml-1' aria-hidden='true'>
+            <span className='ml-1 transition-transform duration-300 group-hover:translate-x-1'>
               →
             </span>
           </a>
