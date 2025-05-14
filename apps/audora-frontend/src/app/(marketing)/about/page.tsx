@@ -8,7 +8,7 @@ import {
   XIcon,
 } from '@/data/icons';
 import AboutHeroSection from '@/components/about/about-hero-section';
-import siteMetadata from '@/lib/siteMetadata';
+import siteMetadata from '@/lib/seo/siteMetadata';
 
 const values = [
   {

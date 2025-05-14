@@ -1,4 +1,4 @@
-import siteMetadata from '@/lib/siteMetadata';
+import siteMetadata from '@/lib/seo/siteMetadata';
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {

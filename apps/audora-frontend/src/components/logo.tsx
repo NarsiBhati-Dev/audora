@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import siteMetadata from '@/lib/siteMetadata';
+import siteMetadata from '@/lib/seo/siteMetadata';
 import Link from 'next/link';
 
 interface LogoParams {

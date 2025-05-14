@@ -1,4 +1,4 @@
-import siteMetadata from '@/lib/siteMetadata';
+import siteMetadata from '@/lib/seo/siteMetadata';
 
 export interface TeamMemberSchema {
   name: string;

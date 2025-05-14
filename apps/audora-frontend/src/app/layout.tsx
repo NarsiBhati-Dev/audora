@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Open_Sans } from 'next/font/google';
 import '@audora/tailwind-css';
-import siteMetadata from '@/lib/siteMetadata';
+import siteMetadata from '@/lib/seo/siteMetadata';
 
 const open_sans = Open_Sans({
   variable: '--font-open-sans',

@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import siteMetadata from '@/lib/siteMetadata';
+import siteMetadata from '@/lib/seo/siteMetadata';
 
 export const dynamic = 'force-static';
 
