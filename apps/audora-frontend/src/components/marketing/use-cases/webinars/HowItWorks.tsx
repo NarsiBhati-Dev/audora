@@ -80,9 +80,6 @@ const HowItWorks = () => (
               <polygon points='13,11 23,16 13,21' fill='#7357FF' />
             </svg>
           </button>
-          {/* <span className="absolute left-8 bottom-0 translate-y-full mt-4 text-white text-2xl font-bold drop-shadow-lg">
-            Webinars
-          </span> */}
         </div>
       </div>
     </div>

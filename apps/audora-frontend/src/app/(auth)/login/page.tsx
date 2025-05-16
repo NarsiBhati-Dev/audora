@@ -5,29 +5,33 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
 import { FaApple } from 'react-icons/fa6';
+import AuthCard from '@/components/auth/auth-card';
 
 const LoginPage = () => {
   return (
     <main className='flex w-screen items-center justify-center bg-black md:h-screen'>
       <GridBackground />
-      <section className='relative z-10 flex h-[80vh] w-full max-w-4xl flex-col items-center justify-center bg-black md:h-[600px] md:flex-row md:rounded-2xl md:border-2 md:border-[#232329] md:bg-[#121212] md:shadow-2xl'>
+      <AuthCard>
         {/* Left: Login options */}
-        <div className='flex w-full flex-col items-center justify-center px-6 md:max-w-1/2'>
+        <div className='flex w-full flex-col items-center justify-center px-6 md:max-w-[40vh]'>
           <h2 className='mb-2 text-center text-2xl font-bold text-white'>
             Log in to Audora
           </h2>
-          <p className='mb-6 text-center text-gray-400'>
+          <p className='mb-6 text-center text-sm text-gray-400'>
             {`Don't have an account?`}{' '}
-            <Link href='/register' className='text-[#a78bfa] underline'>
+            <Link
+              href='/register'
+              className='hover:text-primary text-sm text-[#a78bfa] underline'
+            >
               Sign up
             </Link>
           </p>
           {/* Social login buttons row */}
           <div className='mb-4 flex w-full max-w-xs flex-row items-center justify-center gap-4'>
-            <button className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-xl border border-white/10 bg-gradient-to-r from-[#18181b] via-[#232329] to-[#18181b] text-2xl text-white shadow-lg transition-all duration-150 hover:scale-105 focus:ring-2 focus:ring-indigo-500 focus:outline-none'>
+            <button className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-xl border border-white/10 bg-gradient-to-r from-[#18181b] via-[#232329] to-[#18181b] text-2xl text-white shadow-lg transition-all duration-150 hover:scale-105 hover:ring-1 hover:ring-indigo-500 hover:outline-none'>
               <FcGoogle className='text-2xl' />
             </button>
-            <button className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-xl border border-white/10 bg-gradient-to-r from-[#18181b] via-[#232329] to-[#18181b] text-2xl text-white shadow-lg transition-all duration-150 hover:scale-105 focus:ring-2 focus:ring-indigo-500 focus:outline-none'>
+            <button className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-xl border border-white/10 bg-gradient-to-r from-[#18181b] via-[#232329] to-[#18181b] text-2xl text-white shadow-lg transition-all duration-150 hover:scale-105 hover:ring-1 hover:ring-indigo-500 hover:outline-none'>
               <FaApple className='text-2xl' />
             </button>
           </div>
@@ -42,30 +46,30 @@ const LoginPage = () => {
             <input
               type='email'
               placeholder='Email'
-              className='w-full rounded-lg bg-[#18181b] px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-[#a78bfa] focus:outline-none'
+              className='focus:ring-primary w-full rounded-lg bg-[#18181b] px-4 py-2 text-white placeholder-gray-400 hover:bg-[#2c2c33] focus:ring-1 focus:outline-none'
             />
             <input
               type='password'
               placeholder='Password'
-              className='w-full rounded-lg bg-[#18181b] px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-[#a78bfa] focus:outline-none'
+              className='focus:ring-primary w-full rounded-lg bg-[#18181b] px-4 py-3 text-white placeholder-gray-400 hover:bg-[#2c2c33] focus:ring-1 focus:outline-none'
             />
             <button
               type='submit'
-              className='w-full rounded-lg bg-[#a78bfa] py-3 font-semibold text-white transition-all hover:bg-[#7c5fe6]'
+              className='bg-primary hover:bg-primary-darker w-full cursor-pointer rounded-lg py-2 font-semibold text-white transition-all'
             >
-              Log in
+              Sign up
             </button>
           </form>
 
-          {/* <Link
-            href='#'
-            className='block text-center text-xs text-gray-400 hover:underline'
+          <Link
+            href='/password-recovery'
+            className='mt-2 block text-center text-sm text-gray-400 hover:underline'
           >
             Forgot password?
-          </Link> */}
+          </Link>
         </div>
         {/* Right: Image */}
-        <div className='hidden h-full w-1/2 items-center justify-center bg-[#0d0d0d] md:flex'>
+        <div className='hidden h-full w-[60vh] items-center justify-center bg-[#0d0d0d] md:flex'>
           <Image
             src='/images/editor-mockup.png'
             alt='Login Image'
@@ -74,7 +78,7 @@ const LoginPage = () => {
             className='h-full w-full rounded-l-2xl object-cover py-10 pl-10'
           />
         </div>
-      </section>
+      </AuthCard>
     </main>
   );
 };

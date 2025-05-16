@@ -35,7 +35,7 @@ const HeroSection = () => {
         <h1 className='mb-4 text-left text-3xl leading-tight font-extrabold text-white sm:text-4xl md:mb-6 md:text-5xl lg:text-6xl'>
           Create Your Best
           <br />
-          Content Yet<span className='text-[#7357FF]'>.</span>
+          Content Yet<span className='text-primary'>.</span>
         </h1>
         <p className='mb-6 max-w-xl text-left text-base text-gray-200 sm:text-lg md:mb-8 md:text-xl'>
           Record studio-quality podcasts from anywhere. Connect with guests
@@ -56,7 +56,7 @@ const HeroSection = () => {
         </div>
         <Link
           href='/signup'
-          className='mb-2 inline-block w-full rounded-lg bg-[#7357FF] px-6 py-3 text-center text-base font-semibold text-white shadow-lg transition-colors hover:bg-[#5a3fdc] sm:w-auto sm:px-8 sm:py-4 sm:text-lg'
+          className='bg-primary hover:bg-primary-darker mb-2 inline-block w-full rounded-lg px-6 py-3 text-center text-base font-semibold text-white shadow-lg transition-colors sm:w-auto sm:px-8 sm:py-4 sm:text-lg'
         >
           Start Podcasting
         </Link>

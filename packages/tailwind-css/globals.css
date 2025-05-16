@@ -6,9 +6,11 @@
 }
 
 @theme {
-  --color-primary: #6366f1;
+  --color-primary: #7357ff;
   --color-primary-chubb: #4f46e5;
-  --color-primary-darker: #4338ca;
+
+  --color-primary-darker: #5a3fdc;
+
   --color-primary-darkest: #3730a3;
   --color-primary-light: #dedbfc; /* slightly lighter version */
 }

@@ -1,4 +1,17 @@
+import TableOfContents from '@/components/Legal/table-of-contents';
 import React from 'react';
+
+const privacyPolicySections = [
+  { id: 'information-we-collect', title: 'Information We Collect' },
+  { id: 'how-we-use', title: 'How We Use Your Information' },
+  { id: 'data-sharing', title: 'Data Sharing and Disclosure' },
+  { id: 'your-rights', title: 'Your Rights and Choices' },
+  { id: 'data-security', title: 'Data Security' },
+  { id: 'international-transfers', title: 'International Data Transfers' },
+  { id: 'children-privacy', title: `Children's Privacy` },
+  { id: 'policy-changes', title: 'Changes to This Policy' },
+  { id: 'contact-us', title: 'Contact Us' },
+];
 
 const PrivacyPolicyPage = () => {
   return (
@@ -21,110 +34,8 @@ const PrivacyPolicyPage = () => {
             </p>
           </section>
 
-          <section className='rounded-2xl border border-gray-100 p-8 shadow-sm'>
-            <h2 className='mb-8 text-2xl font-bold text-gray-900'>
-              Table of Contents
-            </h2>
-            <nav>
-              <ul className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-                <li>
-                  <a
-                    href='#information-we-collect'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>1.</span>
-                    <span className='ml-3 text-gray-700'>
-                      Information We Collect
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#how-we-use'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>2.</span>
-                    <span className='ml-3 text-gray-700'>
-                      How We Use Your Information
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#data-sharing'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>3.</span>
-                    <span className='ml-3 text-gray-700'>
-                      Data Sharing and Disclosure
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#your-rights'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>4.</span>
-                    <span className='ml-3 text-gray-700'>
-                      Your Rights and Choices
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#data-security'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>5.</span>
-                    <span className='ml-3 text-gray-700'>Data Security</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#international-transfers'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>6.</span>
-                    <span className='ml-3 text-gray-700'>
-                      International Data Transfers
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#children-privacy'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>7.</span>
-                    <span className='ml-3 text-gray-700'>
-                      {`Children's Privacy`}
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#policy-changes'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>8.</span>
-                    <span className='ml-3 text-gray-700'>
-                      Changes to This Policy
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#contact-us'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>9.</span>
-                    <span className='ml-3 text-gray-700'>Contact Us</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </section>
+          {/* Table of Contents */}
+          <TableOfContents sections={privacyPolicySections} />
 
           <section id='information-we-collect' className='space-y-8'>
             <h2 className='text-3xl font-bold text-gray-900'>

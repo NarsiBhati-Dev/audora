@@ -15,7 +15,7 @@ export default function AuthButtons() {
         <button
           key={i}
           onClick={() => {}}
-          className={`flex w-full max-w-[300px] items-center gap-4 rounded-xl border border-white/10 bg-gradient-to-r from-[#18181b] via-[#232329] to-[#18181b] px-6 py-3 text-base font-semibold text-white shadow-lg transition-all duration-150 hover:scale-[1.03] hover:bg-[#232329]/90 hover:shadow-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none active:scale-100`}
+          className={`flex w-full max-w-[300px] cursor-pointer items-center gap-4 rounded-xl border border-white/10 bg-gradient-to-r from-[#18181b] via-[rgb(35,35,41)] to-[#18181b] px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-150 hover:scale-[1.03] hover:bg-[#232329]/90 hover:shadow-xl hover:ring-1 hover:ring-indigo-500 hover:outline-none active:scale-100`}
         >
           <span className='flex-shrink-0 text-2xl'>{icon}</span>
           <span className='flex-1 text-left'>{label}</span>

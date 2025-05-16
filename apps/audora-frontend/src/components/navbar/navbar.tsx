@@ -8,7 +8,9 @@ import { products } from '@/data/ProductsList';
 import ProductItem from './product-item';
 
 const Navbar = ({ scrolled }: { scrolled: boolean }) => {
-  const textColor = scrolled ? 'text-black' : 'text-zinc-100';
+  const textColor = scrolled
+    ? 'text-black hover:text-gray-600'
+    : 'text-zinc-100 hover:text-zinc-300';
   const buttonBg = scrolled
     ? 'bg-black text-white hover:bg-neutral-800'
     : 'bg-white text-black hover:bg-neutral-100';
@@ -55,7 +57,7 @@ const Navbar = ({ scrolled }: { scrolled: boolean }) => {
       </ul>
 
       <div className='flex items-center space-x-4 text-base font-semibold'>
-        <Link href='/login' className={` ${textColor}`}>
+        <Link href='/login' className={`${textColor}`}>
           Login
         </Link>
         <button className={`cursor-pointer rounded-lg px-4 py-2 ${buttonBg} `}>

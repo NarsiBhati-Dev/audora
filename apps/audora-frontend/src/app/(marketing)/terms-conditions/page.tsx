@@ -1,4 +1,19 @@
+import TableOfContents from '@/components/Legal/table-of-contents';
 import React from 'react';
+
+const termsConditionsSections = [
+  { id: 'acceptance', title: 'Acceptance of Terms' },
+  { id: 'services', title: 'Services and Features' },
+  { id: 'accounts', title: 'User Accounts' },
+  { id: 'content', title: 'User Content' },
+  { id: 'payments', title: 'Payments and Subscriptions' },
+  { id: 'prohibited', title: 'Prohibited Activities' },
+  { id: 'intellectual', title: 'Intellectual Property' },
+  { id: 'termination', title: 'Termination' },
+  { id: 'liability', title: 'Limitation of Liability' },
+  { id: 'changes', title: 'Changes to Terms' },
+  { id: 'contact', title: 'Contact Us' },
+];
 
 const TermsConditionsPage = () => {
   return (
@@ -20,117 +35,8 @@ const TermsConditionsPage = () => {
             </p>
           </section>
 
-          <section className='rounded-2xl border border-gray-100 p-8 shadow-sm'>
-            <h2 className='mb-8 text-2xl font-bold text-gray-900'>
-              Table of Contents
-            </h2>
-            <nav>
-              <ul className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-                <li>
-                  <a
-                    href='#acceptance'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>1.</span>
-                    <span className='ml-3 text-gray-700'>
-                      Acceptance of Terms
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#services'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>2.</span>
-                    <span className='ml-3 text-gray-700'>
-                      Services and Features
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#accounts'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>3.</span>
-                    <span className='ml-3 text-gray-700'>User Accounts</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#content'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>4.</span>
-                    <span className='ml-3 text-gray-700'>User Content</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#payments'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>5.</span>
-                    <span className='ml-3 text-gray-700'>
-                      Payments and Subscriptions
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#prohibited'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>6.</span>
-                    <span className='ml-3 text-gray-700'>
-                      Prohibited Activities
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#intellectual'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>7.</span>
-                    <span className='ml-3 text-gray-700'>
-                      Intellectual Property
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#termination'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>8.</span>
-                    <span className='ml-3 text-gray-700'>Termination</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#liability'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>9.</span>
-                    <span className='ml-3 text-gray-700'>
-                      Limitation of Liability
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#changes'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>10.</span>
-                    <span className='ml-3 text-gray-700'>Changes to Terms</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </section>
+          {/* Table of Contents */}
+          <TableOfContents sections={termsConditionsSections} />
 
           <section id='acceptance' className='space-y-6'>
             <h2 className='text-3xl font-bold text-gray-900'>
@@ -318,7 +224,7 @@ const TermsConditionsPage = () => {
             </div>
           </section>
 
-          <section className='space-y-6'>
+          <section id='contact' className='space-y-6'>
             <h2 className='text-3xl font-bold text-gray-900'>Contact Us</h2>
             <p className='text-lg text-gray-700'>
               If you have any questions about these Terms and Conditions, please

@@ -40,7 +40,9 @@ export default function RootLayout({
       />
       <meta name='apple-mobile-web-app-title' content='Audora' />
       <link rel='manifest' href='/favicons/site.webmanifest' />
-      <body className={`${open_sans.className} bg-black antialiased`}>
+      <body
+        className={`${open_sans.className} scroll-pt-17 scroll-smooth bg-black antialiased`}
+      >
         {children}
       </body>
     </html>
