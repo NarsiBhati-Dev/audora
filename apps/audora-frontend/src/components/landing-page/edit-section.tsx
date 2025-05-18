@@ -13,7 +13,7 @@ const EditSection = () => {
         <div className='mb-12 flex flex-col justify-center gap-4 sm:flex-row'>
           <a
             href='/dashboard'
-            className='rounded-lg bg-[#7357FF] px-8 py-3 text-lg font-semibold text-white shadow transition-all duration-300 hover:scale-105 hover:bg-[#5a3fdc] focus:ring-2 focus:ring-[#7357FF] focus:ring-offset-2 focus:outline-none'
+            className='bg-primary hover:bg-primary-darker focus:ring-primary rounded-lg px-8 py-3 text-lg font-semibold text-white shadow transition-all duration-300 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-none'
             aria-label='Start editing for free'
           >
             Start for Free

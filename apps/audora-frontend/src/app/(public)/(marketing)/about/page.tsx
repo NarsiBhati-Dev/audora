@@ -8,7 +8,7 @@ import {
   XIcon,
 } from '@/data/icons';
 import AboutHeroSection from '@/components/about/about-hero-section';
-import siteMetadata from '@/lib/siteMetadata';
+import siteMetadata from '@/lib/seo/siteMetadata';
 
 const values = [
   {
@@ -42,7 +42,7 @@ const AboutPage = () => {
           <div className='mb-10 text-center'>
             <h2 className='relative z-10 inline-block text-3xl font-bold'>
               Our Values
-              <span className='mx-auto mt-3 block h-1 w-16 rounded-full bg-gradient-to-r from-[#6965db] to-[#a18fff]'></span>
+              <span className='from-primary to-primary-darker mx-auto mt-3 block h-1 w-16 rounded-full bg-gradient-to-r'></span>
             </h2>
             <p className='mx-auto mt-4 max-w-xl text-lg font-medium text-gray-400'>
               The principles that drive our mission and shape every experience
@@ -57,21 +57,21 @@ const AboutPage = () => {
                 style={{ minHeight: 340 }}
               >
                 <div className='mb-6 flex justify-center'>
-                  <span className='relative inline-flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-[#6965db] to-[#a18fff] shadow-xl transition-transform duration-300 group-hover:shadow-2xl'>
-                    <span className='absolute inset-0 z-0 rounded-full bg-gradient-to-br from-[#a18fff] to-[#6965db] opacity-40 blur-xl'></span>
+                  <span className='from-primary to-primary-darker relative inline-flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br shadow-xl transition-transform duration-300 group-hover:shadow-2xl'>
+                    <span className='from-primary to-primary-darker absolute inset-0 z-0 rounded-full bg-gradient-to-br opacity-40 blur-xl'></span>
                     <span className='relative z-10 text-4xl text-white'>
                       {value.icon}
                     </span>
                   </span>
                 </div>
-                <h3 className='mb-4 text-2xl font-bold text-white transition-colors duration-300 group-hover:text-[#a18fff] md:text-3xl'>
+                <h3 className='group-hover:text-primary mb-4 text-2xl font-bold text-white transition-colors duration-300 md:text-3xl'>
                   {value.title}
                 </h3>
                 <p className='text-base leading-relaxed font-light text-gray-200 md:text-lg'>
                   {value.description}
                 </p>
                 {/* Animated gradient border on hover */}
-                <span className='group-hover:border-gradient-to-r pointer-events-none absolute inset-0 rounded-3xl border-2 border-transparent transition-all duration-300 group-hover:border-[3px] group-hover:from-[#6965db] group-hover:to-[#a18fff]' />
+                <span className='group-hover:border-gradient-to-r group-hover:from-primary group-hover:to-primary-darker pointer-events-none absolute inset-0 rounded-3xl border-2 border-transparent transition-all duration-300 group-hover:border-[3px]' />
                 {/* Subtle noise overlay for texture */}
                 <span
                   className='pointer-events-none absolute inset-0 rounded-3xl opacity-10 mix-blend-soft-light'
@@ -124,7 +124,7 @@ const AboutPage = () => {
               href={siteMetadata.discord}
               target='_blank'
               rel='noopener noreferrer'
-              className='inline-flex items-center justify-center rounded-xl bg-[#5865F2] px-8 py-4 font-semibold text-white shadow-lg transition-colors hover:bg-[#4752C4] hover:shadow-xl'
+              className='bg-primary hover:bg-primary-darker inline-flex items-center justify-center rounded-xl px-8 py-4 font-semibold text-white shadow-lg transition-colors hover:shadow-xl'
             >
               <svg
                 className='mr-2 h-5 w-5'

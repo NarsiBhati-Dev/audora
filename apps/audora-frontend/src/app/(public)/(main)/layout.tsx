@@ -1,4 +1,3 @@
-import BackToTopButton from '@/components/back-to-top-button';
 import Footer from '@/components/footer';
 import Header from '@/components/header';
 import React from 'react';
@@ -12,7 +11,6 @@ const MainLayout = ({
     <div className='bg-black'>
       <Header />
       <main className='text-white'>{children}</main>
-      <BackToTopButton />
       <Footer />
     </div>
   );

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import FAQ from '@/components/marketing/FAQ';
-import HowItWorks from '@/components/marketing/HowItWorks';
-import HeroSectionWebinar from '@/components/marketing/hero-section-webinar';
-import FeaturesSectionWebinar from '@/components/marketing/features-section-webinar';
+import FAQ from '@/components/marketing/use-cases/webinars/FAQ';
+import HowItWorks from '@/components/marketing/use-cases/webinars/HowItWorks';
+import HeroSectionWebinar from '@/components/marketing/use-cases/webinars/hero-section-webinar';
+import FeaturesSectionWebinar from '@/components/marketing/use-cases/webinars/features-section-webinar';
 
 const WebinarsPage = () => {
   return (

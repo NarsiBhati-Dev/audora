@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { Open_Sans } from 'next/font/google';
 import '@audora/tailwind-css';
-import siteMetadata from '@/lib/siteMetadata';
+import siteMetadata from '@/lib/seo/siteMetadata';
+import BackToTopButton from '@/components/back-to-top-button';
 
 const open_sans = Open_Sans({
   variable: '--font-open-sans',
@@ -40,8 +41,11 @@ export default function RootLayout({
       />
       <meta name='apple-mobile-web-app-title' content='Audora' />
       <link rel='manifest' href='/favicons/site.webmanifest' />
-      <body className={`${open_sans.className} bg-black antialiased`}>
+      <body
+        className={`${open_sans.className} scroll-pt-17 scroll-smooth bg-black antialiased`}
+      >
         {children}
+        <BackToTopButton />
       </body>
     </html>
   );

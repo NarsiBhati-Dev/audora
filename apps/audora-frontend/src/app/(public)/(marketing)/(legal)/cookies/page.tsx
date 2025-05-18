@@ -1,4 +1,15 @@
+import TableOfContents from '@/components/Legal/table-of-contents';
 import React from 'react';
+
+const cookieSections = [
+  { id: 'what-are-cookies', title: 'What Are Cookies' },
+  { id: 'types-of-cookies', title: 'Types of Cookies We Use' },
+  { id: 'how-we-use', title: 'How We Use Cookies' },
+  { id: 'third-party', title: 'Third-Party Cookies' },
+  { id: 'cookie-controls', title: 'Cookie Controls' },
+  { id: 'updates', title: 'Updates to This Policy' },
+  { id: 'contact', title: 'Contact Us' },
+];
 
 const CookiesPage = () => {
   return (
@@ -21,86 +32,8 @@ const CookiesPage = () => {
             </p>
           </section>
 
-          <section className='rounded-2xl border border-gray-100 p-8 shadow-sm'>
-            <h2 className='mb-8 text-2xl font-bold text-gray-900'>
-              Table of Contents
-            </h2>
-            <nav>
-              <ul className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-                <li>
-                  <a
-                    href='#what-are-cookies'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>1.</span>
-                    <span className='ml-3 text-gray-700'>What Are Cookies</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#types-of-cookies'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>2.</span>
-                    <span className='ml-3 text-gray-700'>
-                      Types of Cookies We Use
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#how-we-use'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>3.</span>
-                    <span className='ml-3 text-gray-700'>
-                      How We Use Cookies
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#third-party'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>4.</span>
-                    <span className='ml-3 text-gray-700'>
-                      Third-Party Cookies
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#cookie-controls'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>5.</span>
-                    <span className='ml-3 text-gray-700'>Cookie Controls</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#updates'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>6.</span>
-                    <span className='ml-3 text-gray-700'>
-                      Updates to This Policy
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='#contact'
-                    className='flex items-center rounded-lg border border-gray-100 p-4 transition-colors hover:bg-gray-50'
-                  >
-                    <span className='font-medium text-blue-600'>7.</span>
-                    <span className='ml-3 text-gray-700'>Contact Us</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </section>
+          {/* Table of Contents */}
+          <TableOfContents sections={cookieSections} />
 
           <section id='what-are-cookies' className='space-y-6'>
             <h2 className='text-3xl font-bold text-gray-900'>

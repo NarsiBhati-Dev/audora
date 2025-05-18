@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import siteMetadata from '@/lib/siteMetadata';
+import siteMetadata from '@/lib/seo/siteMetadata';
 
 interface GetPageMetadataProps {
   title: string;

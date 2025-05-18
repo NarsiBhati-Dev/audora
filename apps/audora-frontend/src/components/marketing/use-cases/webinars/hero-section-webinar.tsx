@@ -19,13 +19,13 @@ const HeroSectionWebinar = () => {
           <div className='mb-10 flex flex-col justify-center gap-4 sm:flex-row'>
             <a
               href='/dashboard'
-              className='rounded-lg bg-[#7357FF] px-8 py-3 text-lg font-semibold text-white shadow transition hover:bg-[#5a3fdc]'
+              className='bg-primary hover:bg-primary-darker rounded-lg px-8 py-3 text-lg font-semibold text-white shadow transition'
             >
               Start Your Webinar
             </a>
             <a
               href='#features'
-              className='flex items-center justify-center font-medium text-[#7357FF] hover:underline'
+              className='text-primary hover:text-primary-darker flex items-center justify-center font-medium hover:underline'
             >
               Learn more <span className='ml-1'>→</span>
             </a>
@@ -37,7 +37,7 @@ const HeroSectionWebinar = () => {
             alt='Webinar Hero'
             width={900}
             height={500}
-            className='max-w-full rounded-2xl border border-[#a78bfa] object-cover shadow-2xl'
+            className='border-primary max-w-full rounded-2xl border object-cover shadow-2xl'
             priority
           />
         </div>
