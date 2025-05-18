@@ -25,7 +25,7 @@ const siteMetadata = {
   language: 'en-US',
   locale: 'en-US',
 
-  socialBanner: `${SITE_URL}/images/social-banner.webp`,
+  socialBanner: `${SITE_URL}/social-banner-2.webp`,
 
   // social links
   github: 'https://github.com/NarsiBhati-Dev/Audora',
