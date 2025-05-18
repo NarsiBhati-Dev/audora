@@ -1,6 +1,7 @@
 'use client';
 
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
+import Image from 'next/image';
 
 const ContactPage = () => {
   const contactMethods = [
@@ -36,8 +37,10 @@ const ContactPage = () => {
     <main className='relative flex w-screen items-center justify-center overflow-hidden bg-[#18181b] md:min-h-screen'>
       {/* Map image background */}
       <div className='pointer-events-none absolute inset-0 z-0 h-full w-full'>
-        <img
+        <Image
           src='/map-2.png'
+          width={1440}
+          height={900}
           alt='San Francisco Map'
           className='h-full w-full object-cover'
           aria-hidden='true'

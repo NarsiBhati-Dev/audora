@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Open_Sans } from 'next/font/google';
 import '@audora/tailwind-css';
 import siteMetadata from '@/lib/seo/siteMetadata';
+import BackToTopButton from '@/components/back-to-top-button';
 
 const open_sans = Open_Sans({
   variable: '--font-open-sans',
@@ -44,6 +45,7 @@ export default function RootLayout({
         className={`${open_sans.className} scroll-pt-17 scroll-smooth bg-black antialiased`}
       >
         {children}
+        <BackToTopButton />
       </body>
     </html>
   );

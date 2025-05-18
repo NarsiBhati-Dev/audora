@@ -60,9 +60,9 @@ const rightIcons = [
   },
   {
     icon: <FaVideo />,
-    color: 'bg-violet-300',
+    color: 'bg-primary',
     label: 'Video',
-    gradient: 'linear-gradient(270deg, #c4b5fd 60%, transparent 100%)',
+    gradient: 'linear-gradient(270deg, #7357ff 60%, transparent 100%)',
   },
 ];
 

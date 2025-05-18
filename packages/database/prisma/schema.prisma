@@ -15,6 +15,26 @@ datasource db {
 }
 
 model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String?  // Optional, works well for OAuth
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Studio {
   id String @id @default(cuid())
-  
+  name String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model StudioUser {
+  id String @id @default(cuid())
+  studioId String
+  userId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

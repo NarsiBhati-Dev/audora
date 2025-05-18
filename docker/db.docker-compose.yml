@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:16
-    container_name: local_postgres
+    container_name: audora_db
     restart: always
     environment:
       POSTGRES_USER: audora_user
