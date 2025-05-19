@@ -33,7 +33,7 @@ const RegisterFormFull = ({ onBack }: { onBack?: () => void }) => {
           <FaArrowLeft className='text-sm' /> Back
         </button>
       </div>
-      <section className='-translate-y-6'>
+      <section className='md:-translate-y-5'>
         <h2 className='mb-3 text-center text-2xl font-bold text-white'>
           Create your account
         </h2>
@@ -48,7 +48,7 @@ const RegisterFormFull = ({ onBack }: { onBack?: () => void }) => {
               placeholder='Name'
               value={formData.name}
               onChange={handleChange}
-              className='w-full rounded-lg border-none bg-[#232329] px-4 py-2 text-sm text-white placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:outline-none'
+              className='w-full rounded-lg border-none bg-[#232329] px-4 py-3 text-sm text-white placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:outline-none'
               required
             />
             <input
@@ -57,7 +57,7 @@ const RegisterFormFull = ({ onBack }: { onBack?: () => void }) => {
               placeholder='Email'
               value={formData.email}
               onChange={handleChange}
-              className='w-full rounded-lg border-none bg-[#232329] px-4 py-2 text-sm text-white placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:outline-none'
+              className='w-full rounded-lg border-none bg-[#232329] px-4 py-3 text-sm text-white placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:outline-none'
               required
             />
             <div className='relative'>
@@ -67,7 +67,7 @@ const RegisterFormFull = ({ onBack }: { onBack?: () => void }) => {
                 placeholder='Password'
                 value={formData.password}
                 onChange={handleChange}
-                className='w-full rounded-lg border-none bg-[#232329] px-4 py-2 pr-16 text-sm text-white placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:outline-none'
+                className='w-full rounded-lg border-none bg-[#232329] px-4 py-3 pr-16 text-sm text-white placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:outline-none'
                 required
               />
               <button
@@ -81,7 +81,7 @@ const RegisterFormFull = ({ onBack }: { onBack?: () => void }) => {
             </div>
             <button
               type='submit'
-              className='mt-2 w-full rounded-lg bg-[#a78bfa] px-4 py-2 text-base font-semibold text-white transition-colors hover:bg-[#8b5cf6] focus:ring-1 focus:ring-indigo-500 focus:outline-none'
+              className='mt-2 w-full rounded-lg bg-[#a78bfa] px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-[#8b5cf6] focus:ring-1 focus:ring-indigo-500 focus:outline-none'
             >
               Create your account
             </button>
