@@ -13,7 +13,7 @@ const open_sans = Open_Sans({
 export const metadata: Metadata = {
   title: {
     default: siteMetadata.title,
-    template: '%s | Audora',
+    template: 'Audora.xyz | %s',
   },
   description: siteMetadata.description,
 
