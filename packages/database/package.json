@@ -6,6 +6,9 @@
   "devDependencies": {
     "@types/bun": "latest"
   },
+  "exports": {
+    "./userServices": "./src/services/userServices.ts"
+  },
   "scripts": {
     "generate": "bunx prisma generate",
     "reset": "bun prisma migrate reset",

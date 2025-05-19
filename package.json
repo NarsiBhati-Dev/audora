@@ -2,13 +2,16 @@
   "name": "audora",
   "private": true,
   "scripts": {
-    "build": "turbo run build",
     "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "turbo run start",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
     "db:up": "docker-compose -f docker/db.docker-compose.yml up -d",
-    "db:down": "docker-compose -f docker/db.docker-compose.yml down"
+    "db:down": "docker-compose -f docker/db.docker-compose.yml down",
+    "db:deploy": "turbo run db:deploy",
+    "generate": "turbo run generate"
   },
   "devDependencies": {
     "prettier": "^3.5.3",

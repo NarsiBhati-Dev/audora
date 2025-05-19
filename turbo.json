@@ -7,20 +7,36 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
+
     "lint": {
       "dependsOn": ["^lint"]
     },
+
     "check-types": {
       "dependsOn": ["^check-types"]
     },
+
     "dev": {
       "cache": false,
       "persistent": true
     },
+
+    "start": {
+      "dependsOn": ["start:frontend"],
+      "cache": false
+    },
+
+    "start:frontend": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".next/**", "!.next/cache/**"]
+    },
+
     "generate": {
       "cache": false,
       "persistent": true
     },
+
     "db:deploy": {
       "cache": false,
       "env": ["DATABASE_URL"]

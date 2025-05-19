@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start:frontend": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix && prettier --write ."
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.2",
