@@ -3,6 +3,8 @@ import { Open_Sans } from 'next/font/google';
 import '@audora/tailwind-css';
 import siteMetadata from '@/lib/seo/siteMetadata';
 import BackToTopButton from '@/components/back-to-top-button';
+import { Toaster } from 'react-hot-toast';
+import ReactQueryProvider from '@/lib/react-query';
 
 const open_sans = Open_Sans({
   variable: '--font-open-sans',
@@ -13,7 +15,7 @@ const open_sans = Open_Sans({
 export const metadata: Metadata = {
   title: {
     default: siteMetadata.title,
-    template: 'Audora.xyz | %s',
+    template: 'Audora.XYZ | %s',
   },
   description: siteMetadata.description,
 
@@ -40,9 +42,9 @@ export const metadata: Metadata = {
   },
 
   twitter: {
-    card: 'summary_large_image',
     title: siteMetadata.title,
     description: siteMetadata.description,
+    card: 'summary_large_image',
     images: [siteMetadata.socialBanner],
   },
 };
@@ -73,8 +75,11 @@ export default function RootLayout({
       <body
         className={`${open_sans.className} scroll-pt-17 scroll-smooth bg-black antialiased`}
       >
-        {children}
-        <BackToTopButton />
+        <ReactQueryProvider>
+          {children}
+          <BackToTopButton />
+          <Toaster position='top-right' reverseOrder={false} />
+        </ReactQueryProvider>
       </body>
     </html>
   );

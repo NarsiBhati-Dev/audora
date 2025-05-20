@@ -1,11 +1,16 @@
 import { client } from "..";
 
-export const createUser = async (
-  name: string,
-  email: string,
-  password?: string,
-  provider: string = "credentials"
-) => {
+export const createUser = async ({
+  name,
+  email,
+  password,
+  provider = "credentials",
+}: {
+  name: string;
+  email: string;
+  password?: string;
+  provider?: string;
+}) => {
   const newUser = await client.user.create({
     data: {
       name,

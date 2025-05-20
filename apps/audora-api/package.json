@@ -9,8 +9,12 @@
   "peerDependencies": {
     "typescript": "^5"
   },
+  "scripts": {
+    "dev": "bun run src/server.ts",
+    "start:backend": "bun run src/server.ts"
+  },
   "dependencies": {
-    "@audora/database": "workspace:*",
+    "@audora/database": "*",
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.18",
     "@types/express": "^5.0.2",

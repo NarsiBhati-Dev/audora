@@ -1,12 +1,10 @@
-import { envSiteUrl } from '@/config';
+import { SITE_URL } from '@/config';
 
-if (!envSiteUrl) {
+if (!SITE_URL) {
   throw new Error(
     '❌ NEXT_PUBLIC_SITE_URL is missing or empty! Check your .env file.',
   );
 }
-
-const SITE_URL = envSiteUrl.replace(/\/$/, '');
 
 const siteMetadata = {
   title:
