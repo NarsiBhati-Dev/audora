@@ -1,11 +1,14 @@
-// import express from "express";
-// import { signup, signin } from "../controllers/auth.controller";
-// // import { auth } from "../middleware/auth";
+import express from "express";
+import {
+  register,
+  login,
+  registerWithGoogle,
+} from "../controllers/auth.controller";
 
-// const router = express.Router();
+const router = express.Router();
 
-// router.post("/signup", signup);
-// router.post("/signin", signin);
-// // router.get("/me", auth, me);
+router.post("/register", register);
+router.post("/login", login);
+router.post("/google", registerWithGoogle);
 
-// export default router;
+export default router;

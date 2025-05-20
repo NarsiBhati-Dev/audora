@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../config/env";
+import { NEXTAUTH_SECRET } from "../config/env";
 
 interface TokenPayload {
   id: string;
@@ -11,7 +11,7 @@ interface TokenPayload {
  * @returns The generated JWT token.
  */
 export const generateToken = (id: string): string => {
-  return jwt.sign({ id }, JWT_SECRET as string, { expiresIn: "1d" });
+  return jwt.sign({ id }, NEXTAUTH_SECRET as string, { expiresIn: "1d" });
 };
 
 /**

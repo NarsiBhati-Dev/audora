@@ -14,7 +14,7 @@ const RegisterWithOAuth = ({ onEmailClick }: { onEmailClick?: () => void }) => {
 
       <AuthButtons onEmailClick={onEmailClick} />
 
-      <p className='mt-8 w-full text-center text-xs text-gray-400'>
+      <p className='mt-4 w-full text-center text-xs text-gray-400'>
         By signing up, you agree to our{' '}
         <a
           href='/terms-conditions'
@@ -32,7 +32,7 @@ const RegisterWithOAuth = ({ onEmailClick }: { onEmailClick?: () => void }) => {
         .
       </p>
 
-      <p className='mt-4 w-full text-center text-sm text-gray-400'>
+      <p className='mt-4 w-full text-center text-xs text-gray-400'>
         Have an account?{' '}
         <a
           href='/login'

@@ -22,11 +22,11 @@ const LoginPage = () => {
           <h2 className='mb-2 text-center text-2xl font-bold text-white'>
             Log in to Audora
           </h2>
-          <p className='mb-6 text-center text-sm text-gray-400'>
+          <p className='mb-6 text-center text-xs text-gray-400'>
             {`Don't have an account?`}{' '}
             <Link
               href='/register'
-              className='hover:text-primary text-sm text-[#a78bfa] underline'
+              className='hover:text-primary text-xs text-[#a78bfa] underline'
             >
               Sign up
             </Link>
@@ -45,7 +45,7 @@ const LoginPage = () => {
 
           <Link
             href='/password-recovery'
-            className='mt-2 block text-center text-sm text-gray-400 hover:underline'
+            className='mt-2 block text-center text-xs text-gray-400 hover:underline'
           >
             Forgot password?
           </Link>
