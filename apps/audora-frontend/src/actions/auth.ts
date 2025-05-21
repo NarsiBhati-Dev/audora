@@ -36,8 +36,18 @@ export const LoginUser = async (userData: {
   try {
     const response = await axios.post(`${API_URL}/auth/login`, userData);
 
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    return response.data;
+    if (!response.data) {
+      throw new Error('No data received from server');
+    }
+
+    return {
+      success: true,
+      user: {
+        id: response.data.id,
+        email: response.data.email,
+        name: response.data.name,
+      },
+    };
   } catch (error) {
     const err = error as AuthError;
     if (axios.isAxiosError(err)) {
@@ -47,6 +57,7 @@ export const LoginUser = async (userData: {
         throw new Error('Network error. Please check your connection.');
       }
     }
+    throw new Error('An unexpected error occurred');
   }
 };
 

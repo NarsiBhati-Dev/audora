@@ -1,87 +1,144 @@
-# Audora - Riverside.fm Clone
+# Audora.xyz 🎙️
 
-Audora is a web app designed to record high-quality audio and video podcasts, leveraging real-time communication and robust backend processing. The project aims to replicate the functionality of Riverside.fm, focusing on learning WebRTC, video processing, real-time uploads, and ensuring high reliability, especially in terms of S3 multipart uploads and video rendering.
+![Audora Logo](https://via.placeholder.com/150x150.png?text=Audora)
 
-## Tech Stack
+## **High-Quality Podcast Recording Platform**
 
-- **Frontend**: Next.js (React), Tailwind CSS
-- **Real-time Communication**: WebRTC, WebSocket (Socket.IO for signaling)
-- **Recording**: MediaRecorder API
-- **Uploads**: S3 Multipart, Presigned URLs
-- **Backend**: Node.js (Express/Fastify), FFmpeg/GStreamer for video processing
-- **Queue Processing**: BullMQ or Temporal (for video render jobs)
-- **Storage**: AWS S3
-- **Database**: PostgreSQL (via Prisma)
-- **DevOps**: Docker, CI/CD, Monitoring (Sentry, Grafana)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Code of Conduct](https://img.shields.io/badge/Code%20of%20Conduct-v2.0-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
-## Features
+## 🌟 Overview
 
-### Core Features
+Audora.xyz is a cutting-edge web application that enables creators to record professional-quality podcasts and video content directly from their browsers. Built with modern web technologies, it offers a seamless experience for real-time audio/video recording, processing, and distribution.
 
-1. **WebRTC Communication**
+### 🎯 Key Features
 
-   - Real-time video/audio communication.
-   - Support for multiple participants in a room.
-   - Browser-based peer-to-peer connection.
+- **🎥 High-Quality Recording**: Record studio-grade audio and video directly in your browser
+- **🌐 Real-Time Communication**: Seamless WebRTC-based peer-to-peer connections
+- **📤 Reliable Uploads**: Robust S3 multipart uploads with automatic retry
+- **🎬 Professional Processing**: Advanced video rendering and audio normalization
+- **🔒 Secure & Private**: End-to-end encryption for all communications
 
-2. **Media Recording & Upload**
+## 🛠️ Technology Stack
 
-   - Record video/audio using the MediaRecorder API.
-   - Real-time uploads via S3 multipart uploads (supports resume/retry).
+### Frontend
 
-3. **Post-Processing**
+- **Framework**: Next.js 14 with React
+- **Styling**: Tailwind CSS with custom design system
+- **State Management**: React Query + Zustand
+- **Real-time**: WebRTC, Socket.IO
 
-   - Video and audio transcoding with FFmpeg/GStreamer.
-   - Ability to stitch recordings, normalize audio, and add branding overlays.
+### Backend
 
-4. **Session Management**
-   - Generate room links.
-   - Track session states (live, uploading, processing).
-   - Reconnect logic for users who drop from the session.
+- **Runtime**: Node.js with Fastify
+- **Database**: PostgreSQL with Prisma ORM
+- **Storage**: AWS S3 with multipart uploads
+- **Media Processing**: FFmpeg/GStreamer
+- **Queue System**: BullMQ for job processing
 
-### Planned Features
+### Infrastructure
 
-1. **UI for Session Playback**
+- **Containerization**: Docker
+- **CI/CD**: GitHub Actions
+- **Monitoring**: Sentry, Grafana
+- **Hosting**: AWS/Vercel
 
-   - Display past recordings with playback functionality.
-   - Option to download or stream finalized content.
+## 🚀 Getting Started
 
-2. **Scalability & Reliability**
-   - Horizontal scaling for signaling server.
-   - Background queue processing for video rendering jobs (BullMQ/Temporal).
-   - Caching for uploads and transcoding jobs.
+### Prerequisites
 
-## Development Roadmap
+- Node.js 18+
+- PostgreSQL 14+
+- FFmpeg
+- AWS Account (for S3)
 
-### Week 1: Core WebRTC and Signaling Server
+### Installation
 
-- Set up signaling server with WebSocket (Socket.IO).
-- Implement WebRTC peer connections and room management.
+1. Clone the repository:
 
-### Week 2: Media Recording and Uploads
+   ```bash
+   git clone https://github.com/yourusername/audora.xyz.git
+   cd audora.xyz
+   ```
 
-- Implement recording functionality with MediaRecorder API.
-- Integrate real-time S3 multipart uploads.
+2. Install dependencies:
 
-### Week 3: Video Processing and Post-Processing
+   ```bash
+   bun install
+   ```
 
-- Implement FFmpeg/GStreamer-based processing for audio/video stitching and transcoding.
-- Add overlays and audio normalization.
+3. Set up environment variables:
 
-### Week 4: Reliability and Testing
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
 
-- Implement reconnect logic for WebRTC and upload retries.
-- Test edge cases (internet drops, failed uploads, reconnection).
+4. Start the development server:
 
-### Week 5: Polish and Deployment
+   ```bash
+   bun dev
+   ```
 
-- Enhance UI/UX for better user experience.
-- Deploy to production with monitoring tools (e.g., Sentry, Grafana).
+## 📋 Development Roadmap
 
-## Contributing
+### Phase 1: Core Infrastructure (Week 1-2)
 
-If you want to contribute to this project, feel free to fork the repo, make changes, and create a pull request. Please ensure your code passes linting and tests before submitting.
+- [x] Project setup and architecture
+- [x] WebRTC implementation
+- [x] Basic UI components
+- [ ] Room management system
 
-## License
+### Phase 2: Recording & Upload (Week 3-4)
 
-This project is licensed under the MIT License.
+- [ ] MediaRecorder integration
+- [ ] S3 multipart uploads
+- [ ] Upload progress tracking
+- [ ] Error handling and retries
+
+### Phase 3: Processing & Delivery (Week 5-6)
+
+- [ ] Video transcoding pipeline
+- [ ] Audio normalization
+- [ ] Custom overlays
+- [ ] Download/streaming system
+
+### Phase 4: Polish & Launch (Week 7-8)
+
+- [ ] Performance optimization
+- [ ] Security hardening
+- [ ] Documentation
+- [ ] Production deployment
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on:
+
+- Code style and standards
+- Development workflow
+- Pull request process
+- Testing requirements
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
+
+## 📞 Support
+
+- **Documentation**: [docs.audora.xyz](https://docs.audora.xyz)
+- **Email**: support@audora.xyz
+- **Discord**: [Join our community](https://discord.gg/audora)
+
+## 🙏 Acknowledgments
+
+- [WebRTC](https://webrtc.org/) for real-time communication
+- [FFmpeg](https://ffmpeg.org/) for media processing
+- [Prisma](https://www.prisma.io/) for database management
+- All our contributors and supporters
+
+---
+
+<div align="center">
+Made with ❤️ by the Audora Team
+</div>

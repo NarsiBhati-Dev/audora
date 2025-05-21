@@ -1,0 +1,63 @@
+name: Audora API
+
+on: 
+  push: 
+    branches: [ production ]
+    paths: 
+      - 'apps/audora-api/**'
+      - 'packages/**'
+      - '.github/workflows/cd_api.yml'
+
+jobs: 
+  build: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code backend
+        uses: actions/checkout@v3
+
+      - name: Docker Login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./docker/backend.prod.Dockerfile
+          push: true
+          tags: |
+            narsibhati6545/audora-api:${{ github.sha }} 
+            narsibhati6545/audora-api:latest
+
+      - name: Deploy to VM
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: "${{secrets.HOST_IP}}"
+          username: "ubuntu"
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            sudo docker pull narsibhati6545/audora-api:latest
+
+            if sudo docker ps -a --format '{{.Names}}' | grep -q "^audora-api$"; then
+              sudo docker stop audora-api
+              sudo docker rm audora-api
+            fi
+
+            sudo docker run -d \
+              --name audora-api \
+              -e NODE_ENV=production \
+              -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
+              -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+              -e JWT_EXPIRES_IN="1d" \
+              -e FRONTEND_URL="${{ secrets.FRONTEND_URL }}" \
+              -p 9000:9000 \
+              --restart always \
+              narsibhati6545/audora-api:latest
+
+            echo "Audora API deployed successfully!"
+            sudo docker image prune -f --filter "until=24h"
+
+     

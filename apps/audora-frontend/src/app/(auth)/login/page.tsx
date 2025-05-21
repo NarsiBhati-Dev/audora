@@ -22,7 +22,7 @@ const LoginPage = () => {
           <h2 className='mb-2 text-center text-2xl font-bold text-white'>
             Log in to Audora
           </h2>
-          <p className='mb-6 text-center text-xs text-gray-400'>
+          <p className='mb-6 text-center text-xs text-white'>
             {`Don't have an account?`}{' '}
             <Link
               href='/register'

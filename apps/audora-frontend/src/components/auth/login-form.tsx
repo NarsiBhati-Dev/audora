@@ -3,10 +3,9 @@
 import React, { useState } from 'react';
 import { type UserLogin, UserLoginSchema } from '@audora/types';
 import { toast } from 'react-hot-toast';
-import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
-import { LoginUser } from '@/actions/auth';
 import { HashLoader } from 'react-spinners';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState<UserLogin>({
@@ -14,47 +13,56 @@ const LoginForm = () => {
     password: '',
   });
   const [errors, setErrors] = useState<Partial<UserLogin>>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const validatedData = UserLoginSchema.parse(formData);
       setErrors({});
 
-      loginMutation.mutate(validatedData);
+      const result = await signIn('credentials', {
+        email: validatedData.email,
+        password: validatedData.password,
+        redirect: false,
+        callbackUrl: '/dashboard',
+      });
+
+      if (result?.error) {
+        toast.error(result.error);
+        return;
+      }
+
+      if (result?.ok) {
+        toast.success('Logged in successfully');
+        router.push('/dashboard');
+        router.refresh();
+      }
     } catch (error) {
       if (error instanceof Error) {
-        // Handle Zod validation errors
-        const zodError = JSON.parse(error.message);
-        const formattedErrors: Partial<UserLogin> = {};
+        try {
+          // Handle Zod validation errors
+          const zodError = JSON.parse(error.message);
+          const formattedErrors: Partial<UserLogin> = {};
 
-        zodError.forEach((err: { path: string[]; message: string }) => {
-          const field = err.path[0] as keyof UserLogin;
-          formattedErrors[field] = err.message;
-        });
+          zodError.forEach((err: { path: string[]; message: string }) => {
+            const field = err.path[0] as keyof UserLogin;
+            formattedErrors[field] = err.message;
+          });
 
-        setErrors(formattedErrors);
+          setErrors(formattedErrors);
+        } catch {
+          // If it's not a Zod error, show the error message
+          toast.error(error.message);
+        }
       }
+    } finally {
+      setIsLoading(false);
     }
   };
-
-  const route = useRouter();
-
-  const loginMutation = useMutation({
-    mutationFn: LoginUser,
-    onSuccess: () => {
-      toast.success('User Signed in Successfully');
-      route.push('./dashboard');
-    },
-    onError: err => {
-      setFormData({
-        email: '',
-        password: '',
-      });
-      toast.error(err.message);
-    },
-  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -80,6 +88,7 @@ const LoginForm = () => {
           value={formData.email}
           onChange={handleChange}
           placeholder='Email'
+          disabled={isLoading}
           className={`focus:ring-primary w-full rounded-lg bg-[#18181b] px-4 py-2 text-white placeholder-gray-400 hover:bg-[#2c2c33] focus:ring-1 focus:outline-none ${
             errors.email ? 'border border-red-500' : ''
           }`}
@@ -94,6 +103,7 @@ const LoginForm = () => {
           value={formData.password}
           onChange={handleChange}
           placeholder='Password'
+          disabled={isLoading}
           className={`focus:ring-primary w-full rounded-lg bg-[#18181b] px-4 py-3 text-white placeholder-gray-400 hover:bg-[#2c2c33] focus:ring-1 focus:outline-none ${
             errors.password ? 'border border-red-500' : ''
           }`}
@@ -105,12 +115,12 @@ const LoginForm = () => {
 
       <button
         type='submit'
-        disabled={loginMutation.isPending}
+        disabled={isLoading}
         className={`mt-2 w-full rounded-lg bg-[#a78bfa] px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-[#8b5cf6] focus:ring-1 focus:ring-indigo-500 focus:outline-none ${
-          loginMutation.isPending ? 'cursor-not-allowed opacity-50' : ''
+          isLoading ? 'cursor-not-allowed opacity-50' : ''
         }`}
       >
-        {loginMutation.isPending ? (
+        {isLoading ? (
           <div className='flex justify-center'>
             <HashLoader color='#fafafa' size={20} />
           </div>

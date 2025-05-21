@@ -1,7 +1,7 @@
 import { type Request, type Response } from "express";
 import { HttpStatus } from "../utils/HttpStatus";
 import { hashPassword, verifyPassword } from "../utils/bcrypt";
-import { generateToken } from "../utils/jwt";
+
 import { createUser, getUserByEmail } from "@audora/database/userServices";
 import { UserLoginSchema, UserRegisterSchema } from "@audora/types";
 
@@ -42,7 +42,6 @@ export const register = async (req: Request, res: Response) => {
     });
     return;
   } catch (error) {
-    console.error("Register Error:", error);
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       success: false,
       error: "Internal server error",
@@ -78,6 +77,7 @@ export const login = async (req: Request, res: Response) => {
     }
 
     const isPasswordValid = await verifyPassword(password, user.password);
+
     if (!isPasswordValid) {
       res.status(HttpStatus.UNAUTHORIZED).json({
         success: false,
@@ -86,12 +86,10 @@ export const login = async (req: Request, res: Response) => {
       return;
     }
 
-    const token = generateToken(user.id);
-
     res.status(HttpStatus.OK).json({
       success: true,
       message: "Login successful",
-      token,
+      user,
     });
     return;
   } catch (error) {

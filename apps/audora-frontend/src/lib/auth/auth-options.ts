@@ -30,12 +30,23 @@ export const authOptions: NextAuthOptions = {
             email: credentials.email,
             password: credentials.password,
           });
-          if (!response.success) {
-            throw new Error('Login failed');
+
+          if (!response?.success || !response?.user) {
+            console.error('Invalid response structure:', response);
+            throw new Error('Invalid credentials');
           }
-          return { id: response.user.id, email: credentials.email };
-        } catch {
-          throw new Error('Login failed');
+
+          return {
+            id: response.user.id,
+            email: response.user.email,
+            name: response.user.name,
+          };
+        } catch (error) {
+          console.error('Login error:', error);
+          if (error instanceof Error) {
+            throw new Error(error.message);
+          }
+          throw new Error('Invalid credentials');
         }
       },
     }),
@@ -55,11 +66,11 @@ export const authOptions: NextAuthOptions = {
      * 🧠 JWT Callback
      * Called on login or token refresh. Used to persist user info in token.
      */
-
     async jwt({ token, user, account, profile }) {
-      // If user logs in with credentials
       if (user) {
         token.id = user.id;
+        token.email = user.email;
+        token.name = user.name;
       }
 
       if (account?.provider === 'google' && profile?.email) {
@@ -69,6 +80,8 @@ export const authOptions: NextAuthOptions = {
         });
         if (response.success) {
           token.id = response.user.id;
+          token.email = response.user.email;
+          token.name = response.user.name;
         } else {
           throw new Error(response.message);
         }
@@ -84,6 +97,8 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
+        session.user.email = token.email as string;
+        session.user.name = token.name as string;
       }
       return session;
     },
@@ -94,7 +109,7 @@ export const authOptions: NextAuthOptions = {
    */
   session: {
     strategy: 'jwt',
-    maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: 24 * 60 * 60, // 24 hours
   },
 
   /**
@@ -109,4 +124,22 @@ export const authOptions: NextAuthOptions = {
    * 🧪 Secret used to encrypt session/JWT tokens
    */
   secret: NEXTAUTH_SECRET,
+
+  // Add these options for better security
+  jwt: {
+    maxAge: 24 * 60 * 60, // 24 hours
+  },
+
+  // Ensure cookies are properly handled
+  cookies: {
+    sessionToken: {
+      name: `__Secure-next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: true,
+      },
+    },
+  },
 };
