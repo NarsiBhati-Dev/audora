@@ -29,6 +29,12 @@
     "start:frontend": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "env": [
+        "GOOGLE_CLIENT_ID",
+        "GOOGLE_CLIENT_SECRET",
+        "NEXTAUTH_URL",
+        "NEXTAUTH_SECRET"
+      ],
       "outputs": [".next/**", "!.next/cache/**"]
     },
 
