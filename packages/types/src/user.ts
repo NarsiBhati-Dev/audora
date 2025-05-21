@@ -23,7 +23,7 @@ export const emailSchema = z
   .nonempty({ message: "Email is required" });
 
 // Schema for user signup
-export const UserSignupSchema = z.object({
+export const UserRegisterSchema = z.object({
   name: nameSchema,
   email: emailSchema,
   password: passwordSchema,
@@ -37,4 +37,4 @@ export const UserLoginSchema = z.object({
 
 // Export types
 export type UserLogin = z.infer<typeof UserLoginSchema>;
-export type UserSignup = z.infer<typeof UserSignupSchema>;
+export type UserSignup = z.infer<typeof UserRegisterSchema>;
