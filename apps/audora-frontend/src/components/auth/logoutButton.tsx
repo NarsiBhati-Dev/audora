@@ -4,14 +4,6 @@ import { signOut } from 'next-auth/react';
 
 const LogoutButton = () => {
   const handleLogout = () => {
-    // Clear all cookies
-    document.cookie.split(';').forEach(cookie => {
-      document.cookie = cookie
-        .replace(/^ +/, '')
-        .replace(/=.*/, `=;expires=${new Date(0).toUTCString()};path=/`);
-    });
-
-    // Sign out and redirect
     signOut({
       callbackUrl: '/login',
       redirect: true,

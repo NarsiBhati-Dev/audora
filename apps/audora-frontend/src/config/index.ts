@@ -6,4 +6,4 @@ export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID?.trim();
 export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET?.trim();
 
 export const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET?.trim();
-export const NEXTAUTH_URL = process.env.NEXT_PUBLIC_NEXTAUTH_URL?.trim();
+export const NEXTAUTH_URL = process.env.NEXTAUTH_URL?.trim();

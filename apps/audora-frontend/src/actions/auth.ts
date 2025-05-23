@@ -40,18 +40,22 @@ export const LoginUser = async (userData: {
       throw new Error('No data received from server');
     }
 
-    return {
+    const processedData = {
       success: true,
       user: {
-        id: response.data.id,
-        email: response.data.email,
-        name: response.data.name,
+        id: response.data.user.id,
+        email: response.data.user.email,
+        name: response.data.user.name,
       },
+      accessToken: response.data.accessToken,
     };
+
+    return processedData;
   } catch (error) {
     const err = error as AuthError;
     if (axios.isAxiosError(err)) {
       if (err.response) {
+        console.error('API Error Response:', err.response.data);
         throw new Error('Sign-in failed. Please check your credentials.');
       } else {
         throw new Error('Network error. Please check your connection.');
@@ -67,7 +71,18 @@ export const RegisterWithGoogle = async (userData: {
 }) => {
   try {
     const response = await axios.post(`${API_URL}/auth/google`, userData);
-    return response.data;
+
+    const processedData = {
+      success: true,
+      user: {
+        id: response.data.user.id,
+        email: response.data.user.email,
+        name: response.data.user.name,
+      },
+      accessToken: response.data.accessToken,
+    };
+
+    return processedData;
   } catch (error) {
     const err = error as AuthError;
     if (err.response) {

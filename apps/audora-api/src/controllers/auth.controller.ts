@@ -4,6 +4,7 @@ import { hashPassword, verifyPassword } from "../utils/bcrypt";
 
 import { createUser, getUserByEmail } from "@audora/database/userServices";
 import { UserLoginSchema, UserRegisterSchema } from "@audora/types";
+import { generateToken } from "../utils/jwt";
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -86,10 +87,13 @@ export const login = async (req: Request, res: Response) => {
       return;
     }
 
+    const accessToken = generateToken(user.id);
+
     res.status(HttpStatus.OK).json({
       success: true,
       message: "Login successful",
       user,
+      accessToken,
     });
     return;
   } catch (error) {
@@ -107,11 +111,24 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
     const { email, name } = req.body;
 
     const userExist = await getUserByEmail(email);
+
     if (userExist) {
+      if (userExist.provider !== "google") {
+        res.status(HttpStatus.BAD_REQUEST).json({
+          success: false,
+          error:
+            "Email already registered with password. Please login using email and password.",
+        });
+        return;
+      }
+
+      const accessToken = generateToken(userExist.id);
+
       res.status(HttpStatus.OK).json({
         success: true,
-        message: "User already exists",
+        error: "User already exists",
         user: userExist,
+        accessToken,
       });
       return;
     }
@@ -122,10 +139,13 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
       provider: "google",
     });
 
+    const accessToken = generateToken(newUser.id);
+
     res.status(HttpStatus.CREATED).json({
       success: true,
       message: "User created successfully",
       user: newUser,
+      accessToken,
     });
     return;
   } catch (error) {

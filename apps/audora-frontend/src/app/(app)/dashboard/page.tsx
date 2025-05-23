@@ -1,7 +1,15 @@
 import LogoutButton from '@/components/auth/logoutButton';
-import { Suspense } from 'react';
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
+import authOptions from '@/lib/auth/auth-options';
 
-async function DashboardContent() {
+async function DashboardPage() {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect('/login');
+  }
+
   return (
     <div className='p-8'>
       <div className='mb-8 flex items-center justify-between'>
@@ -11,6 +19,7 @@ async function DashboardContent() {
         </div>
         <LogoutButton />
       </div>
+      <pre className='text-white'>{JSON.stringify(session, null, 2)}</pre>
 
       <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
         {/* Add your dashboard content here */}
@@ -23,16 +32,4 @@ async function DashboardContent() {
   );
 }
 
-export default function DashboardPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className='flex h-screen items-center justify-center'>
-          <div className='h-8 w-8 animate-spin rounded-full border-4 border-[#a78bfa] border-t-transparent'></div>
-        </div>
-      }
-    >
-      <DashboardContent />
-    </Suspense>
-  );
-}
+export default DashboardPage;

@@ -7,10 +7,13 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"],
       "env": [
+        "NEXT_PUBLIC_SITE_URL",
+        "NEXT_PUBLIC_API_URL",
+        "NODE_ENV",
         "GOOGLE_CLIENT_ID",
         "GOOGLE_CLIENT_SECRET",
-        "NEXTAUTH_URL",
-        "NEXTAUTH_SECRET"
+        "NEXTAUTH_SECRET",
+        "NEXTAUTH_URL"
       ]
     },
 
@@ -39,7 +42,10 @@
         "GOOGLE_CLIENT_ID",
         "GOOGLE_CLIENT_SECRET",
         "NEXTAUTH_URL",
-        "NEXTAUTH_SECRET"
+        "NEXTAUTH_SECRET",
+        "NEXT_PUBLIC_API_URL",
+        "NEXT_PUBLIC_SITE_URL",
+        "NODE_ENV"
       ],
       "outputs": [".next/**", "!.next/cache/**"]
     },

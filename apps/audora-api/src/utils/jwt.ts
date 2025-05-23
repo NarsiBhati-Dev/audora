@@ -15,15 +15,18 @@ export const generateToken = (id: string): string => {
 };
 
 /**
- * Decode a JWT token without verifying.
- * @param token - The JWT token to decode.
- * @returns The decoded payload or null if invalid.
+ * Verify a JWT token and return the decoded payload.
+ * @param token - The JWT token to verify.
+ * @returns The decoded payload or null if verification fails.
  */
-export const decodeToken = (token: string): TokenPayload | null => {
+
+export const verifyToken = (
+  token: string,
+  JWT_SECRET: string
+): TokenPayload | null => {
   try {
-    return jwt.decode(token) as TokenPayload;
-  } catch (error) {
-    // console.error("JWT Decoding Error:", error);
+    return jwt.verify(token, JWT_SECRET as string) as TokenPayload;
+  } catch {
     return null;
   }
 };

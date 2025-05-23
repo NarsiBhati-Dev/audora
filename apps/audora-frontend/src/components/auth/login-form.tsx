@@ -5,7 +5,6 @@ import { type UserLogin, UserLoginSchema } from '@audora/types';
 import { toast } from 'react-hot-toast';
 import { HashLoader } from 'react-spinners';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState<UserLogin>({
@@ -14,7 +13,6 @@ const LoginForm = () => {
   });
   const [errors, setErrors] = useState<Partial<UserLogin>>({});
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,8 +36,6 @@ const LoginForm = () => {
 
       if (result?.ok) {
         toast.success('Logged in successfully');
-        router.push('/dashboard');
-        router.refresh();
       }
     } catch (error) {
       if (error instanceof Error) {
