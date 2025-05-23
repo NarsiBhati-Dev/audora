@@ -197,7 +197,7 @@ const RegisterWithForm = ({ onBack }: { onBack?: () => void }) => {
               <button
                 type='submit'
                 disabled={registerMutation.isPending}
-                className={`mt-2 w-full rounded-lg bg-[#a78bfa] px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-[#8b5cf6] focus:ring-1 focus:ring-indigo-500 focus:outline-none ${
+                className={`mt-2 w-full cursor-pointer rounded-lg bg-[#a78bfa] px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-[#8b5cf6] focus:ring-1 focus:ring-indigo-500 focus:outline-none ${
                   registerMutation.isPending
                     ? 'cursor-not-allowed opacity-50'
                     : ''
@@ -217,14 +217,14 @@ const RegisterWithForm = ({ onBack }: { onBack?: () => void }) => {
             {`By signing up, you agree to our`}{' '}
             <a
               href='/terms-conditions'
-              className='text-gray-300 underline hover:text-gray-200'
+              className='cursor-pointer text-gray-300 underline hover:text-gray-200'
             >
               Terms
             </a>{' '}
             &{' '}
             <a
               href='/privacy-policy'
-              className='text-gray-300 underline hover:text-gray-200'
+              className='cursor-pointer text-gray-300 underline hover:text-gray-200'
             >
               Privacy Policy
             </a>
@@ -235,7 +235,7 @@ const RegisterWithForm = ({ onBack }: { onBack?: () => void }) => {
             Have an account?{' '}
             <a
               href='/login'
-              className='hover:text-primary text-[#a78bfa] underline'
+              className='hover:text-primary cursor-pointer text-[#a78bfa] underline'
             >
               Log in
             </a>

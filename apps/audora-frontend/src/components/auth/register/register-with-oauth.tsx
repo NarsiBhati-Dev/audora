@@ -18,14 +18,14 @@ const RegisterWithOAuth = ({ onEmailClick }: { onEmailClick?: () => void }) => {
         By signing up, you agree to our{' '}
         <a
           href='/terms-conditions'
-          className='text-gray-300 underline hover:text-gray-200'
+          className='cursor-pointer text-gray-300 underline hover:text-gray-200'
         >
           Terms
         </a>{' '}
         &{' '}
         <a
           href='/privacy-policy'
-          className='text-gray-300 underline hover:text-gray-200'
+          className='cursor-pointer text-gray-300 underline hover:text-gray-200'
         >
           Privacy Policy
         </a>
@@ -36,7 +36,7 @@ const RegisterWithOAuth = ({ onEmailClick }: { onEmailClick?: () => void }) => {
         Have an account?{' '}
         <a
           href='/login'
-          className='hover:text-primary text-[#a78bfa] underline'
+          className='hover:text-primary cursor-pointer text-[#a78bfa] underline'
         >
           Log in
         </a>

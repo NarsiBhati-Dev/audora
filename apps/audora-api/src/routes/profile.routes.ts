@@ -1,9 +1,12 @@
 import express from "express";
-// import { register, login } from "../controllers/auth.controller";
+
+import { auth } from "../middleware/auth";
+import { setProfileName } from "../controllers/profile.controller";
 
 const router = express.Router();
 
-// router.post("/register", register);
-// router.post("/login", login);
+router.use(auth);
+
+router.post("/update-name", setProfileName);
 
 export default router;

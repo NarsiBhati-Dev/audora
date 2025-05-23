@@ -19,3 +19,15 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 65px;
 }
+
+/* Global cursor styles */
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+/* Ensure links and buttons have pointer cursor */
+a,
+button,
+[role="button"] {
+  cursor: pointer;
+}

@@ -1,15 +1,6 @@
 import LogoutButton from '@/components/auth/logoutButton';
-import { getServerSession } from 'next-auth';
-import { redirect } from 'next/navigation';
-import authOptions from '@/lib/auth/auth-options';
 
 async function DashboardPage() {
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    redirect('/login');
-  }
-
   return (
     <div className='p-8'>
       <div className='mb-8 flex items-center justify-between'>
@@ -19,7 +10,6 @@ async function DashboardPage() {
         </div>
         <LogoutButton />
       </div>
-      <pre className='text-white'>{JSON.stringify(session, null, 2)}</pre>
 
       <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
         {/* Add your dashboard content here */}

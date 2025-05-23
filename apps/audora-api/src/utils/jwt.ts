@@ -20,13 +20,11 @@ export const generateToken = (id: string): string => {
  * @returns The decoded payload or null if verification fails.
  */
 
-export const verifyToken = (
-  token: string,
-  JWT_SECRET: string
-): TokenPayload | null => {
+export const verifyToken = (token: string): TokenPayload | null => {
   try {
-    return jwt.verify(token, JWT_SECRET as string) as TokenPayload;
-  } catch {
+    return jwt.verify(token, NEXTAUTH_SECRET as string) as TokenPayload;
+  } catch (error) {
+    console.error("JWT Verification Error:", error);
     return null;
   }
 };

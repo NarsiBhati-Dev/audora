@@ -1,29 +1,37 @@
-// import { type Response, type NextFunction } from "express";
-// import { verifyToken } from "@repo/backend-common/config";
-// import type { AuthRequest } from "../utils/request-type";
-// import { JWT_SECRET } from "../config/env";
+import { type Response, type NextFunction } from "express";
+import { verifyToken } from "../utils/jwt";
+import { HttpStatus } from "../utils/HttpStatus";
+import type { AuthRequest } from "../utils/request-type";
 
-// export const auth = (req: AuthRequest, res: Response, next: NextFunction) => {
-//   try {
-//     const token = req.headers.authorization?.split(" ")[1];
+export const auth = (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const accessToken = req.headers?.authorization;
 
-//     if (!token) {
-//       res.status(401).json({ message: "Access Denied: No token provided" });
-//       return;
-//     }
+    if (!accessToken) {
+      res
+        .status(HttpStatus.UNAUTHORIZED)
+        .json({ message: "Access Denied: No token provided" });
+      return;
+    }
 
-//     const decoded = verifyToken(token, JWT_SECRET as string);
+    const decoded = verifyToken(accessToken);
 
-//     if (!decoded) {
-//       res.status(401).json({ message: "Invalid Token" });
-//       return;
-//     }
+    if (!decoded) {
+      res
+        .status(HttpStatus.UNAUTHORIZED)
+        .json({ message: "Invalid or expired token" });
+      return;
+    }
 
-//     req.auth = { id: decoded.id };
+    req.auth = {
+      id: decoded.id,
+    };
 
-//     next();
-//   } catch (error) {
-//     res.status(401).json({ message: "Authentication Failed" });
-//     return;
-//   }
-// };
+    next();
+  } catch (error) {
+    res
+      .status(HttpStatus.UNAUTHORIZED)
+      .json({ message: "Authentication Failed" });
+    return;
+  }
+};
