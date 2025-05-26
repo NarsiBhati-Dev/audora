@@ -61,7 +61,7 @@ const videoEditorFeatures = [
 
 const VideoEditorPage = () => {
   return (
-    <main className='mt-6'>
+    <main className='mt-6 md:mt-0'>
       <HeroSection
         title='Professional Video Editing Made Simple'
         description='Edit your videos with professional-grade tools. Perfect for creating content for social media, YouTube, and more.'

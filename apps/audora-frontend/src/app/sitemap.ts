@@ -6,36 +6,38 @@ export const dynamic = 'force-static';
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = siteMetadata.siteUrl;
 
-  const routes = [
+  const staticRoutes = [
     '',
+    'about',
+    'contact',
+    'pricing',
+    'privacy-policy',
+    'terms-conditions',
+    'cookies',
+    'register',
+    'login',
+    'start',
+    'password-recovery',
+    'blogs',
 
     // Studio
     'video-editor',
-    'recording-studio',
+    'recording',
     'live-streaming',
 
     // Use Cases
     'use-cases/webinars',
 
-    'pricing',
+    // Dashboard
+    'dashboard',
+    'dashboard/home',
 
-    // About
-    'about',
-    'contact',
+    // Optional extras
+    'sitemap.xml',
+    'robots.txt',
+  ];
 
-    // Legal
-    'privacy-policy',
-    'terms-conditions',
-    'cookies',
-
-    // Auth
-    'register',
-    'login',
-    'start',
-
-    // Blogs
-    'blogs',
-  ].map(route => ({
+  const routes = staticRoutes.map(route => ({
     url: `${siteUrl}/${route}`,
     lastModified: new Date().toISOString().split('T')[0],
   }));

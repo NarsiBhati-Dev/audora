@@ -100,7 +100,7 @@ export default async function BlogsPage({
       : blogPosts.filter(post => post.category === selectedCategory);
 
   return (
-    <div className='min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900'>
+    <div className='min-h-screen bg-gradient-to-b from-[#0a0a0a] via-[#121212] to-[#1f1f1f]'>
       {/* Hero Section */}
       <section className='relative py-24'>
         <div className='absolute inset-0 bg-gradient-to-b from-black/60 to-transparent' />
@@ -156,17 +156,17 @@ export default async function BlogsPage({
           {filteredPosts.map(post => (
             <article
               key={post.id}
-              className='group hover:border-primary/50 hover:shadow-primary/10 relative overflow-hidden rounded-2xl border border-gray-800 bg-black/30 backdrop-blur-sm transition-all duration-300 hover:shadow-xl'
+              className='group hover:border-primary/50 relative overflow-hidden rounded-2xl border border-gray-800 bg-black/30 backdrop-blur-sm transition-all duration-300 hover:shadow-xl'
             >
               <div className='relative aspect-[16/9] overflow-hidden'>
                 <Image
                   src={post.image}
                   alt={post.title}
                   fill
-                  className='object-cover transition-transform duration-500 group-hover:scale-110'
+                  className='object-cover transition-transform duration-500 group-hover:scale-105'
                 />
                 <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent' />
-                <span className='bg-primary/90 absolute top-4 left-4 rounded-full px-3 py-1 text-xs font-medium text-white shadow-lg'>
+                <span className='bg-primary/90 absolute top-4 right-4 rounded-full px-3 py-1 text-xs font-medium text-white shadow-lg'>
                   {post.category}
                 </span>
               </div>

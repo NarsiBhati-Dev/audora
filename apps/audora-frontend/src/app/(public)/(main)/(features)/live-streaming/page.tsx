@@ -51,7 +51,7 @@ const streamingFeatures = [
 
 const LiveStreamPage = () => {
   return (
-    <main className='mt-6'>
+    <main className='mt-6 md:mt-0'>
       {/* Hero Section */}
       <HeroSection
         title='Professional Live Streaming Made Simple'
