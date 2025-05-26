@@ -51,7 +51,7 @@ const streamingFeatures = [
 
 const LiveStreamPage = () => {
   return (
-    <main className='min-h-screen bg-black'>
+    <main className='mt-6'>
       {/* Hero Section */}
       <HeroSection
         title='Professional Live Streaming Made Simple'
@@ -68,7 +68,9 @@ const LiveStreamPage = () => {
           title='Why Choose Our Streaming?'
           features={streamingFeatures}
         />
+      </section>
 
+      <section className='bg-white px-4 pb-8'>
         {/* CTA Section */}
         <section className='mx-auto w-full max-w-7xl rounded-3xl bg-gradient-to-b from-[#0a0a0a] via-[#121212] to-[#1f1f1f] p-12 text-center text-white'>
           <h2 className='mb-6 text-3xl font-bold sm:text-4xl'>

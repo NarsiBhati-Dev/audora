@@ -1,5 +1,4 @@
 import React from 'react';
-
 import FAQ from '@/components/marketing/use-cases/FAQ';
 import HowItWorks from '@/components/marketing/use-cases/webinars/HowItWorks';
 import getPageMetadata from '@/lib/seo/getPageMetadata';

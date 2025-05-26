@@ -53,7 +53,7 @@ const recordingFeatures = [
 
 const RecordingPage = () => {
   return (
-    <main>
+    <main className='mt-6'>
       <HeroSection
         title='Professional Recording Made Simple'
         description='Record high-quality audio and video with studio-grade features. Perfect for podcasts, interviews, and content creation.'
