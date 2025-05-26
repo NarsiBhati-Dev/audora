@@ -9,6 +9,7 @@ import {
 } from '@/data/icons';
 import AboutHeroSection from '@/components/about/about-hero-section';
 import siteMetadata from '@/lib/seo/siteMetadata';
+import getPageMetadata from '@/lib/seo/getPageMetadata';
 
 const values = [
   {
@@ -30,6 +31,11 @@ const values = [
     icon: <QualityIcon />,
   },
 ];
+
+export const metadata = getPageMetadata({
+  title: 'Audora About',
+  description: 'About Audora',
+});
 
 const AboutPage = () => {
   return (

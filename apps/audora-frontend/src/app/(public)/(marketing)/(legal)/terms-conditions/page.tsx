@@ -1,5 +1,11 @@
-import TableOfContents from '@/components/Legal/table-of-contents';
 import React from 'react';
+import TableOfContents from '@/components/Legal/table-of-contents';
+import getPageMetadata from '@/lib/seo/getPageMetadata';
+
+export const metadata = getPageMetadata({
+  title: 'Audora Terms and Conditions',
+  description: 'These Terms and Conditions govern your use of Audora.',
+});
 
 const termsConditionsSections = [
   { id: 'acceptance', title: 'Acceptance of Terms' },

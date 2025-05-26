@@ -1,5 +1,12 @@
-import TableOfContents from '@/components/Legal/table-of-contents';
 import React from 'react';
+import TableOfContents from '@/components/Legal/table-of-contents';
+import getPageMetadata from '@/lib/seo/getPageMetadata';
+
+export const metadata = getPageMetadata({
+  title: 'Audora Privacy Policy',
+  description:
+    'This Privacy Policy explains how Audora collects, uses, and protects your personal data when you use our platform.',
+});
 
 const privacyPolicySections = [
   { id: 'information-we-collect', title: 'Information We Collect' },

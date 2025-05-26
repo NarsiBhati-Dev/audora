@@ -4,19 +4,19 @@ import siteMetadata from '@/lib/seo/siteMetadata';
 interface GetPageMetadataProps {
   title: string;
   description?: string;
-  image?: string;
+  imageUrl?: string;
   path?: string;
 }
 
 const getPageMetadata = ({
   title,
   description,
-  image,
+  imageUrl,
   path = '',
 }: GetPageMetadataProps): Metadata => {
   const metaTitle = `${title} | ${siteMetadata.title}`;
   const metaDescription = description ?? siteMetadata.description;
-  const metaImage = image ? image : siteMetadata.socialBanner;
+  const metaImage = imageUrl ? imageUrl : siteMetadata.socialBanner;
   const sitePath = path
     ? `${siteMetadata.siteUrl.replace(/\/$/, '')}/${path.replace(/^\//, '')}`
     : siteMetadata.siteUrl;

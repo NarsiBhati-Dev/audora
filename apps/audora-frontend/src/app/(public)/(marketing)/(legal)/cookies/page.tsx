@@ -1,5 +1,12 @@
-import TableOfContents from '@/components/Legal/table-of-contents';
 import React from 'react';
+import TableOfContents from '@/components/Legal/table-of-contents';
+import getPageMetadata from '@/lib/seo/getPageMetadata';
+
+export const metadata = getPageMetadata({
+  title: 'Audora Cookie Policy',
+  description:
+    'This Cookie Policy explains how Audora uses cookies and similar technologies to recognize you when you visit our website.',
+});
 
 const cookieSections = [
   { id: 'what-are-cookies', title: 'What Are Cookies' },

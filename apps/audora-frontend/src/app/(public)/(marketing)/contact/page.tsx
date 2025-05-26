@@ -1,7 +1,11 @@
-'use client';
-
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
 import Image from 'next/image';
+import getPageMetadata from '@/lib/seo/getPageMetadata';
+
+export const metadata = getPageMetadata({
+  title: 'Audora Contact',
+  description: 'Contact Audora',
+});
 
 const ContactPage = () => {
   const contactMethods = [

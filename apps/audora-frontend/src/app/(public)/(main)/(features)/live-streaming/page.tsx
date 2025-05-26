@@ -1,4 +1,10 @@
 import React from 'react';
+import getPageMetadata from '@/lib/seo/getPageMetadata';
+
+export const metadata = getPageMetadata({
+  title: 'Audora Live Streaming',
+  description: 'Live Streaming with Audora',
+});
 
 const LiveStreamPage = () => {
   return (
