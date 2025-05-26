@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import GridBackground from '@/components/ui/GridBackground';
+import Link from 'next/link';
 
 const HeroSectionWebinar = () => {
   return (
@@ -17,12 +18,12 @@ const HeroSectionWebinar = () => {
             downloads, no hassle—just seamless live experiences.
           </p>
           <div className='mb-10 flex flex-col justify-center gap-4 sm:flex-row'>
-            <a
+            <Link
               href='/dashboard'
               className='bg-primary hover:bg-primary-darker rounded-lg px-8 py-3 text-lg font-semibold text-white shadow transition'
             >
-              Start Your Webinar
-            </a>
+              Start Your Webinar Now
+            </Link>
             <a
               href='#features'
               className='text-primary hover:text-primary-darker flex items-center justify-center font-medium hover:underline'

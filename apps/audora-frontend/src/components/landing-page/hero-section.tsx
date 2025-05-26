@@ -55,7 +55,7 @@ const HeroSection = () => {
           ))}
         </div>
         <Link
-          href='/signup'
+          href='/dashboard'
           className='bg-primary hover:bg-primary-darker mb-2 inline-block w-full rounded-lg px-6 py-3 text-center text-base font-semibold text-white shadow-lg transition-colors sm:w-auto sm:px-8 sm:py-4 sm:text-lg'
         >
           Start Podcasting

@@ -57,12 +57,15 @@ const Navbar = ({ scrolled }: { scrolled: boolean }) => {
       </ul>
 
       <div className='flex items-center space-x-4 text-base font-semibold'>
-        <Link href='/login' className={`${textColor}`}>
+        <Link href='/dashboard' className={`${textColor}`}>
           Login
         </Link>
-        <button className={`cursor-pointer rounded-lg px-4 py-2 ${buttonBg} `}>
+        <Link
+          href='/dashboard'
+          className={`${buttonBg} cursor-pointer rounded-lg px-4 py-2`}
+        >
           Start for Free
-        </button>
+        </Link>
       </div>
     </nav>
   );

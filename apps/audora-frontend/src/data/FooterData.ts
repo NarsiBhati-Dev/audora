@@ -2,10 +2,10 @@ export const footerSections = [
   {
     title: 'Product',
     links: [
-      { name: 'Use Cases', href: '/use-cases' },
-      { name: 'Pricing', href: '/pricing' },
-      { name: 'Blog', href: '/blogs' },
-      { name: 'Get Started', href: '/start' },
+      { name: 'Recording', href: '/recording' },
+      { name: 'Live Streaming', href: '/live-streaming' },
+      { name: 'Video Editor', href: '/video-editor' },
+      { name: 'Webinars', href: '/use-cases/webinar' },
     ],
   },
   {
@@ -13,6 +13,7 @@ export const footerSections = [
     links: [
       { name: 'About Us', href: '/about' },
       { name: 'Contact', href: '/contact' },
+      { name: 'Blog', href: '/blogs' },
     ],
   },
   {

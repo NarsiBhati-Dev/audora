@@ -10,6 +10,7 @@ import {
   FaVideo,
 } from 'react-icons/fa6';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const leftIcons = [
   {
@@ -78,19 +79,22 @@ const GoLiveSection = () => {
           studio. Simulcasting, omnichat, and lots more included.
         </p>
         <div className='mb-12 flex flex-col justify-center gap-4 sm:flex-row'>
-          <button className='group bg-primary hover:bg-primary-darker hover:shadow-primary/25 relative cursor-pointer rounded-lg px-8 py-3 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl sm:text-lg'>
+          <Link
+            href='/dashboard'
+            className='group bg-primary hover:bg-primary-darker hover:shadow-primary/25 relative cursor-pointer rounded-lg px-8 py-3 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl sm:text-lg'
+          >
             <span className='relative z-10'>Start for Free</span>
             <div className='absolute inset-0 -z-10 rounded-lg bg-gradient-to-r from-[#7357FF] to-[#5a3fdc] opacity-0 blur transition-opacity duration-300 group-hover:opacity-100'></div>
-          </button>
-          <a
-            href='/video-editor'
+          </Link>
+          <Link
+            href='/use-cases/webinars'
             className='group text-primary hover:text-primary-darker flex items-center justify-center font-medium transition-all duration-300 hover:underline'
           >
             Learn more{' '}
             <span className='ml-1 transition-transform duration-300 group-hover:translate-x-1'>
               →
             </span>
-          </a>
+          </Link>
         </div>
         <div className='relative mt-8 flex w-full items-center justify-center'>
           {/* Left icons and lines */}
