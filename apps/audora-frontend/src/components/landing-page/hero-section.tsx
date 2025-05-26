@@ -21,7 +21,7 @@ const HeroSection = () => {
           loop
           muted
           playsInline
-          poster='images/video-poster.png'
+          poster='/images/video-poster.png'
           className='h-full w-full object-cover'
         >
           <source src='/videos/audora-hero.mp4' type='video/mp4' />

@@ -95,7 +95,7 @@ const RecordSection = () => {
             </div>
           </div>
           {/* Floating cards */}
-          <div className='mt-8 flex w-full max-w-lg flex-col gap-6 md:mt-0 md:ml-8'>
+          <div className='mt-8 flex w-full flex-col gap-6 md:mt-0 md:ml-8 md:max-w-lg'>
             {/* Download tracks card */}
             <div className='scale-[1.02] rounded-2xl bg-zinc-900 p-6 shadow-lg transition-transform duration-300'>
               <div className='mb-4 text-base font-semibold text-white'>

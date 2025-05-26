@@ -14,23 +14,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'privacy-policy',
     'terms-conditions',
     'cookies',
-    'register',
-    'login',
-    'start',
-    'password-recovery',
     'blogs',
-
-    // Studio
     'video-editor',
     'recording',
     'live-streaming',
-
-    // Use Cases
     'use-cases/webinars',
 
-    // Dashboard
-    'dashboard',
-    'dashboard/home',
+    // Auth
+    'login',
+    'register',
+    'password-recovery',
+    'verify-email',
 
     // Optional extras
     'sitemap.xml',
