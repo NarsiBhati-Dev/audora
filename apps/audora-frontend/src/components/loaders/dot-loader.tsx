@@ -8,7 +8,7 @@ const DotLoader = () => {
         {[...Array(3)].map((_, i) => (
           <div
             key={i}
-            className='h-2 w-2 rounded-full bg-[#a78bfa]'
+            className='bg-primary-500 h-2 w-2 rounded-full'
             style={{
               animation: `bounce 1s infinite ${i * 0.2}s`,
               transform: `scale(${1 - i * 0.1})`,

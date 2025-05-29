@@ -7,6 +7,7 @@ import FeatureGrid from '@/components/marketing/use-cases/FeatureGrid';
 import { FaUsers, FaVideo } from 'react-icons/fa';
 import { FaCalendarCheck } from 'react-icons/fa';
 import HeroSection from '@/components/marketing/use-cases/HeroSection';
+import siteMetadata from '@/lib/seo/siteMetadata';
 
 export const metadata = getPageMetadata({
   title: 'Audora Webinars',
@@ -19,21 +20,21 @@ const webinarFeatures = [
     title: 'HD Video & Audio',
     description:
       'Deliver crystal-clear presentations and discussions with studio-quality streaming.',
-    color: 'bg-[#7357FF]',
+    color: 'bg-primary-500',
   },
   {
     icon: <FaUsers />,
     title: 'Unlimited Attendees',
     description:
       'Scale your webinars to thousands without worrying about capacity or lag.',
-    color: 'bg-[#a78bfa]',
+    color: 'bg-primary-400',
   },
   {
     icon: <FaCalendarCheck />,
     title: 'Easy Scheduling',
     description:
       'Set up, schedule, and manage your webinars with just a few clicks.',
-    color: 'bg-[#18181b]',
+    color: 'bg-zinc-800',
   },
 ];
 
@@ -44,7 +45,7 @@ const WebinarsPage = () => {
         title='Professional Webinars Made Simple'
         description='Host stunning webinars with high-quality video and audio. Engage with your audience in real-time and grow your community.'
         buttonLabel='Start Webinar Now'
-        buttonHref='/dashboard'
+        buttonHref={siteMetadata.dashboard}
         imageSrc='/images/webinar-hero.png'
         imageAlt='Professional webinar setup with multiple screens showing webinar analytics, chat interface, and video preview'
       />

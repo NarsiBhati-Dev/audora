@@ -25,6 +25,9 @@ const siteMetadata = {
 
   socialBanner: `${SITE_URL}/images/social-banner-2.webp`,
 
+  // dashboard
+  dashboard: '/dashboard',
+
   // social links
   github: 'https://github.com/NarsiBhati-Dev/Audora',
   linkedIn: 'https://www.linkedin.com/in/narsi-bhati-b43459224/',

@@ -5,6 +5,7 @@ import { type UserLogin, UserLoginSchema } from '@audora/types';
 import { toast } from 'react-hot-toast';
 import { HashLoader } from 'react-spinners';
 import { signIn } from 'next-auth/react';
+import siteMetadata from '@/lib/seo/siteMetadata';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState<UserLogin>({
@@ -25,8 +26,7 @@ const LoginForm = () => {
       const result = await signIn('credentials', {
         email: validatedData.email,
         password: validatedData.password,
-        redirect: false,
-        callbackUrl: '/dashboard',
+        callbackUrl: siteMetadata.dashboard,
       });
 
       if (result?.error) {

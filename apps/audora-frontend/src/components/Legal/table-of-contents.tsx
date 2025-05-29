@@ -16,9 +16,9 @@ const TableOfContents = ({ sections }: TableOfContentsProps) => {
             <li key={section.id}>
               <Link
                 href={`#${section.id}`}
-                className='group hover:text-primary flex items-center rounded-md px-3 py-2 text-gray-600 transition-all'
+                className='group hover:text-primary-500 items-centre text-grey-600 flex rounded-md px-3 py-2 transition-all'
               >
-                <span className='group-hover:text-primary mr-3 text-sm font-medium text-gray-400'>
+                <span className='group-hover:text-primary-500 mr-3 text-sm font-medium text-gray-400'>
                   {index + 1}
                 </span>
                 <span className='font-medium'>{section.title}</span>

@@ -140,8 +140,8 @@ export default async function BlogsPage({
               }
               className={`rounded-full border px-5 py-2.5 text-sm font-medium transition-all duration-200 ${
                 selectedCategory === category
-                  ? 'border-primary bg-primary/10 shadow-primary/20 text-white shadow-lg'
-                  : 'hover:border-primary hover:bg-primary/5 border-gray-700 bg-black/30 text-gray-300 hover:text-white'
+                  ? 'border-primary-500 bg-primary-500/10 shadow-primary-500/20 text-white shadow-lg'
+                  : 'hover:border-primary-500 hover:bg-primary-500/5 border-gray-700 bg-black/30 text-gray-300 hover:text-white'
               }`}
             >
               {category}
@@ -156,7 +156,7 @@ export default async function BlogsPage({
           {filteredPosts.map(post => (
             <article
               key={post.id}
-              className='group hover:border-primary/50 relative overflow-hidden rounded-2xl border border-gray-800 bg-black/30 backdrop-blur-sm transition-all duration-300 hover:shadow-xl'
+              className='group hover:border-primary-500/50 relative overflow-hidden rounded-2xl border border-gray-800 bg-black/30 backdrop-blur-sm transition-all duration-300 hover:shadow-xl'
             >
               <div className='relative aspect-[16/9] overflow-hidden'>
                 <Image
@@ -166,7 +166,7 @@ export default async function BlogsPage({
                   className='object-cover transition-transform duration-500 group-hover:scale-105'
                 />
                 <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent' />
-                <span className='bg-primary/90 absolute top-4 right-4 rounded-full px-3 py-1 text-xs font-medium text-white shadow-lg'>
+                <span className='bg-primary-500/90 absolute top-4 right-4 rounded-full px-3 py-1 text-xs font-medium text-white shadow-lg'>
                   {post.category}
                 </span>
               </div>
@@ -176,7 +176,7 @@ export default async function BlogsPage({
                   <span>•</span>
                   <span>{post.readTime}</span>
                 </div>
-                <h2 className='group-hover:text-primary mb-3 cursor-pointer text-xl font-semibold text-white transition-colors duration-200'>
+                <h2 className='group-hover:text-primary-500 mb-3 cursor-pointer text-xl font-semibold text-white transition-colors duration-200'>
                   {post.title}
                 </h2>
                 <p className='line-clamp-3 text-gray-400'>{post.excerpt}</p>

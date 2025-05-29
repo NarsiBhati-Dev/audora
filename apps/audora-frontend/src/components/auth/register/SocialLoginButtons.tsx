@@ -38,7 +38,7 @@ export default function SocialLoginButtons({}: SocialLoginButtonsProps) {
       {socialButtons.map((button, index) => (
         <button
           key={button.label}
-          className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-xl border border-white/10 bg-gradient-to-r from-[#18181b] via-[#232329] to-[#18181b] text-2xl text-white shadow-lg transition-all duration-150 hover:scale-105 hover:ring-1 hover:ring-indigo-500 hover:outline-none'
+          className='hover:ring-primary-500 flex h-12 w-12 cursor-pointer items-center justify-center rounded-xl border border-white/10 bg-gradient-to-r from-[#18181b] via-[#232329] to-[#18181b] text-2xl text-white shadow-lg transition-all duration-150 hover:scale-105 hover:ring-1 hover:outline-none'
           onClick={() => handleClick(index)}
           aria-label={button.label}
         >

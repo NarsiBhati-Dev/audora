@@ -30,7 +30,7 @@ const TeamMemberCard = (member: TeamMemberSchema) => {
             href={member.linkedin}
             target='_blank'
             rel='noopener noreferrer'
-            className='transform rounded-md bg-white text-[#0A66C2] transition-all duration-300 hover:scale-110 hover:text-[#4a8bd9]'
+            className='text-primary-500 hover:text-primary-600 transform rounded-md bg-white transition-all duration-300 hover:scale-110'
             aria-label={`${member.name}'s LinkedIn`}
           >
             <LinkedInIcon />

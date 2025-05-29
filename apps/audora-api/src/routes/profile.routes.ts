@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.use(auth);
 
-router.post("/update-name", setProfileName);
+router.put("/update-name", setProfileName);
 
 export default router;

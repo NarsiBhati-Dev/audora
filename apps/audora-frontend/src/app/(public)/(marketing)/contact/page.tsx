@@ -59,7 +59,7 @@ const ContactPage = () => {
           <div className='space-y-6'>
             {contactMethods.map(method => (
               <div key={method.title} className='flex items-start gap-4'>
-                <div className='bg-primary/10 text-primary mt-1 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full'>
+                <div className='bg-primary-500/10 text-primary-500 mt-1 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full'>
                   {method.icon}
                 </div>
                 <div>
@@ -69,7 +69,7 @@ const ContactPage = () => {
                   {method.link ? (
                     <a
                       href={method.link}
-                      className='text-primary hover:text-primary-darker block font-medium break-all'
+                      className='text-primary-500 hover:text-primary-600 block font-medium break-all'
                     >
                       {method.value}
                     </a>

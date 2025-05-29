@@ -4,6 +4,7 @@ import { Menu, X } from 'lucide-react';
 import { products } from '@/data/ProductsList';
 import Logo from '../logo';
 import MobileDropdownSection from './mobile-dropdown-section';
+import siteMetadata from '@/lib/seo/siteMetadata';
 
 const noScrollbar = `
   .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -107,14 +108,14 @@ const MobileNavbar = ({ scrolled }: { scrolled: boolean }) => {
             {/* Auth Buttons - fixed at the bottom */}
             <div className='fixed bottom-0 left-0 z-50 w-full space-y-4 rounded-b-2xl bg-white p-4 shadow-[0_-8px_24px_-8px_rgba(0,0,0,0.04)]'>
               <Link
-                href='/dashboard'
+                href={siteMetadata.dashboard}
                 className='block w-full rounded-lg border-2 border-black py-4 text-center text-lg font-bold'
                 onClick={() => setIsOpen(false)}
               >
                 Login
               </Link>
               <Link
-                href='/dashboard'
+                href={siteMetadata.dashboard}
                 className='block w-full rounded-lg bg-black py-4 text-center text-lg font-bold text-white'
                 onClick={() => setIsOpen(false)}
               >

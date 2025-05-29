@@ -20,8 +20,8 @@ const ProductItem = ({
   return (
     <Link href={href} aria-label={title} className='block'>
       <div className='group flex w-full cursor-pointer items-start gap-3 rounded-lg p-3 transition-colors hover:bg-zinc-100'>
-        <div className='bg-primary-light rounded-md p-3'>
-          <Icon className='h-5 w-5 text-[#7b61ff]' />
+        <div className='bg-primary-100 rounded-md p-3'>
+          <Icon className='text-primary-500 h-5 w-5' />
         </div>
         <div>
           <p className='text-sm font-semibold text-black group-hover:text-[#7b61ff]'>

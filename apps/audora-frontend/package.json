@@ -22,12 +22,13 @@
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
     "react-icons": "^5.5.0",
-    "react-spinners": "^0.17.0"
+    "react-spinners": "^0.17.0",
+    "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@audora/eslint-config": "*",
-    "@audora/typescript-config": "*",
     "@audora/types": "*",
+    "@audora/typescript-config": "*",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",

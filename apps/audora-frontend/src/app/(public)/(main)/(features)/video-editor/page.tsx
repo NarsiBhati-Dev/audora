@@ -8,6 +8,7 @@ import FeatureGrid from '@/components/marketing/use-cases/FeatureGrid';
 import { FaLayerGroup, FaMagic, FaShareAlt, FaUsers } from 'react-icons/fa';
 import { FaCut, FaVideo } from 'react-icons/fa';
 import HeroSection from '@/components/marketing/use-cases/HeroSection';
+import siteMetadata from '@/lib/seo/siteMetadata';
 
 export const metadata = getPageMetadata({
   title: 'Audora Video Editor',
@@ -20,42 +21,42 @@ const videoEditorFeatures = [
     title: 'Multi-Format Support',
     description:
       'Import and export videos in various formats with support for high resolutions up to 4K',
-    color: 'bg-[#7357FF]',
+    color: 'bg-primary-500',
   },
   {
     icon: <FaCut />,
     title: 'Advanced Editing Tools',
     description:
       'Trim, cut, and arrange clips with precision using our intuitive timeline interface',
-    color: 'bg-[#a78bfa]',
+    color: 'bg-primary-400',
   },
   {
     icon: <FaLayerGroup />,
     title: 'Multi-Track Editing',
     description:
       'Work with multiple video and audio tracks for complex projects and overlays',
-    color: 'bg-[#18181b]',
+    color: 'bg-zinc-800',
   },
   {
     icon: <FaMagic />,
     title: 'Professional Effects',
     description:
       'Apply transitions, filters, and effects to enhance your videos with just a few clicks',
-    color: 'bg-[#7357FF]',
+    color: 'bg-primary-500',
   },
   {
     icon: <FaShareAlt />,
     title: 'Easy Export & Sharing',
     description:
       'Export your videos in various formats and share them directly to social media',
-    color: 'bg-[#a78bfa]',
+    color: 'bg-primary-400',
   },
   {
     icon: <FaUsers />,
     title: 'Team Collaboration',
     description:
       'Work together with your team in real-time, share feedback, and manage projects',
-    color: 'bg-[#18181b]',
+    color: 'bg-zinc-800',
   },
 ];
 
@@ -66,7 +67,7 @@ const VideoEditorPage = () => {
         title='Professional Video Editing Made Simple'
         description='Edit your videos with professional-grade tools. Perfect for creating content for social media, YouTube, and more.'
         buttonLabel='Start Editing Now'
-        buttonHref='/dashboard'
+        buttonHref={siteMetadata.dashboard}
         imageSrc='/images/video-editor-hero.png'
         imageAlt='Professional video editing setup with multiple video clips and effects'
       />

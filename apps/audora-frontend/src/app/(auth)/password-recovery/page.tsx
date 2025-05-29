@@ -19,9 +19,9 @@ const PasswordRecoveryPage = () => {
           placeholder='Enter your email...'
           value={email}
           onChange={e => setEmail(e.target.value)}
-          className='focus:ring-primary w-full rounded bg-zinc-900 px-4 py-2 text-white placeholder-zinc-500 focus:ring-1 focus:outline-none'
+          className='focus:ring-primary-500 w-full rounded bg-zinc-900 px-4 py-2 text-white placeholder-zinc-500 focus:ring-1 focus:outline-none'
         />
-        <button className='bg-primary hover:bg-primary-darker w-full cursor-pointer rounded py-2 font-semibold text-white transition-colors'>
+        <button className='bg-primary-500 hover:bg-primary-600 w-full cursor-pointer rounded py-2 font-semibold text-white transition-colors'>
           Send reset link
         </button>
         <Link
