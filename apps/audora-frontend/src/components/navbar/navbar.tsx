@@ -6,6 +6,7 @@ import HoverCard from './hover-card';
 import Image from 'next/image';
 import { products } from '@/data/ProductsList';
 import ProductItem from './product-item';
+import siteMetadata from '@/lib/seo/siteMetadata';
 
 const Navbar = ({ scrolled }: { scrolled: boolean }) => {
   const textColor = scrolled
@@ -57,11 +58,11 @@ const Navbar = ({ scrolled }: { scrolled: boolean }) => {
       </ul>
 
       <div className='flex items-center space-x-4 text-base font-semibold'>
-        <Link href='/dashboard' className={`${textColor}`}>
+        <Link href={siteMetadata.dashboard} className={`${textColor}`}>
           Login
         </Link>
         <Link
-          href='/dashboard'
+          href={siteMetadata.dashboard}
           className={`${buttonBg} cursor-pointer rounded-lg px-4 py-2`}
         >
           Start for Free

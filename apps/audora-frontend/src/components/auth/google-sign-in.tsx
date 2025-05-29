@@ -1,5 +1,6 @@
 'use client';
 
+import siteMetadata from '@/lib/seo/siteMetadata';
 import { signIn } from 'next-auth/react';
 import { toast } from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
@@ -9,7 +10,7 @@ const GoogleSignIn = () => {
     try {
       const result = await signIn('google', {
         redirect: false,
-        callbackUrl: '/dashboard',
+        callbackUrl: siteMetadata.dashboard,
       });
 
       if (result?.error) {

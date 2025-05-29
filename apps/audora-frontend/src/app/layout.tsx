@@ -15,7 +15,7 @@ const open_sans = Open_Sans({
 export const metadata: Metadata = {
   title: {
     default: siteMetadata.title,
-    template: 'Audora.XYZ | %s',
+    template: 'Audora.xyz | %s',
   },
   description: siteMetadata.description,
 
@@ -78,7 +78,23 @@ export default function RootLayout({
         <ReactQueryProvider>
           {children}
           <BackToTopButton />
-          <Toaster position='top-right' reverseOrder={false} />
+          <Toaster
+            position='top-right'
+            reverseOrder={false}
+            toastOptions={{
+              style: {
+                background: '#1a1a1a',
+                color: '#fff',
+                border: '1px solid #222',
+                borderRadius: '10px',
+                padding: '10px',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                zIndex: 1000,
+              },
+            }}
+          />
         </ReactQueryProvider>
       </body>
     </html>

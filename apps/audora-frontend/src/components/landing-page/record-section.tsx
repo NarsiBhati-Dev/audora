@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import siteMetadata from '@/lib/seo/siteMetadata';
 
 interface Participant {
   name: string;
@@ -58,15 +59,15 @@ const RecordSection = () => {
         </p>
         <div className='mb-12 flex flex-col justify-center gap-4 sm:flex-row'>
           <a
-            href='/dashboard'
-            className='bg-primary hover:bg-primary-darker focus:ring-primary rounded-lg px-8 py-3 text-lg font-semibold text-white shadow transition-all duration-300 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-none'
+            href={siteMetadata.dashboard}
+            className='bg-primary-500 hover:bg-primary-600 focus:ring-primary-500 rounded-lg px-8 py-3 text-lg font-semibold text-white shadow transition-all duration-300 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-none'
             aria-label='Start recording for free'
           >
             Start for Free
           </a>
           <a
             href='/recording'
-            className='group text-primary hover:text-primary-darker flex items-center justify-center font-medium transition-all duration-300 hover:underline'
+            className='group text-primary-500 hover:text-primary-600 flex items-center justify-center font-medium transition-all duration-300 hover:underline'
           >
             Learn more{' '}
             <span className='ml-1 transition-transform duration-300 group-hover:translate-x-1'>
@@ -138,13 +139,13 @@ const RecordSection = () => {
                         {p.resolution}
                       </span>
                       <button
-                        className='hover:text-primary text-white transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-50'
+                        className='hover:text-primary-500 text-white transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-50'
                         aria-label={`Download ${p.name}'s WAV file`}
                       >
                         {`"WAV"`}
                       </button>
                       <button
-                        className='hover:text-primary text-white transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-50'
+                        className='hover:text-primary-500 text-white transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-50'
                         aria-label={`Download ${p.name}'s MP4 file`}
                       >
                         {`"MP4"`}

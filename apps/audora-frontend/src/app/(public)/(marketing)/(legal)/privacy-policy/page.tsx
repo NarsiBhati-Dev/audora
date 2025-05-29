@@ -147,7 +147,7 @@ const PrivacyPolicyPage = () => {
                 To exercise these rights, contact us at{' '}
                 <a
                   href='mailto:privacy@audora.xyz'
-                  className='font-medium text-blue-600 transition-colors hover:text-blue-800'
+                  className='text-primary-500 hover:text-primary-600 font-medium transition-colors'
                 >
                   privacy@audora.xyz
                 </a>
@@ -213,7 +213,7 @@ const PrivacyPolicyPage = () => {
               contact us at: <br />
               <a
                 href='mailto:privacy@audora.xyz'
-                className='font-medium text-blue-600 transition-colors hover:text-blue-800'
+                className='text-primary-500 hover:text-primary-600 font-medium transition-colors'
               >
                 privacy@audora.xyz
               </a>

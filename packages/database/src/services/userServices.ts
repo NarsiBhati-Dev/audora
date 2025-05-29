@@ -1,3 +1,4 @@
+import type { User } from "@prisma/client";
 import { client } from "..";
 
 export const createUser = async ({
@@ -37,4 +38,13 @@ export const getUserById = async (id: string) => {
   });
 
   return existingUser;
+};
+
+export const updateUserById = async (id: string, name: string) => {
+  const updatedUser = await client.user.update({
+    where: { id },
+    data: { name },
+  });
+
+  return updatedUser;
 };

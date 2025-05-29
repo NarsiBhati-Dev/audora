@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import siteMetadata from '@/lib/seo/siteMetadata';
 
 const EditSection = () => {
   return (
@@ -12,15 +13,15 @@ const EditSection = () => {
         </p>
         <div className='mb-12 flex flex-col justify-center gap-4 sm:flex-row'>
           <a
-            href='/dashboard'
-            className='bg-primary hover:bg-primary-darker focus:ring-primary rounded-lg px-8 py-3 text-lg font-semibold text-white shadow transition-all duration-300 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-none'
+            href={siteMetadata.dashboard}
+            className='bg-primary-500 hover:bg-primary-600 focus:ring-primary-500 rounded-lg px-8 py-3 text-lg font-semibold text-white shadow transition-all duration-300 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-none'
             aria-label='Start editing for free'
           >
             Start for Free
           </a>
           <a
             href='/video-editor'
-            className='group flex items-center justify-center font-medium text-[#7357FF] transition-all duration-300 hover:text-[#5a3fdc] hover:underline'
+            className='group text-primary-500 hover:text-primary-600 flex items-center justify-center font-medium transition-all duration-300 hover:underline'
           >
             Learn more{' '}
             <span className='ml-1 transition-transform duration-300 group-hover:translate-x-1'>

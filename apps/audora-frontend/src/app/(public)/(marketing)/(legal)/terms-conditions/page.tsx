@@ -237,7 +237,7 @@ const TermsConditionsPage = () => {
               contact us at: <br />
               <a
                 href='mailto:legal@audora.xyz'
-                className='font-medium text-blue-600 transition-colors hover:text-blue-800'
+                className='text-primary-500 hover:text-primary-600 font-medium transition-colors'
               >
                 legal@audora.xyz
               </a>

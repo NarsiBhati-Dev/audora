@@ -235,7 +235,7 @@ const RegisterWithForm = ({ onBack }: { onBack?: () => void }) => {
             Have an account?{' '}
             <a
               href='/login'
-              className='hover:text-primary cursor-pointer text-[#a78bfa] underline'
+              className='text-primary-500 hover:text-primary-600 cursor-pointer underline'
             >
               Log in
             </a>

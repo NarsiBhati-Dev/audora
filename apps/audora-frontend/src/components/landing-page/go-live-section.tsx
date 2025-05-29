@@ -11,6 +11,7 @@ import {
 } from 'react-icons/fa6';
 import Image from 'next/image';
 import Link from 'next/link';
+import siteMetadata from '@/lib/seo/siteMetadata';
 
 const leftIcons = [
   {
@@ -80,15 +81,15 @@ const GoLiveSection = () => {
         </p>
         <div className='mb-12 flex flex-col justify-center gap-4 sm:flex-row'>
           <Link
-            href='/dashboard'
-            className='group bg-primary hover:bg-primary-darker hover:shadow-primary/25 relative cursor-pointer rounded-lg px-8 py-3 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl sm:text-lg'
+            href={siteMetadata.dashboard}
+            className='group bg-primary-500 hover:bg-primary-600 hover:shadow-primary/25 relative cursor-pointer rounded-lg px-8 py-3 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl sm:text-lg'
           >
             <span className='relative z-10'>Start for Free</span>
             <div className='absolute inset-0 -z-10 rounded-lg bg-gradient-to-r from-[#7357FF] to-[#5a3fdc] opacity-0 blur transition-opacity duration-300 group-hover:opacity-100'></div>
           </Link>
           <Link
             href='/use-cases/webinars'
-            className='group text-primary hover:text-primary-darker flex items-center justify-center font-medium transition-all duration-300 hover:underline'
+            className='group text-primary-500 hover:text-primary-600 flex items-center justify-center font-medium transition-all duration-300 hover:underline'
           >
             Learn more{' '}
             <span className='ml-1 transition-transform duration-300 group-hover:translate-x-1'>
@@ -132,7 +133,7 @@ const GoLiveSection = () => {
                 height={700}
                 src='/images/go-live-section.png'
                 alt='Product Screenshot'
-                className='w-[700px] max-w-full rounded-xl border-4 border-[#a78bfa] shadow-2xl transition-all duration-300 hover:shadow-[#a78bfa]/30'
+                className='border-primary-500 hover:shadow-primary-500/30 w-[700px] max-w-full rounded-xl border-4 shadow-2xl transition-all duration-300'
               />
               <div className='absolute top-4 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-lg border border-zinc-700/50 bg-zinc-800/90 px-4 py-1.5 text-xs font-semibold text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-zinc-800/95'>
                 <span className='relative h-2 w-2'>

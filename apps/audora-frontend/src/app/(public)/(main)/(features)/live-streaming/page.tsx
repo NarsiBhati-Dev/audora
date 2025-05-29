@@ -6,6 +6,7 @@ import FeatureGrid from '@/components/marketing/use-cases/FeatureGrid';
 import { Mic } from 'lucide-react';
 import { Clock, Share2, Users, Video } from 'lucide-react';
 import HeroSection from '@/components/marketing/use-cases/HeroSection';
+import siteMetadata from '@/lib/seo/siteMetadata';
 export const metadata = getPageMetadata({
   title: 'Audora Live Streaming',
   description: 'Live Streaming with Audora',
@@ -17,35 +18,35 @@ const streamingFeatures = [
     title: 'High Quality Streaming',
     description:
       'Stream in up to 4K resolution with adaptive bitrate for the best viewing experience',
-    color: 'bg-[#7357FF]',
+    color: 'bg-primary-500',
   },
   {
     icon: <Users />,
     title: 'Real-time Interaction',
     description:
       'Engage with your audience through live chat, polls, and Q&A sessions',
-    color: 'bg-[#a78bfa]',
+    color: 'bg-primary-400',
   },
   {
     icon: <Share2 />,
     title: 'Multi-platform Streaming',
     description:
       'Stream simultaneously to multiple platforms with a single setup',
-    color: 'bg-[#18181b]',
+    color: 'bg-zinc-800',
   },
   {
     icon: <Mic />,
     title: 'Professional Audio',
     description:
       'Crystal clear audio with noise reduction and echo cancellation',
-    color: 'bg-[#7357FF]',
+    color: 'bg-primary-500',
   },
   {
     icon: <Clock />,
     title: 'Recording & Replay',
     description:
       'Automatically record your streams and make them available for replay',
-    color: 'bg-[#a78bfa]',
+    color: 'bg-primary-400',
   },
 ];
 
@@ -57,7 +58,7 @@ const LiveStreamPage = () => {
         title='Professional Live Streaming Made Simple'
         description='Stream your content with studio-quality video and audio. Engage with your audience in real-time and grow your community.'
         buttonLabel='Start Streaming'
-        buttonHref='/dashboard'
+        buttonHref={siteMetadata.dashboard}
         imageSrc='/images/live-streaming-hero.png'
         imageAlt='Professional live streaming setup with multiple screens showing stream analytics, chat interface, and video preview'
       />
@@ -82,8 +83,8 @@ const LiveStreamPage = () => {
           </p>
           <div className='flex justify-center'>
             <Link
-              href='/dashboard'
-              className='bg-primary hover:bg-primary-darker inline-flex items-center justify-center rounded-xl px-8 py-4 font-semibold text-white shadow-lg transition-colors hover:shadow-xl'
+              href={siteMetadata.dashboard}
+              className='bg-primary-500 hover:bg-primary-600 inline-flex items-center justify-center rounded-xl px-8 py-4 font-semibold text-white shadow-lg transition-colors hover:shadow-xl'
             >
               Start Streaming Now
             </Link>

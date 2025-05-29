@@ -32,7 +32,10 @@ const authOptions: NextAuthOptions = {
             throw new Error('Invalid credentials');
           }
 
-          return response.user;
+          return {
+            ...response.user,
+            accessToken: response.accessToken,
+          };
         } catch (error) {
           if (error instanceof Error) {
             throw new Error(error.message);

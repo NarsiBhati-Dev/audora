@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import siteMetadata from '@/lib/seo/siteMetadata';
 
 const options = [
   'Podcasts',
@@ -35,7 +36,7 @@ const HeroSection = () => {
         <h1 className='mb-4 text-left text-3xl leading-tight font-extrabold text-white sm:text-4xl md:mb-6 md:text-5xl lg:text-6xl'>
           Create Your Best
           <br />
-          Content Yet<span className='text-primary'>.</span>
+          Content Yet<span className='text-primary-500'>.</span>
         </h1>
         <p className='mb-6 max-w-xl text-left text-base text-gray-200 sm:text-lg md:mb-8 md:text-xl'>
           Record studio-quality podcasts from anywhere. Connect with guests
@@ -55,8 +56,8 @@ const HeroSection = () => {
           ))}
         </div>
         <Link
-          href='/dashboard'
-          className='bg-primary hover:bg-primary-darker mb-2 inline-block w-full rounded-lg px-6 py-3 text-center text-base font-semibold text-white shadow-lg transition-colors sm:w-auto sm:px-8 sm:py-4 sm:text-lg'
+          href={siteMetadata.dashboard}
+          className='bg-primary-500 hover:bg-primary-600 mb-2 inline-block w-full rounded-lg px-6 py-3 text-center text-base font-semibold text-white shadow-lg transition-colors sm:w-auto sm:px-8 sm:py-4 sm:text-lg'
         >
           Start Podcasting
         </Link>

@@ -14,7 +14,7 @@ const Loading = () => {
             <p className='text-2xl font-bold text-white'>
               Warming up the engines…
             </p>
-            <div className='absolute -inset-x-4 -bottom-2 h-0.5 animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-[#a78bfa] to-transparent'></div>
+            <div className='via-primary-500 via-primary-500 absolute -inset-x-4 -bottom-2 h-0.5 animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent to-transparent'></div>
           </div>
         </div>
 
