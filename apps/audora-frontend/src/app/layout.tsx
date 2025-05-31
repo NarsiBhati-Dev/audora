@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Open_Sans } from 'next/font/google';
 import '@audora/tailwind-css';
 import siteMetadata from '@/lib/seo/siteMetadata';
-import BackToTopButton from '@/components/back-to-top-button';
 import { Toaster } from 'react-hot-toast';
 import ReactQueryProvider from '@/lib/react-query';
 
@@ -77,7 +76,6 @@ export default function RootLayout({
       >
         <ReactQueryProvider>
           {children}
-          <BackToTopButton />
           <Toaster
             position='top-right'
             reverseOrder={false}

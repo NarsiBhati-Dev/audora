@@ -13,7 +13,7 @@ interface LogoParams {
 
 const Logo = ({ scrolled, page, href = '/' }: LogoParams) => {
   return (
-    <Link href={href} className='flex items-center space-x-1.5'>
+    <Link href={href} className='flex items-center gap-2'>
       <Image
         src={
           scrolled
@@ -21,14 +21,17 @@ const Logo = ({ scrolled, page, href = '/' }: LogoParams) => {
             : '/images/audora-logo-white.webp'
         }
         alt='Audora Logo'
-        width={24}
-        height={24}
-        className='rounded-sm'
+        width={20}
+        height={20}
+        className='rounded-sm object-cover'
       />
       <span
-        className={`text-lg font-semibold ${scrolled ? 'text-black' : 'text-white'}`}
+        className={`text-lg font-semibold ${scrolled ? 'text-black' : 'text-zinc-200'}`}
       >
-        {siteMetadata.header} {page && ` | ${page}`}
+        {siteMetadata.header}{' '}
+        <span className='font-normal text-zinc-300'>
+          {page && ` | ${page}`}
+        </span>
       </span>
     </Link>
   );

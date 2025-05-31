@@ -40,7 +40,7 @@ const DashboardSidebar = () => {
 
   return (
     <aside
-      className={`bg-dashboard-bg hidden h-screen flex-col justify-between pl-2 text-white transition-all duration-300 ease-in-out md:flex`}
+      className={`bg-dashboard-bg hidden h-screen flex-col justify-between pl-2 text-white transition-all duration-300 ease-in-out lg:flex`}
       style={{ width: open ? '16rem' : '4.5rem' }}
     >
       {/* Top Section */}
@@ -128,7 +128,7 @@ const DashboardSidebar = () => {
 
       {/* Bottom Section */}
       <div
-        className={`flex flex-col gap-6 px-2 pb-8 ${open ? '' : 'items-center'}`}
+        className={`flex flex-col gap-4 px-2 pb-8 ${open ? '' : 'items-center'}`}
       >
         {/* Studio and Invite */}
         <div
@@ -158,7 +158,7 @@ const DashboardSidebar = () => {
         {/* Settings */}
 
         <Link
-          href='/dashboard/account/settings'
+          href='/dashboard/account/studio-settings'
           className={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium transition hover:bg-[#292929] ${open ? '' : 'justify-center px-3 py-3'}`}
         >
           <FiSettings size={20} />

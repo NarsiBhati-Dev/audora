@@ -9,17 +9,17 @@ const navItems = [
   {
     label: 'Profile',
     href: '/dashboard/account/settings',
-    icon: <FiUser size={26} />,
+    icon: <FiUser size={24} />,
   },
   {
     label: 'Subscription',
     href: '/dashboard/account/subscription',
-    icon: <FiCreditCard size={26} />,
+    icon: <FiCreditCard size={24} />,
   },
   {
     label: 'Studio settings',
     href: '/dashboard/account/studio-settings',
-    icon: <FiSettings size={26} />,
+    icon: <FiSettings size={24} />,
   },
 ];
 
@@ -28,7 +28,7 @@ const AccountSidebar = () => {
   return (
     <>
       {/* Sidebar */}
-      <aside className='mt-12 hidden w-64 flex-shrink-0 p-6 md:block'>
+      <aside className='mt-12 hidden w-64 flex-shrink-0 p-6 lg:block'>
         {/* Account Section */}
         <div className='mb-8'>
           <h2

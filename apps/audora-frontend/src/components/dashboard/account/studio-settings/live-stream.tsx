@@ -9,8 +9,18 @@ import {
   TwitchIcon,
   TikTokIcon,
   RTMPIcon,
+  StreamingResolutionIcon,
+  AudienceInfoIcon,
+  ZapIcon,
 } from '@/data/icons';
 import Link from 'next/link';
+import QualitySelector from './quality-selector';
+
+const qualityOptions = [
+  { label: '720p', value: '720p' },
+  { label: '1080p', value: '1080p', isBoosted: true },
+];
+
 const socialPlatforms = [
   {
     name: 'YouTube',
@@ -53,9 +63,10 @@ const LiveStreamTab = () => {
   const [hideWatermark, setHideWatermark] = useState(false);
   const [liveStreamChat, setLiveStreamChat] = useState(true);
   const [audienceCount, setAudienceCount] = useState(true);
+  const [selectedQuality, setSelectedQuality] = useState('1080p');
 
   return (
-    <div className='flex max-w-2xl flex-col gap-6'>
+    <div className='flex w-full flex-col gap-4 md:gap-6'>
       {/* Description */}
       <div className='text-xs text-zinc-400'>
         Manage your live stream and audience settings.{' '}
@@ -87,24 +98,7 @@ const LiveStreamTab = () => {
           <div className='mb-2 flex items-center gap-2 text-xl font-bold text-white'>
             {' '}
             <span>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                width='20'
-                height='20'
-                viewBox='0 0 20 20'
-                fill='none'
-                className='injected-svg'
-                data-src='https://app.riverside.fm/6.72.10/static/media/settings-04.d6ca069f80fc67cd41fb.svg'
-                xmlnsXlink='http://www.w3.org/1999/xlink'
-              >
-                <path
-                  d='M2.5 6.66669L12.5 6.66669M12.5 6.66669C12.5 8.0474 13.6193 9.16669 15 9.16669C16.3807 9.16669 17.5 8.0474 17.5 6.66669C17.5 5.28598 16.3807 4.16669 15 4.16669C13.6193 4.16669 12.5 5.28598 12.5 6.66669ZM7.5 13.3334L17.5 13.3334M7.5 13.3334C7.5 14.7141 6.38071 15.8334 5 15.8334C3.61929 15.8334 2.5 14.7141 2.5 13.3334C2.5 11.9526 3.61929 10.8334 5 10.8334C6.38071 10.8334 7.5 11.9526 7.5 13.3334Z'
-                  stroke='currentColor'
-                  strokeWidth='1.5'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                ></path>
-              </svg>
+              <StreamingResolutionIcon className='h-6 w-6' />
             </span>{' '}
             Stream settings
           </div>
@@ -113,20 +107,21 @@ const LiveStreamTab = () => {
             Choose the live streaming quality. This applies to the stream only,
             your recording resolution can be configured separately.
           </div>
-          <div className='flex gap-2'>
-            <button className='rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-1 text-sm font-medium text-white'>
-              720p
-            </button>
-            <button className='flex items-center gap-1 rounded-lg border border-green-700 bg-green-700 px-4 py-1 text-sm font-semibold text-white'>
-              1080p <span className='text-xs'>⚡</span>
-            </button>
-          </div>
+
+          <QualitySelector
+            options={qualityOptions}
+            selected={selectedQuality}
+            onSelect={setSelectedQuality}
+          />
         </div>
         {/* Hide watermark */}
         <div className='flex flex-col justify-between gap-2'>
           <div className='flex items-center justify-between gap-2'>
             <div className='flex items-center gap-1 font-bold'>
-              Hide watermark <span className='text-sm'>⚡</span>
+              Hide watermark{' '}
+              <span className='rounded-md bg-zinc-800 p-1'>
+                <ZapIcon className='h-4 w-4 text-yellow-500' />
+              </span>
             </div>
             <ToggleSwitch
               checked={hideWatermark}
@@ -160,26 +155,9 @@ const LiveStreamTab = () => {
 
       {/* Audience info */}
       <section className='flex flex-col gap-2 rounded-xl bg-zinc-900 p-6 shadow'>
-        <h4 className='mb-2 flex items-center gap-2 text-xl font-bold'>
+        <h4 className='mb-4 flex items-center gap-2 text-xl font-bold'>
           <span>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              width='20'
-              height='20'
-              viewBox='0 0 20 20'
-              fill='none'
-              className='injected-svg'
-              data-src='https://app.riverside.fm/6.72.10/static/media/users-03.02d5891b575cff2148d5.svg'
-              xmlnsXlink='http://www.w3.org/1999/xlink'
-            >
-              <path
-                d='M15.0004 13.1974C16.2136 13.8069 17.2538 14.785 18.0131 16.008C18.1634 16.2502 18.2386 16.3713 18.2646 16.539C18.3174 16.8798 18.0844 17.2988 17.767 17.4336C17.6108 17.5 17.4351 17.5 17.0837 17.5M13.3337 9.6102C14.5685 8.99657 15.417 7.72238 15.417 6.25C15.417 4.77762 14.5685 3.50343 13.3337 2.8898M11.667 6.25C11.667 8.32107 9.98809 10 7.91702 10C5.84595 10 4.16702 8.32107 4.16702 6.25C4.16702 4.17893 5.84595 2.5 7.91702 2.5C9.98809 2.5 11.667 4.17893 11.667 6.25ZM2.13304 15.782C3.46163 13.7871 5.55816 12.5 7.91702 12.5C10.2759 12.5 12.3724 13.7871 13.701 15.782C13.9921 16.219 14.1376 16.4375 14.1208 16.7166C14.1078 16.9339 13.9653 17.2 13.7917 17.3313C13.5686 17.5 13.2619 17.5 12.6484 17.5H3.18565C2.57216 17.5 2.26542 17.5 2.04238 17.3313C1.86873 17.2 1.72626 16.9339 1.71321 16.7166C1.69646 16.4375 1.84199 16.219 2.13304 15.782Z'
-                stroke='currentColor'
-                strokeWidth='1.5'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-              ></path>
-            </svg>
+            <AudienceInfoIcon className='h-6 w-6' />
           </span>{' '}
           Audience info
         </h4>

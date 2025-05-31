@@ -4,12 +4,12 @@ import {
   PiPaintBrushDuotone,
   PiTrashDuotone,
   PiChatsCircleDuotone,
-  PiCaretDownDuotone,
 } from 'react-icons/pi';
 import { useUserProfileStore } from '@/store/user-profile';
 import { useStudioSettingStore } from '@/store/studio-setting';
 import RemoveStudio from './remove-studio';
 import { ToggleSwitch } from '../toggle-switch';
+import { HiOutlineChevronDown } from 'react-icons/hi';
 
 const GeneralTab = () => {
   const { userProfile, setUserProfile } = useUserProfileStore();
@@ -68,7 +68,7 @@ const GeneralTab = () => {
   };
 
   return (
-    <div className='flex w-full flex-col gap-6 overflow-x-hidden md:mx-auto md:max-w-2xl'>
+    <div className='flex w-full flex-col gap-4 overflow-x-hidden md:gap-6'>
       {/* Description */}
       <div className='text-xs text-zinc-400'>
         Manage general settings related to the recording studio.{' '}
@@ -97,7 +97,7 @@ const GeneralTab = () => {
             type='text'
             value={studioSetting.name}
             onChange={handleInputChange}
-            className='focus:outline-primary-500 rounded-lg border-none bg-zinc-800 px-4 py-2 text-white placeholder:text-zinc-500'
+            className='focus:outline-primary-500 focus:ring-primary-500 rounded-lg border-none bg-zinc-800 px-4 py-2 text-white outline-none placeholder:text-zinc-500 focus:ring-1'
             placeholder='Enter studio name'
             required
           />
@@ -171,7 +171,7 @@ const GeneralTab = () => {
               className='focus:ring-primary-500 flex w-full cursor-pointer items-center justify-between rounded-lg border-none bg-zinc-800 px-4 py-2 text-white focus:ring-2 focus:outline-none'
             >
               <span>{studioSetting.language}</span>
-              <PiCaretDownDuotone
+              <HiOutlineChevronDown
                 className={`transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
                 size={20}
               />
