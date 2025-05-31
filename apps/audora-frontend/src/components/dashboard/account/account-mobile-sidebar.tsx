@@ -62,7 +62,7 @@ const AccountMobileSidebar = () => {
   return (
     <>
       {/* Trigger Button */}
-      <div className='sticky top-0 z-50 py-3 md:hidden'>
+      <div className='sticky top-0 z-50 py-3 lg:hidden'>
         <button
           onClick={() => setIsOpen(prev => !prev)}
           className='flex items-center gap-2 rounded-full text-white'

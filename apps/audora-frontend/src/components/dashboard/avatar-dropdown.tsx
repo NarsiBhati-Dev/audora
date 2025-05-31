@@ -41,40 +41,43 @@ export default function AvatarDropdown({ collapsed = false }) {
           transition={{ duration: 0.15 }}
           className={
             collapsed
-              ? 'origin-top-center absolute right-0 bottom-full left-[130px] mb-3 w-64 -translate-x-1/2 rounded-2xl border border-[#2c2c2c] bg-[#1a1a1a] p-4 shadow-xl'
-              : 'absolute right-[-10px] bottom-full mb-3 w-64 origin-top-right rounded-2xl border border-[#2c2c2c] bg-[#1a1a1a] p-4 shadow-xl md:right-[-30px]'
+              ? 'origin-top-center absolute right-0 bottom-full left-[130px] mb-3 w-68 -translate-x-1/2 overflow-hidden rounded-2xl border border-[#2c2c2c] bg-[#1a1a1a] p-4 shadow-xl'
+              : 'absolute right-[-10px] bottom-full mb-3 w-64 origin-top-right overflow-hidden rounded-2xl border border-[#2c2c2c] bg-[#1a1a1a] shadow-xl md:right-[-30px]'
           }
         >
-          <div className='mb-4'>
+          <Link
+            href='/dashboard/account/subscription'
+            className='m-2 block rounded-lg p-4 hover:bg-zinc-800'
+          >
             <p className='text-sm text-gray-400'>Free Plan</p>
             <p className='text-lg font-semibold text-white'>00:00 / 2 hours</p>
-          </div>
+          </Link>
 
-          <div className='space-y-4'>
+          <div className='flex flex-col gap-1 border-t border-zinc-700 p-2'>
             <Link
               href='/upgrade'
-              className='flex items-center gap-3 text-base font-medium text-lime-400 transition hover:text-lime-300'
+              className='flex items-center gap-3 rounded-lg p-2 text-base font-medium text-lime-400 transition hover:bg-zinc-800 hover:text-lime-300'
             >
               <MdBolt className='text-lime-400' size={18} />
               Unlock more features
             </Link>
             <Link
               href='/demo'
-              className='flex items-center gap-3 text-base font-medium text-white transition hover:text-gray-200'
+              className='flex items-center gap-3 rounded-lg p-2 text-base font-medium text-white transition hover:bg-zinc-800 hover:text-gray-200'
             >
               <MdOutlinePlayCircle size={20} />
               Watch a demo
             </Link>
             <Link
               href='/dashboard/account/settings'
-              className='flex items-center gap-3 text-base font-medium text-white transition hover:text-gray-200'
+              className='flex items-center gap-3 rounded-lg p-2 text-base font-medium text-white transition hover:bg-zinc-800 hover:text-gray-200'
             >
               <FiUser size={20} />
               Manage account
             </Link>
             <button
               onClick={() => signOut({ callbackUrl: '/' })}
-              className='flex w-full items-center gap-3 text-left text-base font-medium text-white transition hover:text-red-400'
+              className='flex w-full items-center gap-3 rounded-lg p-2 text-left text-base font-medium text-white transition hover:bg-zinc-800 hover:text-red-400'
             >
               <FiLogOut size={18} />
               Log out

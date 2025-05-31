@@ -13,7 +13,12 @@ const SettingsPage = async () => {
   const session = await getServerSession(authOptions);
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div
+      className='flex flex-col gap-4'
+      style={{
+        scrollbarWidth: 'none',
+      }}
+    >
       <ProfileCard
         name={session?.user?.name ?? ''}
         email={session?.user?.email ?? ''}

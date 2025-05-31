@@ -3,15 +3,17 @@ import AccountSidebar from '@/components/dashboard/account/account-sidebar';
 
 const StudioSettingsLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='mx-auto flex max-w-4xl text-white'>
+    <div className='mx-auto flex h-[calc(82vh-4rem)] max-w-6xl text-white md:h-[calc(90vh-4rem)]'>
       <AccountSidebar />
-      {/* Main content */}
-      <main className='flex-1'>
-        <div className='mb-6 flex items-start justify-start'>
+
+      <main className='flex flex-1 flex-col overflow-hidden'>
+        <div className='mb-6 px-4 pt-4'>
           <h1 className='text-3xl font-bold text-white'>Settings</h1>
         </div>
         <AccountMobileSidebar />
-        <section className='mx-auto max-w-4xl'>{children}</section>
+        <section className='flex-1 overflow-hidden px-1 md:px-2'>
+          {children}
+        </section>
       </main>
     </div>
   );

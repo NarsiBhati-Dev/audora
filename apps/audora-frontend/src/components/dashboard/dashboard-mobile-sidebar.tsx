@@ -44,7 +44,7 @@ const DashboardMobileSidebar = () => {
       {/* Hamburger Toggle Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className='fixed top-3 left-3 z-50 rounded-full bg-[#1e1e1e] p-2.5 text-white shadow-lg transition-transform hover:scale-105 active:scale-95 md:hidden'
+        className='fixed top-3 left-3 z-50 rounded-full bg-[#1e1e1e] p-2.5 text-white shadow-lg transition-transform hover:scale-105 active:scale-95 lg:hidden'
         aria-label='Open menu'
       >
         <FiMenu size={20} />
@@ -61,7 +61,7 @@ const DashboardMobileSidebar = () => {
 
       {/* Sidebar */}
       <div
-        className={`bg-dashboard-bg fixed top-0 left-0 z-50 h-screen w-72 transform p-4 text-white transition-all duration-300 ease-in-out ${
+        className={`bg-dashboard-bg fixed top-0 left-0 z-51 h-screen w-72 transform p-4 text-white transition-all duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
         role='dialog'

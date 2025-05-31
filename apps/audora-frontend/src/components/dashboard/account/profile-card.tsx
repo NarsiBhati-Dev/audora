@@ -73,8 +73,8 @@ export default function ProfileCard({
   };
 
   return (
-    <>
-      <h2 className='text-xl font-bold text-white'>Profile</h2>
+    <div className='bg-[#18181b] p-4 md:rounded-2xl'>
+      <h2 className='mb-2 text-xl font-bold text-white'>Profile</h2>
       <div className='flex flex-col items-start'>
         <div className='relative mb-2 h-28 w-28'>
           <div className='flex h-28 w-28 items-center justify-center rounded-full p-6'>
@@ -84,7 +84,7 @@ export default function ProfileCard({
                 alt='Profile avatar'
                 width={96}
                 height={96}
-                className='h-24 w-24 rounded-full object-cover'
+                className='h-24 w-24 rounded-full object-cover shadow-md'
                 unoptimized
               />
             ) : (
@@ -93,7 +93,7 @@ export default function ProfileCard({
           </div>
           <button
             onClick={handleAvatarClick}
-            className='absolute right-2 bottom-2 flex h-8 w-8 items-center justify-center rounded-full bg-[#292929] text-white shadow-md hover:bg-[#393939] focus:outline-none'
+            className='absolute right-2 bottom-2 flex h-8 w-8 items-center justify-center rounded-full bg-[#393939] text-white shadow-md focus:outline-none'
             aria-label='Change profile image'
             type='button'
           >
@@ -108,10 +108,10 @@ export default function ProfileCard({
           />
         </div>
       </div>
-      <div>
+      <div className='mb-2'>
         <label
           htmlFor='profile-name'
-          className='mb-1 block text-sm font-medium text-gray-400'
+          className='mb-2 block text-sm font-medium text-zinc-200'
         >
           Name
         </label>
@@ -119,7 +119,7 @@ export default function ProfileCard({
           <input
             id='profile-name'
             name='name'
-            className='focus:ring-primary-500 w-full rounded-lg border-none bg-zinc-800 px-4 py-3 text-white outline-none focus:ring disabled:opacity-70'
+            className='focus:ring-primary-500 w-full rounded-lg border-none bg-[#393939] px-4 py-3 text-white outline-none placeholder:text-zinc-400 focus:ring disabled:opacity-70'
             value={name}
             autoComplete={name}
             placeholder=' Enter your name'
@@ -136,7 +136,7 @@ export default function ProfileCard({
             </button>
           ) : (
             <button
-              className='rounded-lg bg-[#1a1a1a] px-3 py-2 text-sm font-semibold text-white hover:bg-[#191818]'
+              className='rounded-lg bg-[#393939] px-3 py-2 text-sm font-semibold text-white md:hover:bg-zinc-800'
               onClick={() => setEditing(true)}
               type='button'
             >
@@ -148,7 +148,7 @@ export default function ProfileCard({
       <div>
         <label
           htmlFor='profile-email'
-          className='mb-1 block text-sm font-medium text-gray-400'
+          className='mb-2 block text-sm font-medium text-zinc-200'
         >
           Email
         </label>
@@ -157,7 +157,8 @@ export default function ProfileCard({
             id='profile-email'
             name='email'
             autoComplete={email}
-            className='w-full rounded-lg bg-[#1a1a1a] px-4 py-3 pr-10 text-white opacity-80'
+            placeholder='Enter your email'
+            className='w-full rounded-lg bg-[#393939] px-4 py-3 pr-10 text-white opacity-80 placeholder:text-zinc-400'
             value={email}
             disabled
           />
@@ -167,6 +168,6 @@ export default function ProfileCard({
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }
