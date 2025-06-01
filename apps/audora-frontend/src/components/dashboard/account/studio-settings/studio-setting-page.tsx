@@ -3,6 +3,7 @@
 import GeneralTab from '@/components/dashboard/account/studio-settings/general-tab';
 import LiveStreamTab from '@/components/dashboard/account/studio-settings/live-stream';
 import RecordingTab from '@/components/dashboard/account/studio-settings/recording-tab';
+import { Studio } from '@audora/types';
 import React, { useState } from 'react';
 
 const tabs = [
@@ -11,7 +12,7 @@ const tabs = [
   { name: 'Live stream' },
 ];
 
-const StudioSettingPage = () => {
+const StudioSettingPage = ({ studio }: { studio: Studio }) => {
   const [activeTab, setActiveTab] = useState('General');
   return (
     <main className='flex h-full flex-col text-white'>
@@ -21,9 +22,10 @@ const StudioSettingPage = () => {
           {tabs.map(tab => (
             <button
               key={tab.name}
-              className={`px-1 pb-2 text-base font-medium transition-colors ${
-                activeTab === tab.name &&
-                'border-primary-300 text-primary-300 border-b-2'
+              className={`border-b-2 px-4 pb-2 text-base font-medium transition-colors md:px-8 ${
+                activeTab === tab.name
+                  ? 'border-primary-300 text-primary-300'
+                  : 'border-transparent'
               }`}
               onClick={() => setActiveTab(tab.name)}
             >
@@ -41,9 +43,9 @@ const StudioSettingPage = () => {
         }}
       >
         <div className='mx-auto max-w-6xl'>
-          {activeTab === 'General' && <GeneralTab />}
-          {activeTab === 'Recording' && <RecordingTab />}
-          {activeTab === 'Live stream' && <LiveStreamTab />}
+          {activeTab === 'General' && <GeneralTab studio={studio} />}
+          {activeTab === 'Recording' && <RecordingTab studio={studio} />}
+          {activeTab === 'Live stream' && <LiveStreamTab studio={studio} />}
         </div>
       </div>
     </main>

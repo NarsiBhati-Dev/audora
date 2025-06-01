@@ -27,8 +27,15 @@ export const useMediaDevices = () => {
         stream?.getTracks().forEach(track => track.stop());
 
         localStream = await navigator.mediaDevices.getUserMedia({
-          video: videoDeviceId ? { deviceId: { exact: videoDeviceId } } : true,
-          audio: audioInputId ? { deviceId: { exact: audioInputId } } : true,
+          video: {
+            deviceId: videoDeviceId ? { exact: videoDeviceId } : undefined,
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
+            frameRate: { ideal: 30, max: 60 },
+          },
+          audio: {
+            deviceId: audioInputId ? { exact: audioInputId } : undefined,
+          },
         });
 
         setStream(localStream);

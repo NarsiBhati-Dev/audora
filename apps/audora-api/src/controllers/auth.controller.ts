@@ -5,6 +5,10 @@ import { hashPassword, verifyPassword } from "../utils/bcrypt";
 import { createUser, getUserByEmail } from "@audora/database/userServices";
 import { UserLoginSchema, UserRegisterSchema } from "@audora/types";
 import { generateToken } from "../utils/jwt";
+import {
+  createStudio as createStudioService,
+  getStudioByUserId,
+} from "@audora/database/studioServices";
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -36,11 +40,39 @@ export const register = async (req: Request, res: Response) => {
       password: hashedPassword,
     });
 
+    const studioName = `${newUser.name.toLowerCase().replace(/\s+/g, "-")}'s-studio`;
+
+    // Create a default studio for the user
+    const studio = await createStudioService({
+      userId: newUser.id,
+      studioName,
+      recordingType: "VIDEO_AUDIO",
+      audioSampleRate: "KHZ_44_1",
+      videoQuality: "STANDARD",
+      countdownBeforeRecording: false,
+      enableLobby: false,
+      language: "English",
+      noiseReduction: false,
+      enableCaptions: false,
+      autoStartOnGuestJoin: false,
+      pauseUploads: false,
+    });
+
+    if (!studio) {
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        success: false,
+        error: "Failed to create studio",
+      });
+      return;
+    }
+
     res.status(HttpStatus.CREATED).json({
       success: true,
       message: "User created successfully",
       user: newUser,
+      studio,
     });
+
     return;
   } catch (error) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
@@ -88,11 +120,13 @@ export const login = async (req: Request, res: Response) => {
     }
 
     const accessToken = generateToken(user.id);
+    const studio = await getStudioByUserId(user.id);
 
     res.status(HttpStatus.OK).json({
       success: true,
       message: "Login successful",
       user,
+      studioId: studio?.id,
       accessToken,
     });
     return;
@@ -139,12 +173,30 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
       provider: "google",
     });
 
+    const studioName = `${newUser.name.toLowerCase().replace(/\s+/g, "-")}'s-studio`;
+
+    const studio = await createStudioService({
+      userId: newUser.id,
+      studioName,
+      recordingType: "VIDEO_AUDIO",
+      noiseReduction: false,
+      audioSampleRate: "KHZ_44_1",
+      videoQuality: "STANDARD",
+      countdownBeforeRecording: false,
+      enableLobby: false,
+      enableCaptions: false,
+      autoStartOnGuestJoin: false,
+      pauseUploads: false,
+      language: "English",
+    });
+
     const accessToken = generateToken(newUser.id);
 
     res.status(HttpStatus.CREATED).json({
       success: true,
       message: "User created successfully",
       user: newUser,
+      studioId: studio?.id,
       accessToken,
     });
     return;

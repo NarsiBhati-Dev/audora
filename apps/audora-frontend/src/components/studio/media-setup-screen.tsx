@@ -34,18 +34,16 @@ export default function MediaSetupScreen() {
   const videoInfo = useVideoInfo(stream);
 
   return (
-    <div className='mt-20 flex h-full w-[22rem] items-center justify-center'>
-      <div className='w-full max-w-md space-y-4 rounded-xl bg-zinc-900 p-4 text-white'>
-        {loading ? (
-          <div className='flex flex-col items-center justify-center py-20'>
-            <Spinner1 />
-            <p className='mt-4 text-sm text-zinc-400'>
-              Setting up your devices
-            </p>
-          </div>
-        ) : (
-          <>
-            <div className='relative h-48 w-80 overflow-hidden rounded-xl bg-zinc-700'>
+    <div className='flex w-full items-center justify-center px-4'>
+      <div className='w-full max-w-sm space-y-4 rounded-xl bg-zinc-900 p-4 text-white sm:max-w-md'>
+        <>
+          {loading ? (
+            <div className='flex flex-col items-center justify-center rounded-xl bg-zinc-700 py-20'>
+              <Spinner1 />
+              <p className='mt-4 text-sm text-white'>Setting up your devices</p>
+            </div>
+          ) : (
+            <div className='relative aspect-video w-full overflow-hidden rounded-xl bg-zinc-700'>
               {stream && (
                 <video
                   className='h-full w-full object-cover'
@@ -71,11 +69,10 @@ export default function MediaSetupScreen() {
                   fps
                 </div>
               )}
-
               <div className='absolute right-0 bottom-2 left-0 mt-2 flex justify-center gap-4'>
                 <button
                   onClick={toggleMic}
-                  className={`rounded-2xl bg-zinc-700/70 p-2 text-sm font-semibold transition duration-200 hover:bg-zinc-700/40 ${micOn ? 'text-white' : 'text-red-500'}`}
+                  className={`rounded-2xl bg-zinc-700/50 p-2 text-sm font-semibold transition duration-200 hover:bg-zinc-700/60 ${micOn ? 'text-white' : 'text-red-500'}`}
                 >
                   {micOn ? (
                     <MicrophoneIcon className='h-6 w-6' />
@@ -86,7 +83,7 @@ export default function MediaSetupScreen() {
 
                 <button
                   onClick={toggleCamera}
-                  className={`rounded-2xl bg-zinc-700/70 p-2 text-sm font-semibold transition duration-200 hover:bg-zinc-700/40 ${cameraOn ? 'text-white' : 'text-red-500'}`}
+                  className={`rounded-2xl bg-zinc-700/50 p-2 text-sm font-semibold transition duration-200 hover:bg-zinc-700/60 ${cameraOn ? 'text-white' : 'text-red-500'}`}
                 >
                   {cameraOn ? (
                     <CameraIcon className='h-6 w-6' />
@@ -96,43 +93,43 @@ export default function MediaSetupScreen() {
                 </button>
               </div>
             </div>
+          )}
+          <div className='flex flex-col gap-2'>
+            <DropdownSelect
+              options={cameras.map(c => ({
+                label: c.label,
+                value: c.deviceId,
+              }))}
+              iconType='camera'
+              value={videoDeviceId}
+              onChange={setVideoDeviceId}
+              disabled={!cameraOn}
+              placeholder='Select a camera'
+            />
+            <DropdownSelect
+              options={microphones.map(m => ({
+                label: m.label,
+                value: m.deviceId,
+              }))}
+              iconType='mic'
+              value={audioInputId}
+              onChange={setAudioInputId}
+              disabled={!micOn}
+              placeholder='Select a microphone'
+            />
+            <DropdownSelect
+              options={speakers.map(s => ({
+                label: s.label,
+                value: s.deviceId,
+              }))}
+              iconType='speaker'
+              value={audioOutputId}
+              onChange={setAudioOutputId}
+              placeholder='Select a speaker'
+            />
+          </div>
+        </>
 
-            <div className='flex flex-col gap-2'>
-              <DropdownSelect
-                options={cameras.map(c => ({
-                  label: c.label,
-                  value: c.deviceId,
-                }))}
-                iconType='camera'
-                value={videoDeviceId}
-                onChange={setVideoDeviceId}
-                disabled={!cameraOn}
-                placeholder='Select a camera'
-              />
-              <DropdownSelect
-                options={microphones.map(m => ({
-                  label: m.label,
-                  value: m.deviceId,
-                }))}
-                iconType='mic'
-                value={audioInputId}
-                onChange={setAudioInputId}
-                disabled={!micOn}
-                placeholder='Select a microphone'
-              />
-              <DropdownSelect
-                options={speakers.map(s => ({
-                  label: s.label,
-                  value: s.deviceId,
-                }))}
-                iconType='speaker'
-                value={audioOutputId}
-                onChange={setAudioOutputId}
-                placeholder='Select a speaker'
-              />
-            </div>
-          </>
-        )}
         {error && <p className='text-sm text-red-400'>Error: {error}</p>}
       </div>
     </div>

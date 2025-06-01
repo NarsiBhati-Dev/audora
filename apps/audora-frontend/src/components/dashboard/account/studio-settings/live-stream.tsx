@@ -15,6 +15,7 @@ import {
 } from '@/data/icons';
 import Link from 'next/link';
 import QualitySelector from './quality-selector';
+import { Studio } from '@audora/types';
 
 const qualityOptions = [
   { label: '720p', value: '720p' },
@@ -59,11 +60,8 @@ const socialPlatforms = [
   },
 ];
 
-const LiveStreamTab = () => {
+const LiveStreamTab = ({ studio }: { studio: Studio }) => {
   const [hideWatermark, setHideWatermark] = useState(false);
-  const [liveStreamChat, setLiveStreamChat] = useState(true);
-  const [audienceCount, setAudienceCount] = useState(true);
-  const [selectedQuality, setSelectedQuality] = useState('1080p');
 
   return (
     <div className='flex w-full flex-col gap-4 md:gap-6'>
@@ -103,15 +101,15 @@ const LiveStreamTab = () => {
             Stream settings
           </div>
           <div className='mb-2 font-bold text-white'>Streaming resolution</div>
-          <div className='mb-4 text-sm text-zinc-400 md:max-w-sm'>
+          <div className='mb-4 text-xs text-zinc-400 md:max-w-sm'>
             Choose the live streaming quality. This applies to the stream only,
             your recording resolution can be configured separately.
           </div>
 
           <QualitySelector
             options={qualityOptions}
-            selected={selectedQuality}
-            onSelect={setSelectedQuality}
+            selected={studio.videoQuality}
+            onSelect={() => {}}
           />
         </div>
         {/* Hide watermark */}
@@ -129,7 +127,7 @@ const LiveStreamTab = () => {
               id='hide-watermark'
             />
           </div>
-          <div className='text-sm text-zinc-400 md:max-w-sm'>
+          <div className='text-xs text-zinc-400 md:max-w-sm'>
             Remove the Riverside watermark when streaming to other destinations.
           </div>
         </div>
@@ -138,12 +136,12 @@ const LiveStreamTab = () => {
           <div className='flex items-center justify-between gap-2'>
             <div className='mb-2 font-bold'>Live stream chat</div>
             <ToggleSwitch
-              checked={liveStreamChat}
-              onChange={() => setLiveStreamChat(!liveStreamChat)}
+              checked={studio.enableCaptions}
+              onChange={() => {}}
               id='live-stream-chat'
             />
           </div>
-          <div className='mb-2 flex-1 text-sm text-zinc-400 md:max-w-sm'>
+          <div className='mb-2 flex-1 text-xs text-zinc-400 md:max-w-sm'>
             Enable live stream chat to integrate comments from all destinations
             in one place, and select comments to show on the stream.{' '}
             <a href='#' className='text-primary-300 underline'>
@@ -166,12 +164,12 @@ const LiveStreamTab = () => {
           <div className='flex items-center justify-between gap-2'>
             <div className='font-bold text-white'>Audience count</div>
             <ToggleSwitch
-              checked={audienceCount}
-              onChange={() => setAudienceCount(!audienceCount)}
+              checked={studio.enableCaptions}
+              onChange={() => {}}
               id='audience-count'
             />
           </div>
-          <div className='text-sm text-zinc-400 md:max-w-sm'>
+          <div className='text-xs text-zinc-400 md:max-w-sm'>
             {`Let guests and audience members see how many people are in the
             audience. You'll still be able to see the audience size even with
             this off.`}
