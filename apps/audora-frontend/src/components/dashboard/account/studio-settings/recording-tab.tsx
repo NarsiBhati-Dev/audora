@@ -1,6 +1,6 @@
 import { InfoIcon } from '@/data/icons';
 import Link from 'next/link';
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   PiMicrophoneDuotone,
   PiVideoCameraDuotone,
@@ -9,24 +9,11 @@ import {
   PiSlidersDuotone,
 } from 'react-icons/pi';
 import { ToggleSwitch } from '../toggle-switch';
-import { Studio } from '@audora/types';
-import { useStudioRecordingSettingStore } from '@/store/studio-setting';
+import { useStudioSettingsStore } from '@/store/studio-setting-store';
 
-const RecordingTab = ({ studio }: { studio: Studio }) => {
+const RecordingTab = () => {
   const { studioRecordingSetting, setStudioRecordingSetting } =
-    useStudioRecordingSettingStore();
-
-  useEffect(() => {
-    setStudioRecordingSetting({
-      ...studioRecordingSetting,
-      recordingType: studio.recordingType,
-      audioSampleRate: studio.audioSampleRate,
-      videoQuality: studio.videoQuality,
-      countdownBeforeRecording: studio.countdownBeforeRecording,
-      autoStartOnGuestJoin: studio.autoStartOnGuestJoin,
-      pauseUploads: studio.pauseUploads,
-    });
-  }, [studio]);
+    useStudioSettingsStore();
 
   return (
     <div className='flex w-full flex-col gap-4 md:gap-6'>

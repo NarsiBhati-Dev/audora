@@ -15,7 +15,6 @@ import {
 } from '@/data/icons';
 import Link from 'next/link';
 import QualitySelector from './quality-selector';
-import { Studio } from '@audora/types';
 
 const qualityOptions = [
   { label: '720p', value: '720p' },
@@ -60,8 +59,9 @@ const socialPlatforms = [
   },
 ];
 
-const LiveStreamTab = ({ studio }: { studio: Studio }) => {
+const LiveStreamTab = () => {
   const [hideWatermark, setHideWatermark] = useState(false);
+  const [streamingResolution, setStreamingResolution] = useState('720p');
 
   return (
     <div className='flex w-full flex-col gap-4 md:gap-6'>
@@ -108,8 +108,8 @@ const LiveStreamTab = ({ studio }: { studio: Studio }) => {
 
           <QualitySelector
             options={qualityOptions}
-            selected={studio.videoQuality}
-            onSelect={() => {}}
+            selected={streamingResolution}
+            onSelect={value => setStreamingResolution(value)}
           />
         </div>
         {/* Hide watermark */}
@@ -136,7 +136,7 @@ const LiveStreamTab = ({ studio }: { studio: Studio }) => {
           <div className='flex items-center justify-between gap-2'>
             <div className='mb-2 font-bold'>Live stream chat</div>
             <ToggleSwitch
-              checked={studio.enableCaptions}
+              checked={false}
               onChange={() => {}}
               id='live-stream-chat'
             />
@@ -164,7 +164,7 @@ const LiveStreamTab = ({ studio }: { studio: Studio }) => {
           <div className='flex items-center justify-between gap-2'>
             <div className='font-bold text-white'>Audience count</div>
             <ToggleSwitch
-              checked={studio.enableCaptions}
+              checked={false}
               onChange={() => {}}
               id='audience-count'
             />

@@ -18,7 +18,7 @@ const navItems = [
   { href: '/dashboard/home', icon: <FiHome size={22} />, label: 'Home' },
 ];
 
-const DashboardMobileSidebar = () => {
+const DashboardMobileSidebar = ({ studioId }: { studioId: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -83,19 +83,33 @@ const DashboardMobileSidebar = () => {
             </div>
 
             <nav className='flex flex-col gap-4' aria-label='Main navigation'>
-              {navItems.map(item => (
+              {!studioId ? (
                 <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`flex items-center gap-4 rounded-xl px-3 py-2 text-base font-medium transition-colors hover:bg-[#292929] ${
-                    pathname === item.href ? 'bg-[#292929]' : ''
+                  href='/dashboard/account/studio-settings'
+                  className={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium transition hover:bg-[#292929] ${
+                    pathname === '/dashboard/account/studio-settings'
+                      ? 'bg-[#292929]'
+                      : ''
                   }`}
-                  aria-current={pathname === item.href ? 'page' : undefined}
                 >
-                  {item.icon}
-                  {item.label}
+                  <FiSettings size={20} />
+                  Settings
                 </Link>
-              ))}
+              ) : (
+                navItems.map(item => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`flex items-center gap-4 rounded-xl px-3 py-2 text-base font-medium transition-colors hover:bg-[#292929] ${
+                      pathname === item.href ? 'bg-[#292929]' : ''
+                    }`}
+                    aria-current={pathname === item.href ? 'page' : undefined}
+                  >
+                    {item.icon}
+                    {item.label}
+                  </Link>
+                ))
+              )}
             </nav>
           </div>
 
@@ -103,7 +117,7 @@ const DashboardMobileSidebar = () => {
           <div className='flex flex-col gap-6'>
             <div className='flex flex-col gap-3 border-b border-[#292929] pb-4'>
               <Link
-                href='/studio'
+                href={`/studio/${studioId}`}
                 className='flex items-center gap-2 rounded-3xl bg-[#232323] px-4 py-3 text-sm font-semibold transition hover:bg-[#292929] active:scale-[0.98]'
               >
                 <FiVideo size={20} />

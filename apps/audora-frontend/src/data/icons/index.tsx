@@ -4,6 +4,52 @@ interface IconProps {
   className?: string;
 }
 
+export const DashboardSidebarIcon: React.FC<IconProps> = ({
+  className = 'w-6 h-6',
+}) => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='22'
+    height='22'
+    viewBox='0 0 24 24'
+    fill='none'
+    className={className}
+  >
+    <g id='Collapse'>
+      <rect
+        id='Rectangle 1014'
+        x='2'
+        y='3'
+        width='20'
+        height='18'
+        rx='4'
+        stroke='#FAFAFA'
+        strokeWidth='1.5'
+      ></rect>
+      <path
+        id='Rectangle 1016-129'
+        d='M10 3L10 12L10 21'
+        stroke='#FAFAFA'
+        strokeWidth='1.5'
+      ></path>
+      <path
+        id='Rectangle 1017-130'
+        d='M5 8L6 8L7 8'
+        stroke='#FAFAFA'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+      ></path>
+      <path
+        id='Rectangle 1018-131'
+        d='M5 11L6 11L7 11'
+        stroke='#FAFAFA'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+      ></path>
+    </g>
+  </svg>
+);
+
 export const LinkedInIcon: React.FC<IconProps> = ({
   className = 'w-6 h-6',
 }) => (

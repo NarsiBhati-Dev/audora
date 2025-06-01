@@ -3,8 +3,10 @@
 import GeneralTab from '@/components/dashboard/account/studio-settings/general-tab';
 import LiveStreamTab from '@/components/dashboard/account/studio-settings/live-stream';
 import RecordingTab from '@/components/dashboard/account/studio-settings/recording-tab';
+import { useStudioSettingsStore } from '@/store/studio-setting-store';
 import { Studio } from '@audora/types';
-import React, { useState } from 'react';
+
+import React, { useEffect, useState } from 'react';
 
 const tabs = [
   { name: 'General' },
@@ -13,6 +15,28 @@ const tabs = [
 ];
 
 const StudioSettingPage = ({ studio }: { studio: Studio }) => {
+  const { setAllSettings } = useStudioSettingsStore();
+
+  useEffect(() => {
+    setAllSettings({
+      studioSetting: {
+        studioId: studio.id,
+        language: studio.language,
+        enableLobby: studio.enableLobby,
+        name: studio.studioName,
+      },
+      studioRecordingSetting: {
+        recordingType: studio.recordingType,
+        audioSampleRate: studio.audioSampleRate,
+        videoQuality: studio.videoQuality,
+        noiseReduction: studio.noiseReduction,
+        countdownBeforeRecording: studio.countdownBeforeRecording,
+        autoStartOnGuestJoin: studio.autoStartOnGuestJoin,
+        pauseUploads: studio.pauseUploads,
+      },
+    });
+  }, []);
+
   const [activeTab, setActiveTab] = useState('General');
   return (
     <main className='flex h-full flex-col text-white'>
@@ -43,9 +67,9 @@ const StudioSettingPage = ({ studio }: { studio: Studio }) => {
         }}
       >
         <div className='mx-auto max-w-6xl'>
-          {activeTab === 'General' && <GeneralTab studio={studio} />}
-          {activeTab === 'Recording' && <RecordingTab studio={studio} />}
-          {activeTab === 'Live stream' && <LiveStreamTab studio={studio} />}
+          {activeTab === 'General' && <GeneralTab />}
+          {activeTab === 'Recording' && <RecordingTab />}
+          {activeTab === 'Live stream' && <LiveStreamTab />}
         </div>
       </div>
     </main>

@@ -6,28 +6,16 @@ import {
   PiChatsCircleDuotone,
 } from 'react-icons/pi';
 import { useUserProfileStore } from '@/store/user-profile';
-import { useStudioSettingStore } from '@/store/studio-setting';
+import { useStudioSettingsStore } from '@/store/studio-setting-store';
 import RemoveStudio from './remove-studio';
 import { ToggleSwitch } from '../toggle-switch';
 import { HiOutlineChevronDown } from 'react-icons/hi';
-import { Studio } from '@audora/types';
 
-const GeneralTab = ({ studio }: { studio: Studio }) => {
+const GeneralTab = () => {
   const { userProfile, setUserProfile } = useUserProfileStore();
-  const { studioSetting, setStudioSetting } = useStudioSettingStore();
+  const { studioSetting, setStudioSetting } = useStudioSettingsStore();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  console.log(studio);
-
-  useEffect(() => {
-    setStudioSetting({
-      ...studioSetting,
-      language: studio.language,
-      enableLobby: studio.enableLobby,
-      name: studio.studioName,
-    });
-  }, []);
 
   const languages = [
     { value: 'English', label: 'English' },

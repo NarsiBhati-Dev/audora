@@ -2,7 +2,7 @@ import React from 'react';
 
 const MobileFallback = () => {
   return (
-    <div className='mx-auto flex h-[calc(100vh-80px)] max-w-md flex-col items-center justify-center gap-6 px-6 text-center'>
+    <div className='mx-auto flex h-[calc(100vh-64px)] max-w-md flex-col items-center justify-center gap-6 px-6 text-center'>
       <div className='flex flex-col items-center justify-center gap-4'>
         <svg
           xmlns='http://www.w3.org/2000/svg'

@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import Logo from '../logo';
 import Link from 'next/link';
@@ -7,7 +5,7 @@ import { FiChevronLeft } from 'react-icons/fi';
 
 const StudioHeader = () => {
   return (
-    <header className='bg-studio-bg-light hidden items-center justify-between px-6 py-4 md:fixed md:top-0 md:left-0 md:z-50 md:flex'>
+    <header className='bg-studio-bg-light fixed top-0 left-0 z-50 flex w-full items-center justify-between px-6 py-4'>
       <div className='flex items-center gap-3'>
         <Link
           href='/dashboard'
