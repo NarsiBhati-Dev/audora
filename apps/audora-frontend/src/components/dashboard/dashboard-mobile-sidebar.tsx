@@ -18,7 +18,11 @@ const navItems = [
   { href: '/dashboard/home', icon: <FiHome size={22} />, label: 'Home' },
 ];
 
-const DashboardMobileSidebar = ({ studioId }: { studioId: string }) => {
+interface DashboardMobileSidebarProps {
+  studioId?: string;
+}
+
+const DashboardMobileSidebar = ({ studioId }: DashboardMobileSidebarProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -115,22 +119,24 @@ const DashboardMobileSidebar = ({ studioId }: { studioId: string }) => {
 
           {/* Footer */}
           <div className='flex flex-col gap-6'>
-            <div className='flex flex-col gap-3 border-b border-[#292929] pb-4'>
-              <Link
-                href={`/studio/${studioId}`}
-                className='flex items-center gap-2 rounded-3xl bg-[#232323] px-4 py-3 text-sm font-semibold transition hover:bg-[#292929] active:scale-[0.98]'
-              >
-                <FiVideo size={20} />
-                Open Studio
-              </Link>
-              <Link
-                href='/dashboard/invite'
-                className='flex items-center gap-2 rounded-3xl bg-[#232323] px-4 py-3 text-sm font-semibold transition hover:bg-[#292929] active:scale-[0.98]'
-              >
-                <FiUserPlus size={20} />
-                Invite
-              </Link>
-            </div>
+            {studioId && (
+              <div className='flex flex-col gap-3 border-b border-[#292929] pb-4'>
+                <Link
+                  href={`/studio/${studioId}`}
+                  className='flex items-center gap-2 rounded-3xl bg-[#232323] px-4 py-3 text-sm font-semibold transition hover:bg-[#292929] active:scale-[0.98]'
+                >
+                  <FiVideo size={20} />
+                  Open Studio
+                </Link>
+                <Link
+                  href='/dashboard/invite'
+                  className='flex items-center gap-2 rounded-3xl bg-[#232323] px-4 py-3 text-sm font-semibold transition hover:bg-[#292929] active:scale-[0.98]'
+                >
+                  <FiUserPlus size={20} />
+                  Invite
+                </Link>
+              </div>
+            )}
 
             <Link
               href='/dashboard/account/settings'

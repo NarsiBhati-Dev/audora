@@ -21,9 +21,5 @@ export default async function AppLayout({
     session?.user?.accessToken as string,
   );
 
-  if (!studio) {
-    redirect('/dashboard');
-  }
-
   return <StudioProvider studio={studio}>{children}</StudioProvider>;
 }

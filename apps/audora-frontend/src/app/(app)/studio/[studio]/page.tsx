@@ -17,7 +17,7 @@ export async function generateMetadata({
 
 interface SearchParams {
   t?: string;
-  g?: string;
+  gw?: string;
 }
 
 interface Params {
@@ -27,10 +27,10 @@ interface Params {
 
 const StudioPage = async ({ params, searchParams }: Params) => {
   const { studio } = await params;
-  const { t, g } = await searchParams;
+  const { t, gw } = await searchParams;
   const session = await getServerSession(authOptions);
 
-  if (studio !== session?.user?.studioId && !g && !t) {
+  if (studio !== session?.user?.studioId && !gw && !t) {
     notFound();
   }
 
@@ -38,7 +38,7 @@ const StudioPage = async ({ params, searchParams }: Params) => {
   const isHost = session?.user?.studioId === studio;
 
   // If not host and no guest token, show 404
-  if (!isHost && g === undefined && t === undefined) {
+  if (!isHost && gw === undefined && t === undefined) {
     notFound();
   }
 
@@ -47,7 +47,7 @@ const StudioPage = async ({ params, searchParams }: Params) => {
       <StudioPageClient
         studio={studio}
         t={t || undefined}
-        g={g || undefined}
+        gw={gw || undefined}
         isHost={isHost}
         hostName={session?.user?.name || ''}
       />

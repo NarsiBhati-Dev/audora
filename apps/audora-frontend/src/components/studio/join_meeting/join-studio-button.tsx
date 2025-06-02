@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 export function JoinStudioButton() {
   const [permissionState, setPermissionState] = useState<
@@ -64,7 +65,7 @@ export function JoinStudioButton() {
       await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
       setPermissionState('granted');
     } catch {
-      alert(
+      toast.error(
         'Please allow access to your microphone and camera in your browser settings.',
       );
     }

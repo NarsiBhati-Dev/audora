@@ -13,7 +13,7 @@ import GuestStudioHeader from './guest-studio-header';
 interface StudioPageClientProps {
   studio: string;
   t: string | undefined;
-  g: string | undefined;
+  gw: string | undefined;
   isHost: boolean;
   hostName: string;
 }
@@ -21,22 +21,23 @@ interface StudioPageClientProps {
 const StudioPageClient = ({
   studio,
   t,
-  g,
+  gw,
   isHost,
   hostName,
 }: StudioPageClientProps) => {
   const isDesktop = useIsDesktop();
   const { studioSetting } = useStudioSettingsStore();
 
+  studioSetting.studioId = studio;
   studioSetting.name = getStudioNameFromSlug(studio);
 
   // If welcome token is present, show welcome screen
-  if (t && !isHost && g === undefined) {
+  if (t && !isHost && gw === undefined) {
     return <WelcomeScreen />;
   }
 
   // If guest token is present, show join as guest screen
-  if (t && g) {
+  if (t && gw && !isHost) {
     return (
       <>
         <GuestStudioHeader studioName={studioSetting.name} />

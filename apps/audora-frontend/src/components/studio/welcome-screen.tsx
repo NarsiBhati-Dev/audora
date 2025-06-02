@@ -1,39 +1,52 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import GuestStudioHeader from './guest-studio-header';
+import { useStudioSettingsStore } from '@/store/studio-setting-store';
+import Link from 'next/link';
+import { JoinSessionButton } from './join_meeting/join-session-button';
 
 const WelcomeScreen = () => {
-  const router = useRouter();
+  const { studioSetting } = useStudioSettingsStore();
 
   return (
-    <div className='bg-studio-bg-light flex h-screen w-full flex-col items-center justify-center'>
-      <div className='w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-lg'>
-        <div className='text-center'>
-          <h1 className='text-3xl font-bold text-gray-900'>
-            Welcome to Audora Studio
-          </h1>
-          <p className='mt-2 text-gray-600'>
-            Your professional recording studio is ready to use.
+    <>
+      <GuestStudioHeader studioName={studioSetting.name} />
+      <main className='flex h-[calc(100vh)] w-full flex-col items-center justify-center'>
+        <div className='h-full w-full rounded-lg p-8 shadow-lg md:h-auto md:w-auto'>
+          <div className='space-y-6 text-center'>
+            <p className='text-6xl text-zinc-400'>👋</p>
+            <h1 className='text-3xl font-bold text-white'>
+              Welcome to {studioSetting.name}
+            </h1>
+            <p className='text-zinc-300'>
+              {`You're about to join a recording session on Audora.`}
+              <br />
+              {`Have a great time!`}
+            </p>
+            <JoinSessionButton studioId={studioSetting.studioId} />
+          </div>
+        </div>
+      </main>
+      <footer className='bg-studio-bg-light fixed right-0 bottom-0 left-0 p-4'>
+        <div className='mx-auto max-w-6xl'>
+          <p className='text-center text-sm font-medium text-zinc-300'>
+            By continuing, you agree to our{' '}
+            <Link
+              href='/terms-conditions'
+              className='text-primary-300 underline'
+            >
+              Terms
+            </Link>{' '}
+            and{' '}
+            <Link href='/privacy-policy' className='text-primary-300 underline'>
+              Privacy Policy
+            </Link>
+            .
           </p>
         </div>
-
-        <div className='mt-8 space-y-4'>
-          <button
-            className='bg-primary-500 hover:bg-primary-600 w-full rounded-lg px-4 py-2 text-white'
-            onClick={() => router.push('/dashboard')}
-          >
-            Go to Dashboard
-          </button>
-          <button
-            className='w-full rounded-lg bg-zinc-100 px-4 py-2 text-zinc-900 hover:bg-zinc-200'
-            onClick={() => router.back()}
-          >
-            Go Back
-          </button>
-        </div>
-      </div>
-    </div>
+      </footer>
+    </>
   );
 };
 

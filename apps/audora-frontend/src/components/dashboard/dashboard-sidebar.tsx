@@ -37,7 +37,11 @@ const navItems = [
   // },
 ];
 
-const DashboardSidebar = ({ studioId }: { studioId: string }) => {
+interface DashboardSidebarProps {
+  studioId?: string;
+}
+
+const DashboardSidebar = ({ studioId }: DashboardSidebarProps) => {
   const [open, setOpen] = useState(true);
   const router = useRouter();
 
@@ -104,33 +108,39 @@ const DashboardSidebar = ({ studioId }: { studioId: string }) => {
       <div
         className={`flex flex-col gap-4 px-2 pb-8 ${open ? '' : 'items-center'}`}
       >
-        {/* Studio and Invite */}
-        <div
-          className={`flex items-center gap-3 ${open ? '' : 'flex-col gap-2 border-b border-[#292929] pb-4'}`}
-        >
-          <Link
-            href={`/studio/${studioId}`}
-            className={`flex items-center gap-2 bg-[#232323] text-sm font-semibold transition hover:bg-[#292929] ${
-              open ? 'rounded-3xl px-4 py-3' : 'justify-center rounded-full p-3'
-            }`}
-          >
-            <FiVideo size={20} />
-            {open && 'Open Studio'}
-          </Link>
+        {studioId && (
+          <>
+            {/* Studio and Invite */}
+            <div
+              className={`flex items-center gap-3 ${open ? '' : 'flex-col gap-2 border-b border-[#292929] pb-4'}`}
+            >
+              <Link
+                href={`/studio/${studioId}`}
+                className={`flex items-center gap-2 bg-[#232323] text-sm font-semibold transition hover:bg-[#292929] ${
+                  open
+                    ? 'rounded-3xl px-4 py-3'
+                    : 'justify-center rounded-full p-3'
+                }`}
+              >
+                <FiVideo size={20} />
+                {open && 'Open Studio'}
+              </Link>
 
-          <Link
-            href='/dashboard/invite'
-            className={`rounded-full bg-[#232323] p-3 transition hover:bg-[#292929] ${
-              open
-                ? 'flex items-center gap-2 rounded-3xl px-4 py-3'
-                : 'justify-center rounded-full p-3'
-            }`}
-          >
-            <FiUserPlus size={20} />
-          </Link>
-        </div>
+              <Link
+                href='/dashboard/invite'
+                className={`rounded-full bg-[#232323] p-3 transition hover:bg-[#292929] ${
+                  open
+                    ? 'flex items-center gap-2 rounded-3xl px-4 py-3'
+                    : 'justify-center rounded-full p-3'
+                }`}
+              >
+                <FiUserPlus size={20} />
+              </Link>
+            </div>
+          </>
+        )}
+
         {/* Settings */}
-
         <Link
           href='/dashboard/account/studio-settings'
           className={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium transition hover:bg-[#292929] ${open ? '' : 'justify-center px-3 py-3'}`}

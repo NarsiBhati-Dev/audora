@@ -30,7 +30,7 @@ const StudioProvider = ({ studio, children }: StudioProviderProps) => {
         pauseUploads: studio.pauseUploads,
       },
     });
-  }, []);
+  }, [studio, setAllSettings]);
 
   return <>{children}</>;
 };
