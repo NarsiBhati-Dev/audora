@@ -37,7 +37,7 @@ export default function PopupWrapper({
             <div
               ref={modalRef}
               onClick={e => e.stopPropagation()}
-              className='relative w-full max-w-md rounded-xl bg-zinc-900 p-6 text-white shadow-xl'
+              className='relative w-full max-w-lg rounded-xl bg-zinc-900 p-6 text-white shadow-xl'
             >
               <button
                 onClick={onClose}

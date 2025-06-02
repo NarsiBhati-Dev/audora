@@ -16,7 +16,9 @@ import Logo from '../logo';
 import Tooltip from './tooltip';
 import AvatarDropdown from './avatar-dropdown';
 import { DashboardSidebarIcon } from '@/data/icons';
-import { useRouter } from 'next/navigation';
+import { Plus } from 'lucide-react';
+import PopupWrapper from '../ui/popup-wrapper';
+import CreateStudioPopup from './account/create-studio-popup';
 
 const navItems = [
   { href: '/dashboard/home', icon: <FiHome size={22} />, label: 'Home' },
@@ -43,7 +45,7 @@ interface DashboardSidebarProps {
 
 const DashboardSidebar = ({ studioId }: DashboardSidebarProps) => {
   const [open, setOpen] = useState(true);
-  const router = useRouter();
+  const [isCreateStudioOpen, setIsCreateStudioOpen] = useState(false);
 
   return (
     <aside
@@ -71,16 +73,27 @@ const DashboardSidebar = ({ studioId }: DashboardSidebarProps) => {
         </div>
         <nav className='flex flex-col gap-4 px-2'>
           {!studioId ? (
-            <Link
-              href='/dashboard/account/studio-settings'
-              className={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium transition hover:bg-[#292929] ${open ? '' : 'justify-center px-3 py-3'}`}
-              onClick={() => {
-                router.push('/dashboard/account/studio-settings');
-              }}
-            >
-              <FiSettings size={20} />
-              {open && 'Settings'}
-            </Link>
+            <>
+              <button
+                onClick={() => setIsCreateStudioOpen(true)}
+                className={`flex items-center gap-4 rounded-xl px-3 py-2 text-base font-medium transition-colors hover:bg-[#292929] ${
+                  open ? '' : 'justify-center'
+                }`}
+              >
+                <Plus size={26} className='text-white' />
+                {open && 'Create Studio'}
+              </button>
+              {isCreateStudioOpen && (
+                <PopupWrapper
+                  open={isCreateStudioOpen}
+                  onClose={() => setIsCreateStudioOpen(false)}
+                >
+                  <CreateStudioPopup
+                    onClose={() => setIsCreateStudioOpen(false)}
+                  />
+                </PopupWrapper>
+              )}
+            </>
           ) : (
             navItems.map(item => (
               <Tooltip

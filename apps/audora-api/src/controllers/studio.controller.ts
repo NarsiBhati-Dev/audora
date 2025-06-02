@@ -62,8 +62,7 @@ export const createStudio = async (req: AuthRequest, res: Response) => {
     });
 
     return;
-  } catch (error) {
-    console.error(error);
+  } catch {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       success: false,
       message: "Failed to create studio",
@@ -83,16 +82,24 @@ export const updateStudio = async (req: AuthRequest, res: Response) => {
     return;
   }
 
-  const studio = await updateStudioService(studioId, {
-    studioName,
-  });
+  try {
+    const studio = await updateStudioService(studioId, {
+      studioName,
+    });
 
-  res.status(HttpStatus.OK).json({
-    success: true,
-    message: "Studio updated successfully",
-    studio,
-  });
-  return;
+    res.status(HttpStatus.OK).json({
+      success: true,
+      message: "Studio updated successfully",
+      studio,
+    });
+    return;
+  } catch {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: "Failed to update studio",
+    });
+    return;
+  }
 };
 
 export const deleteStudio = async (req: AuthRequest, res: Response) => {
@@ -106,31 +113,39 @@ export const deleteStudio = async (req: AuthRequest, res: Response) => {
     return;
   }
 
-  const studio = await getStudioByUserIdService(userId);
+  try {
+    const studio = await getStudioByUserIdService(userId);
 
-  if (!studio) {
-    res.status(HttpStatus.NOT_FOUND).json({
-      success: false,
-      message: "Studio not found",
+    if (!studio) {
+      res.status(HttpStatus.NOT_FOUND).json({
+        success: false,
+        message: "Studio not found",
+      });
+      return;
+    }
+
+    const deletedStudio = await deleteStudioService(studio.id);
+
+    if (!deletedStudio) {
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        success: false,
+        message: "Failed to delete studio",
+      });
+      return;
+    }
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      message: "Studio deleted successfully",
     });
     return;
-  }
-
-  const deletedStudio = await deleteStudioService(studio.id);
-
-  if (!deletedStudio) {
+  } catch {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       success: false,
       message: "Failed to delete studio",
     });
     return;
   }
-
-  res.status(HttpStatus.OK).json({
-    success: true,
-    message: "Studio deleted successfully",
-  });
-  return;
 };
 
 export const getStudio = async (req: AuthRequest, res: Response) => {

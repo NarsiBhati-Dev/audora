@@ -3,27 +3,49 @@
 import { deleteStudio } from '@/actions/studio';
 import PopupWrapper from '@/components/ui/popup-wrapper';
 import { useStudioSettingsStore } from '@/store/studio-setting-store';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 
 const RemoveStudio = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { setStudioSetting } = useStudioSettingsStore();
+  const { setAllSettings } = useStudioSettingsStore();
+  const router = useRouter();
 
   const handleDeleteStudio = async () => {
     try {
       const response = await deleteStudio();
       if (response.success) {
+        // First clear all studio related state
+        setAllSettings({
+          studioSetting: {
+            studioId: '',
+            name: '',
+            enableLobby: false,
+            language: 'English',
+          },
+          studioRecordingSetting: {
+            recordingType: 'AUDIO',
+            audioSampleRate: 'KHZ_44_1',
+            videoQuality: 'STANDARD',
+            noiseReduction: false,
+            countdownBeforeRecording: false,
+            autoStartOnGuestJoin: false,
+            pauseUploads: false,
+          },
+        });
+
+        // Then show success message and navigate
         toast.success('Studio deleted successfully');
-        setStudioSetting({ studioId: '' });
-        window.location.href = '/dashboard/studios/create';
+        router.push('/dashboard/studios/create');
       } else {
         toast.error('Failed to delete studio');
       }
-      setIsOpen(false);
     } catch (error) {
       console.error('Failed to delete studio:', error);
       toast.error('Failed to delete studio');
+    } finally {
+      setIsOpen(false);
     }
   };
 

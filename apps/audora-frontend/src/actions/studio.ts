@@ -9,7 +9,12 @@ import { getServerSession } from 'next-auth';
 /**
  * Create a studio
  */
-export const createStudio = async (studioName: string, accessToken: string) => {
+export const createStudio = async (studioName: string) => {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    throw new Error('Unauthorized');
+  }
+
   try {
     const response = await axios.post(
       `${API_URL}/studio/create`,
@@ -17,13 +22,12 @@ export const createStudio = async (studioName: string, accessToken: string) => {
       {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `${accessToken}`,
+          Authorization: `${session.user.accessToken}`,
         },
       },
     );
     return response.data;
-  } catch (error) {
-    console.error(error);
+  } catch {
     throw new Error('Failed to create studio');
   }
 };

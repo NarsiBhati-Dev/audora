@@ -106,6 +106,10 @@ export const login = async (req: Request, res: Response) => {
     }
 
     if (!user.password) {
+      res.status(HttpStatus.UNAUTHORIZED).json({
+        success: false,
+        error: "Invalid email or password",
+      });
       return;
     }
 
@@ -131,7 +135,6 @@ export const login = async (req: Request, res: Response) => {
     });
     return;
   } catch (error) {
-    console.error("Login Error:", error);
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       success: false,
       error: "Internal server error",
@@ -200,8 +203,11 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
       accessToken,
     });
     return;
-  } catch (error) {
-    console.error("Register With Google Error:", error);
+  } catch {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      error: "Internal server error",
+    });
     return;
   }
 };

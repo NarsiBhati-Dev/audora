@@ -60,7 +60,10 @@ export const createStudioService = async ({
   return studio;
 };
 
-export const updateStudioService = async (studioId: string, data: Partial<Studio>) => {
+export const updateStudioService = async (
+  studioId: string,
+  data: Partial<Studio>
+) => {
   const studio = await client.studio.update({
     where: { id: studioId },
     data,
@@ -86,9 +89,9 @@ export const getStudioByUserIdService = async (userId: string) => {
 };
 
 export const deleteStudioService = async (studioId: string) => {
-  const studio = await client.studio.delete({
+  const deletedStudio = await client.studio.delete({
     where: { id: studioId },
   });
 
-  return studio;
+  return deletedStudio;
 };

@@ -12,6 +12,7 @@
     "apps/audora-api": {
       "name": "audora-backend",
       "dependencies": {
+        "audora-backend": ".",
         "@audora/database": "*",
         "@audora/types": "*",
         "@types/bcrypt": "^5.0.2",

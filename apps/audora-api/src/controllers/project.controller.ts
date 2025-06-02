@@ -4,30 +4,129 @@ import {
   updateProject as updateProjectService,
   deleteProject as deleteProjectService,
 } from "@audora/database/projectServices";
+import { HttpStatus } from "../utils/HttpStatus";
+import type { AuthRequest } from "../utils/request-type";
 
-export const createProject = async (req: Request, res: Response) => {
+export const createProject = async (req: AuthRequest, res: Response) => {
+  const userId = req.auth?.id as string;
+
+  if (!userId) {
+    res.status(HttpStatus.BAD_REQUEST).json({
+      success: false,
+      message: "Unauthorized",
+    });
+    return;
+  }
+
   const { studioId, projectName } = req.body;
 
-  const project = await createProjectService(studioId, projectName);
+  if (!studioId || !projectName) {
+    res.status(HttpStatus.BAD_REQUEST).json({
+      success: false,
+      message: "Studio ID and project name are required",
+    });
+    return;
+  }
 
-  res.status(201).json(project);
-  return;
+  if (!studioId) {
+    res.status(HttpStatus.BAD_REQUEST).json({
+      success: false,
+      message: "Studio ID is required",
+    });
+    return;
+  }
+
+  try {
+    const project = await createProjectService(studioId, projectName);
+
+    res.status(HttpStatus.CREATED).json({
+      success: true,
+      message: "Project created successfully",
+      project,
+    });
+    return;
+  } catch {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: "Failed to create project",
+    });
+    return;
+  }
 };
 
-export const updateProject = async (req: Request, res: Response) => {
+export const updateProject = async (req: AuthRequest, res: Response) => {
+  const userId = req.auth?.id as string;
+
+  if (!userId) {
+    res.status(HttpStatus.BAD_REQUEST).json({
+      success: false,
+      message: "Unauthorized",
+    });
+    return;
+  }
+
   const { projectId, projectName } = req.body;
 
-  const project = await updateProjectService(projectId, projectName);
+  if (!projectId || !projectName) {
+    res.status(HttpStatus.BAD_REQUEST).json({
+      success: false,
+      message: "Project ID and project name are required",
+    });
+    return;
+  }
 
-  res.status(200).json(project);
-  return;
+  try {
+    const project = await updateProjectService(projectId, projectName);
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      message: "Project updated successfully",
+      project,
+    });
+    return;
+  } catch {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: "Failed to update project",
+    });
+    return;
+  }
 };
 
-export const deleteProject = async (req: Request, res: Response) => {
+export const deleteProject = async (req: AuthRequest, res: Response) => {
+  const userId = req.auth?.id as string;
+
+  if (!userId) {
+    res.status(HttpStatus.BAD_REQUEST).json({
+      success: false,
+      message: "Unauthorized",
+    });
+    return;
+  }
+
   const { projectId } = req.params;
 
-  const project = await deleteProjectService(projectId as string);
+  if (!projectId) {
+    res.status(HttpStatus.BAD_REQUEST).json({
+      success: false,
+      message: "Project ID is required",
+    });
+    return;
+  }
+  try {
+    const project = await deleteProjectService(projectId as string);
 
-  res.status(200).json(project);
-  return;
+    res.status(HttpStatus.OK).json({
+      success: true,
+      message: "Project deleted successfully",
+      project,
+    });
+    return;
+  } catch {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: "Failed to delete project",
+    });
+    return;
+  }
 };

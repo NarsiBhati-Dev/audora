@@ -17,7 +17,7 @@ const DashboardContainer = async ({
         </p>
       </div>
 
-      <section className='w-full px-3 py-8 sm:px-12 md:px-6 lg:px-12 xl:px-24'>
+      <section className='w-full px-3 py-8 sm:px-12 md:px-6 lg:px-12 xl:px-34'>
         {children}
       </section>
     </div>

@@ -105,7 +105,7 @@ const AccountMobileSidebar = () => {
                       key={item.href}
                       href={item.href}
                       onClick={() => setIsOpen(false)}
-                      className={`flex items-center gap-3 rounded-lg px-4 py-3 text-base font-medium transition-colors hover:bg-[#292929] ${
+                      className={`flex items-center gap-3 rounded-lg px-4 py-3 text-base font-medium transition-colors hover:bg-[rgb(41,41,41)] ${
                         pathname === item.href ? 'bg-[#292929]' : ''
                       }`}
                       aria-current={pathname === item.href ? 'page' : undefined}
