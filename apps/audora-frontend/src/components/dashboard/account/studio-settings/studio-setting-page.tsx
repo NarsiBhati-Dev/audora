@@ -3,10 +3,7 @@
 import GeneralTab from '@/components/dashboard/account/studio-settings/general-tab';
 import LiveStreamTab from '@/components/dashboard/account/studio-settings/live-stream';
 import RecordingTab from '@/components/dashboard/account/studio-settings/recording-tab';
-import { useStudioSettingsStore } from '@/store/studio-setting-store';
-import { Studio } from '@audora/types';
-
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 const tabs = [
   { name: 'General' },
@@ -14,30 +11,9 @@ const tabs = [
   { name: 'Live stream' },
 ];
 
-const StudioSettingPage = ({ studio }: { studio: Studio }) => {
-  const { setAllSettings } = useStudioSettingsStore();
-
-  useEffect(() => {
-    setAllSettings({
-      studioSetting: {
-        studioId: studio.id,
-        language: studio.language,
-        enableLobby: studio.enableLobby,
-        name: studio.studioName,
-      },
-      studioRecordingSetting: {
-        recordingType: studio.recordingType,
-        audioSampleRate: studio.audioSampleRate,
-        videoQuality: studio.videoQuality,
-        noiseReduction: studio.noiseReduction,
-        countdownBeforeRecording: studio.countdownBeforeRecording,
-        autoStartOnGuestJoin: studio.autoStartOnGuestJoin,
-        pauseUploads: studio.pauseUploads,
-      },
-    });
-  }, []);
-
+const StudioSettingPage = () => {
   const [activeTab, setActiveTab] = useState('General');
+
   return (
     <main className='flex h-full flex-col text-white'>
       {/* Tabs header */}

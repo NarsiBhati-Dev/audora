@@ -29,8 +29,8 @@ const Logo = ({ scrolled, page, href = '/' }: LogoParams) => {
         className={`text-lg font-semibold ${scrolled ? 'text-black' : 'text-zinc-200'}`}
       >
         {siteMetadata.header}{' '}
-        <span className='font-normal text-zinc-300'>
-          {page && ` | ${page}`}
+        <span className='mx-1 border-l px-2 text-sm font-semibold text-zinc-300'>
+          {page && `${page}`}
         </span>
       </span>
     </Link>

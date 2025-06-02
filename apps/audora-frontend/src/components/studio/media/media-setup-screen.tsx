@@ -2,7 +2,7 @@
 
 import { useMediaDevices } from '@/hooks/useMediaDevices';
 import { useVideoInfo } from '@/hooks/useVideoInfo';
-import Spinner1 from '../loaders/spinner1';
+import Spinner1 from '../../loaders/spinner1';
 import DropdownSelect from './dropdown-select';
 import {
   CameraIcon,
@@ -72,7 +72,7 @@ export default function MediaSetupScreen() {
               <div className='absolute right-0 bottom-2 left-0 mt-2 flex justify-center gap-4'>
                 <button
                   onClick={toggleMic}
-                  className={`rounded-2xl bg-zinc-700/50 p-2 text-sm font-semibold transition duration-200 hover:bg-zinc-700/60 ${micOn ? 'text-white' : 'text-red-500'}`}
+                  className={`rounded-2xl bg-zinc-700/30 p-2 text-sm font-semibold transition duration-200 hover:bg-zinc-700/70 ${micOn ? 'text-white' : 'text-red-500'}`}
                 >
                   {micOn ? (
                     <MicrophoneIcon className='h-6 w-6' />
@@ -83,7 +83,7 @@ export default function MediaSetupScreen() {
 
                 <button
                   onClick={toggleCamera}
-                  className={`rounded-2xl bg-zinc-700/50 p-2 text-sm font-semibold transition duration-200 hover:bg-zinc-700/60 ${cameraOn ? 'text-white' : 'text-red-500'}`}
+                  className={`rounded-2xl bg-zinc-700/30 p-2 text-sm font-semibold transition duration-200 hover:bg-zinc-700/70 ${cameraOn ? 'text-white' : 'text-red-500'}`}
                 >
                   {cameraOn ? (
                     <CameraIcon className='h-6 w-6' />
@@ -92,6 +92,11 @@ export default function MediaSetupScreen() {
                   )}
                 </button>
               </div>
+              {error && (
+                <p className='absolute inset-0 flex items-center justify-center text-sm text-zinc-500'>
+                  Allow permissions to join the studio
+                </p>
+              )}
             </div>
           )}
           <div className='flex flex-col gap-2'>
@@ -129,8 +134,6 @@ export default function MediaSetupScreen() {
             />
           </div>
         </>
-
-        {error && <p className='text-sm text-red-400'>Error: {error}</p>}
       </div>
     </div>
   );

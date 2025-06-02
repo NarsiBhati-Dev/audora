@@ -3,8 +3,8 @@ import { BackgroundLines } from '../ui/background-lines';
 
 const ThankYouPage = () => {
   return (
-    <BackgroundLines className='bg-studio-bg-light flex h-screen w-full items-center justify-center px-4'>
-      <div className='bg-studio-bg-light flex flex-col items-center justify-center gap-2 text-center'>
+    <BackgroundLines className='dark:bg-studio-bg-light flex h-screen w-full items-center justify-center px-4'>
+      <div className='flex flex-col items-center justify-center gap-2 text-center'>
         <h1 className='text-2xl font-bold text-white sm:text-3xl md:text-4xl lg:text-5xl'>
           🎉 Thanks for joining!
         </h1>
