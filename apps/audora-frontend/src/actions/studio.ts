@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { UpdateStudioSettingSchema, UpdateStudioSetting } from '@audora/types';
 import { API_URL } from '@/config';
+import authOptions from '@/lib/auth/auth-options';
+import { getServerSession } from 'next-auth';
 
 /**
  * Create a studio
@@ -8,7 +10,7 @@ import { API_URL } from '@/config';
 export const createStudio = async (studioName: string, accessToken: string) => {
   try {
     const response = await axios.post(
-      '/studio/create',
+      `${API_URL}/studio/create`,
       { studioName },
       {
         headers: {
@@ -34,7 +36,7 @@ export const updateStudioName = async (
 ) => {
   try {
     const response = await axios.post(
-      '/studio/update',
+      `${API_URL}/studio/update`,
       { studioId, studioName },
       {
         headers: {
@@ -53,18 +55,19 @@ export const updateStudioName = async (
 /**
  * Delete studio
  */
-export const deleteStudio = async (studioId: string, accessToken: string) => {
+export const deleteStudio = async () => {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    throw new Error('Unauthorized');
+  }
+
   try {
-    const response = await axios.post(
-      '/studio/delete',
-      { studioId },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${accessToken}`,
-        },
+    const response = await axios.delete(`${API_URL}/studio/delete`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${session.user.accessToken}`,
       },
-    );
+    });
     return response.data;
   } catch (error) {
     console.error(error);
@@ -75,16 +78,16 @@ export const deleteStudio = async (studioId: string, accessToken: string) => {
 /**
  * Get studio by ID
  */
-export const getStudioById = async (studioId: string, accessToken: string) => {
+export const getStudio = async (accessToken: string) => {
   try {
-    const encodedId = encodeURIComponent(studioId);
-    const response = await axios.get(`${API_URL}/studio/get/${encodedId}`, {
+    const response = await axios.get(`${API_URL}/studio/get`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `${accessToken}`,
       },
     });
-    return response.data;
+
+    return response.data.studio;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get studio by id');
@@ -111,7 +114,7 @@ export const updateStudioSetting = async (
 
   try {
     const response = await axios.post(
-      '/studio/update-setting',
+      `${API_URL}/studio/update-setting`,
       {
         studioId,
         settingName: parsed.data.settingName,

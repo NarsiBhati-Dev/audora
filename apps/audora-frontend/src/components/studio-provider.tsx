@@ -10,15 +10,16 @@ interface StudioProviderProps {
 }
 
 const StudioProvider = ({ studio, children }: StudioProviderProps) => {
-  const { setAllSettings } = useStudioSettingsStore();
+  const { setAllSettings, studioSetting } = useStudioSettingsStore();
 
   useEffect(() => {
+    console.log('Setting studio data:', studio);
     setAllSettings({
       studioSetting: {
         studioId: studio.id,
-        language: studio.language,
-        enableLobby: studio.enableLobby,
         name: studio.studioName,
+        enableLobby: studio.enableLobby,
+        language: studio.language,
       },
       studioRecordingSetting: {
         recordingType: studio.recordingType,
@@ -31,6 +32,14 @@ const StudioProvider = ({ studio, children }: StudioProviderProps) => {
       },
     });
   }, [studio, setAllSettings]);
+
+  useEffect(() => {
+    console.log('Current store state:', {
+      studioSetting,
+      studioRecordingSetting:
+        useStudioSettingsStore.getState().studioRecordingSetting,
+    });
+  }, [studioSetting]);
 
   return <>{children}</>;
 };

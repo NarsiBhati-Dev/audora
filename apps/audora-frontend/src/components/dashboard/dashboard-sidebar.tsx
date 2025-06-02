@@ -53,7 +53,7 @@ const DashboardSidebar = ({ studioId }: DashboardSidebarProps) => {
       {/* Top Section */}
       <div>
         <div
-          className={`mb-8 flex items-center justify-between gap-4 px-4 pt-6 ${open ? '' : 'justify-center'}`}
+          className={`mb-6 flex items-center justify-between gap-4 px-4 pt-6 ${open ? '' : 'justify-center'}`}
         >
           {open && <Logo scrolled={false} href='/dashboard/home' />}
           <Tooltip

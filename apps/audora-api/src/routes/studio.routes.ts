@@ -15,7 +15,7 @@ studioRouter.use(auth);
 studioRouter.post("/create", createStudio);
 studioRouter.put("/update", updateStudio);
 studioRouter.delete("/delete/:studioId", deleteStudio);
-studioRouter.get("/get/:studioId", getStudio);
+studioRouter.get("/get", getStudio);
 studioRouter.post("/update-setting", updateStudioSetting);
 
 export default studioRouter;

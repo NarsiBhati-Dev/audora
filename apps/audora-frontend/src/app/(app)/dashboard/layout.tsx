@@ -1,4 +1,4 @@
-import { getStudioById } from '@/actions/studio';
+import { getStudio } from '@/actions/studio';
 import StudioProvider from '@/components/studio-provider';
 import authOptions from '@/lib/auth/auth-options';
 import { getServerSession } from 'next-auth';
@@ -16,10 +16,11 @@ export default async function AppLayout({
     redirect('/register');
   }
 
-  const studio = await getStudioById(
-    session?.user?.studioId as string,
-    session?.user?.accessToken as string,
-  );
+  const studio = await getStudio(session?.user?.accessToken as string);
+
+  if (!studio) {
+    redirect('/dashboard/studios/create');
+  }
 
   return <StudioProvider studio={studio}>{children}</StudioProvider>;
 }

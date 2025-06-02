@@ -3,9 +3,10 @@ import {
   createStudio as createStudioService,
   updateStudio as updateStudioService,
   deleteStudio as deleteStudioService,
-  getStudioById as getStudioByIdService,
+  getStudioByUserId as getStudioService,
 } from "@audora/database/studioServices";
 import { HttpStatus } from "../utils/HttpStatus";
+import type { AuthRequest } from "../utils/request-type";
 
 export const createStudio = async (req: Request, res: Response) => {
   const { studioName } = req.body;
@@ -34,12 +35,39 @@ export const deleteStudio = async (req: Request, res: Response) => {
   return;
 };
 
-export const getStudio = async (req: Request, res: Response) => {
-  const { studioId } = req.params;
+export const getStudio = async (req: AuthRequest, res: Response) => {
+  const userId = req.auth?.id;
 
-  const studio = await getStudioByIdService(studioId as string);
+  if (!userId) {
+    res.status(HttpStatus.BAD_REQUEST).json({
+      success: false,
+      message: "User ID is required",
+    });
+    return;
+  }
 
-  res.status(HttpStatus.OK).json(studio);
+  try {
+    const studio = await getStudioService(userId as string);
+
+    if (!studio) {
+      res.status(HttpStatus.NOT_FOUND).json({
+        success: false,
+        message: "Studio not found",
+      });
+      return;
+    }
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      message: "Studio fetched successfully",
+      studio,
+    });
+  } catch (error) {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: "Failed to fetch studio",
+    });
+  }
   return;
 };
 

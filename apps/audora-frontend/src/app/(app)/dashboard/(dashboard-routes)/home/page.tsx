@@ -6,7 +6,7 @@ export const metadata = getPageMetadata({
   title: 'Dashboard',
 });
 
-const HomePage = async () => {
+const HomePage = () => {
   return (
     <div className='space-y-8 p-6 sm:p-8'>
       {/* Dashboard quick actions */}
