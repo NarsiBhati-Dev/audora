@@ -2,7 +2,7 @@ export const webinarFaqs = [
   {
     question: 'How many guests can I host at my webinar?',
     answer:
-      'You can host and record up to 10 guest speakers in a Riverside webinar.',
+      'You can host and record up to 10 guest speakers in a Audora webinar.',
   },
   {
     question: 'How many audience members can watch the recording session?',
@@ -16,14 +16,14 @@ export const webinarFaqs = [
       'No, guests and viewers can join directly from their browser without any downloads or account creation.',
   },
   {
-    question: 'What audio and video quality does Riverside livestream in?',
+    question: 'What audio and video quality does Audora livestream in?',
     answer:
-      'Riverside live-streams in up to 1080p HD video and high-quality audio.',
+      'Audora live-streams in up to 1080p HD video and high-quality audio.',
   },
   {
-    question: 'What audio and video quality does Riverside record in?',
+    question: 'What audio and video quality does Audora record in?',
     answer:
-      'Riverside records locally in up to 4K video and uncompressed audio for each participant.',
+      'Audora records locally in up to 4K video and uncompressed audio for each participant.',
   },
   {
     question: "What's the advantage of separate recording tracks?",

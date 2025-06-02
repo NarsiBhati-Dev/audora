@@ -3,6 +3,7 @@ import getPageMetadata from '@/lib/seo/getPageMetadata';
 import { getServerSession } from 'next-auth';
 import authOptions from '@/lib/auth/auth-options';
 import { notFound } from 'next/navigation';
+import { getStudio } from '@/actions/studio';
 
 export async function generateMetadata({
   params,
@@ -29,13 +30,14 @@ const StudioPage = async ({ params, searchParams }: Params) => {
   const { studio } = await params;
   const { t, gw } = await searchParams;
   const session = await getServerSession(authOptions);
+  const studioData = await getStudio(session?.user?.accessToken as string);
 
-  if (studio !== session?.user?.studioId && !gw && !t) {
+  if (studioData?.id !== studio && !gw && !t) {
     notFound();
   }
 
   // Check if user is the host
-  const isHost = session?.user?.studioId === studio;
+  const isHost = studioData?.id === studio;
 
   // If not host and no guest token, show 404
   if (!isHost && gw === undefined && t === undefined) {

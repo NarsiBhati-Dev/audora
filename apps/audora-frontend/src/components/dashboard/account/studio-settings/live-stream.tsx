@@ -128,7 +128,7 @@ const LiveStreamTab = () => {
             />
           </div>
           <div className='text-xs text-zinc-400 md:max-w-sm'>
-            Remove the Riverside watermark when streaming to other destinations.
+            Remove the Audura watermark when streaming to other destinations.
           </div>
         </div>
         {/* Live stream chat */}

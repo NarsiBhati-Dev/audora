@@ -1,5 +1,5 @@
 {
-  "name": "audora-backend",
+  "name": "audora-api",
   "module": "index.ts",
   "type": "module",
   "private": true,
@@ -20,7 +20,6 @@
     "@types/cors": "^2.8.18",
     "@types/express": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.9",
-    "audora-backend": "workspace:*",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
