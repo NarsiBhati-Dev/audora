@@ -10,10 +10,9 @@ interface StudioProviderProps {
 }
 
 const StudioProvider = ({ studio, children }: StudioProviderProps) => {
-  const { setAllSettings, studioSetting } = useStudioSettingsStore();
+  const { setAllSettings } = useStudioSettingsStore();
 
   useEffect(() => {
-    console.log('Setting studio data:', studio);
     setAllSettings({
       studioSetting: {
         studioId: studio.id,
@@ -32,14 +31,6 @@ const StudioProvider = ({ studio, children }: StudioProviderProps) => {
       },
     });
   }, [studio, setAllSettings]);
-
-  useEffect(() => {
-    console.log('Current store state:', {
-      studioSetting,
-      studioRecordingSetting:
-        useStudioSettingsStore.getState().studioRecordingSetting,
-    });
-  }, [studioSetting]);
 
   return <>{children}</>;
 };

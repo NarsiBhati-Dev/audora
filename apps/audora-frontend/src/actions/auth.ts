@@ -51,8 +51,6 @@ export const LoginUser = async (userData: {
       studioId: response.data.studioId,
     };
 
-    console.log(processedData);
-
     return processedData;
   } catch (error) {
     const err = error as AuthError;
@@ -85,8 +83,6 @@ export const RegisterWithGoogle = async (userData: {
       accessToken: response.data.accessToken,
       studioId: response.data.studioId,
     };
-
-    console.log(processedData);
 
     return processedData;
   } catch (error) {

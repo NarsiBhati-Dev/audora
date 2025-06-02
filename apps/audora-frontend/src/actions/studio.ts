@@ -1,3 +1,5 @@
+'use server';
+
 import axios from 'axios';
 import { UpdateStudioSettingSchema, UpdateStudioSetting } from '@audora/types';
 import { API_URL } from '@/config';
@@ -88,9 +90,8 @@ export const getStudio = async (accessToken: string) => {
     });
 
     return response.data.studio;
-  } catch (error) {
-    console.error(error);
-    throw new Error('Failed to get studio by id');
+  } catch {
+    return null;
   }
 };
 

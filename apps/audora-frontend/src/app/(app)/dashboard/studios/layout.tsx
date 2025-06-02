@@ -4,12 +4,15 @@ import DashboardMobileSidebar from '@/components/dashboard/dashboard-mobile-side
 import DashboardSidebar from '@/components/dashboard/dashboard-sidebar';
 import { getServerSession } from 'next-auth';
 import authOptions from '@/lib/auth/auth-options';
+import { getStudio } from '@/actions/studio';
 import { redirect } from 'next/navigation';
 
 const StudiosLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await getServerSession(authOptions);
 
-  if (session?.user?.studioId) {
+  const studio = await getStudio(session?.user?.accessToken as string);
+
+  if (studio) {
     redirect('/dashboard/home');
   }
 

@@ -8,7 +8,7 @@ import type {
 import { client } from "../index";
 import generateStudioId from "../utils/generateStudioId";
 
-export const createStudio = async ({
+export const createStudioService = async ({
   userId,
   studioName,
   enableLobby = false,
@@ -60,7 +60,7 @@ export const createStudio = async ({
   return studio;
 };
 
-export const updateStudio = async (studioId: string, data: Partial<Studio>) => {
+export const updateStudioService = async (studioId: string, data: Partial<Studio>) => {
   const studio = await client.studio.update({
     where: { id: studioId },
     data,
@@ -69,7 +69,7 @@ export const updateStudio = async (studioId: string, data: Partial<Studio>) => {
   return studio;
 };
 
-export const getStudioById = async (studioId: string) => {
+export const getStudioByIdService = async (studioId: string) => {
   const studio = await client.studio.findUnique({
     where: { id: studioId },
   });
@@ -77,7 +77,7 @@ export const getStudioById = async (studioId: string) => {
   return studio;
 };
 
-export const getStudioByUserId = async (userId: string) => {
+export const getStudioByUserIdService = async (userId: string) => {
   const studio = await client.studio.findUnique({
     where: { userId },
   });
@@ -85,7 +85,7 @@ export const getStudioByUserId = async (userId: string) => {
   return studio;
 };
 
-export const deleteStudio = async (studioId: string) => {
+export const deleteStudioService = async (studioId: string) => {
   const studio = await client.studio.delete({
     where: { id: studioId },
   });

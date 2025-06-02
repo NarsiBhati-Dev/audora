@@ -6,8 +6,8 @@ import { createUser, getUserByEmail } from "@audora/database/userServices";
 import { UserLoginSchema, UserRegisterSchema } from "@audora/types";
 import { generateToken } from "../utils/jwt";
 import {
-  createStudio as createStudioService,
-  getStudioByUserId,
+  createStudioService,
+  getStudioByUserIdService,
 } from "@audora/database/studioServices";
 
 export const register = async (req: Request, res: Response) => {
@@ -120,7 +120,7 @@ export const login = async (req: Request, res: Response) => {
     }
 
     const accessToken = generateToken(user.id);
-    const studio = await getStudioByUserId(user.id);
+    const studio = await getStudioByUserIdService(user.id);
 
     res.status(HttpStatus.OK).json({
       success: true,

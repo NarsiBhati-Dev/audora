@@ -2,43 +2,66 @@
 
 import { deleteStudio } from '@/actions/studio';
 import PopupWrapper from '@/components/ui/popup-wrapper';
+import { useStudioSettingsStore } from '@/store/studio-setting-store';
 import React, { useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 const RemoveStudio = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { setStudioSetting } = useStudioSettingsStore();
 
   const handleDeleteStudio = async () => {
     try {
-      await deleteStudio();
+      const response = await deleteStudio();
+      if (response.success) {
+        toast.success('Studio deleted successfully');
+        setStudioSetting({ studioId: '' });
+        window.location.href = '/dashboard/studios/create';
+      } else {
+        toast.error('Failed to delete studio');
+      }
       setIsOpen(false);
     } catch (error) {
       console.error('Failed to delete studio:', error);
+      toast.error('Failed to delete studio');
     }
   };
 
   return (
-    <PopupWrapper open={isOpen} onClose={() => setIsOpen(false)}>
-      <div className='flex flex-col gap-4'>
-        <p className='text-sm text-zinc-400'>
-          Are you sure you want to remove your studio? This action cannot be
-          undone.
-        </p>
-        <div className='flex gap-2'>
-          <button
-            className='rounded-md border border-zinc-800 bg-zinc-800 px-4 py-2 text-sm text-white hover:bg-zinc-700'
-            onClick={() => setIsOpen(false)}
-          >
-            Cancel
-          </button>
-          <button
-            className='rounded-md border border-zinc-800 bg-zinc-800 px-4 py-2 text-sm text-white hover:bg-zinc-700'
-            onClick={handleDeleteStudio}
-          >
-            Remove
-          </button>
-        </div>
-      </div>
-    </PopupWrapper>
+    <div className='flex items-center gap-2'>
+      <button
+        className='rounded-md border border-red-500 bg-red-500 px-4 py-2 text-sm text-white hover:bg-red-600'
+        onClick={() => setIsOpen(true)}
+        disabled={isOpen}
+      >
+        Remove Studio
+      </button>
+      {isOpen && (
+        <PopupWrapper open={isOpen} onClose={() => setIsOpen(false)}>
+          <div className='flex flex-col gap-4'>
+            <h2 className='text-xl font-bold text-white'>Remove Studio</h2>
+            <p className='text-sm text-white'>
+              Are you sure you want to remove your studio? This action cannot be
+              undone.
+            </p>
+            <div className='flex justify-end gap-2'>
+              <button
+                className='rounded-md border border-zinc-800 bg-zinc-800 px-4 py-2 text-sm text-white hover:bg-zinc-700'
+                onClick={() => setIsOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className='rounded-md border border-red-500 bg-red-500 px-4 py-2 text-sm text-white hover:bg-red-600'
+                onClick={handleDeleteStudio}
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        </PopupWrapper>
+      )}
+    </div>
   );
 };
 

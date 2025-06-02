@@ -36,7 +36,7 @@ const DeleteAccountCard = () => {
             </p>
           </div>
 
-          <div className='flex justify-center gap-4'>
+          <div className='flex justify-end gap-4'>
             <button
               onClick={() => setIsOpen(false)}
               className='rounded-md border border-zinc-600 bg-zinc-800 px-4 py-2 text-sm text-zinc-300 transition hover:bg-zinc-700 hover:text-white'
