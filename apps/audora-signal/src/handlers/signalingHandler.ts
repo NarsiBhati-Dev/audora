@@ -1,7 +1,14 @@
 import { WebSocket } from "ws";
 import { logger } from "../utils/logger";
+import type { Message } from "../types/message-types";
 
-export const signalingHandler = (socket: WebSocket) => {
+interface SignalingEvent {
+  socket: WebSocket;
+  message: Message;
+  userId: string;
+}
+
+export const handleSignalingEvent = (socket: WebSocket) => {
   logger.info("Signaling handler initialized");
 
   socket.on("message", (data) => {

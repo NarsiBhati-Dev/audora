@@ -1,7 +1,7 @@
 import { WebSocketServer } from "ws";
 import { PORT } from "./config";
-import { connectionHandler } from "./handlers/connection";
+import { setupSignalingServer } from "./handlers/signalingServer";
 
 const wss = new WebSocketServer({ port: PORT });
 
-connectionHandler(wss);
+setupSignalingServer(wss);

@@ -6,10 +6,10 @@ import { JoinStudioButton } from './join-studio-button';
 
 interface JoinStudioProps {
   isHost: boolean;
-  hostName: string;
+  hostName?: string;
 }
 
-const JoinStudio = ({ isHost, hostName }: JoinStudioProps) => {
+const JoinStudio = ({ isHost, hostName = '' }: JoinStudioProps) => {
   const [isUsingHeadphones, setIsUsingHeadphones] = useState(false);
   const [guestName, setGuestName] = useState('');
   const { studioSetting } = useStudioSettingsStore();

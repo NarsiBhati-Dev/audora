@@ -11,7 +11,7 @@ const WelcomeScreen = () => {
 
   return (
     <>
-      <GuestStudioHeader studioName={studioSetting.name} />
+      <GuestStudioHeader />
       <main className='flex h-[calc(100vh)] w-full flex-col items-center justify-center'>
         <div className='h-full w-full rounded-lg p-8 shadow-lg md:h-auto md:w-auto'>
           <div className='space-y-6 text-center'>

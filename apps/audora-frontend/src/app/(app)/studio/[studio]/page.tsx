@@ -32,15 +32,11 @@ const StudioPage = async ({ params, searchParams }: Params) => {
   const session = await getServerSession(authOptions);
   const studioData = await getStudio(session?.user?.accessToken as string);
 
-  if (studioData?.id !== studio && !gw && !t) {
-    notFound();
-  }
-
-  // Check if user is the host
   const isHost = studioData?.id === studio;
+  const isGuestLanding = !isHost && t !== undefined && gw === undefined;
+  const isGuestJoining = !isHost && t !== undefined && gw === 'on';
 
-  // If not host and no guest token, show 404
-  if (!isHost && gw === undefined && t === undefined) {
+  if (!isHost && !isGuestLanding && !isGuestJoining) {
     notFound();
   }
 
@@ -48,10 +44,10 @@ const StudioPage = async ({ params, searchParams }: Params) => {
     <main className='bg-studio-bg-light'>
       <StudioPageClient
         studio={studio}
-        t={t || undefined}
-        gw={gw || undefined}
         isHost={isHost}
-        hostName={session?.user?.name || ''}
+        isGuestLanding={isGuestLanding}
+        isGuestJoining={isGuestJoining}
+        hostName={session?.user?.name}
       />
     </main>
   );
