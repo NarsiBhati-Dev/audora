@@ -25,6 +25,11 @@
   --color-dashboard-bg-darkest: #0e0e0e;
   --color-dashboard-bg: #181818;
   --color-dashboard-bg-light: #2a2a2a;
+
+  --color-studio-bg: #0b0909;
+  --color-studio-bg-light: #121212;
+  --color-studio-bg-lighter: #181818;
+  --color-studio-bg-lightest: #2a2a2a;
 }
 
 html {

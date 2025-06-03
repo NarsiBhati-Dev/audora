@@ -13,7 +13,7 @@ interface LogoParams {
 
 const Logo = ({ scrolled, page, href = '/' }: LogoParams) => {
   return (
-    <Link href={href} className='flex items-center gap-2'>
+    <Link href={href} className='flex items-center justify-center gap-1'>
       <Image
         src={
           scrolled
@@ -25,14 +25,14 @@ const Logo = ({ scrolled, page, href = '/' }: LogoParams) => {
         height={20}
         className='rounded-sm object-cover'
       />
-      <span
+      <div
         className={`text-lg font-semibold ${scrolled ? 'text-black' : 'text-zinc-200'}`}
       >
         {siteMetadata.header}{' '}
-        <span className='font-normal text-zinc-300'>
-          {page && ` | ${page}`}
+        <span className='text-sm font-semibold text-zinc-300'>
+          {page && '| ' + `${page}`}
         </span>
-      </span>
+      </div>
     </Link>
   );
 };

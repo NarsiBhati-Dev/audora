@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Studio" ADD COLUMN     "language" TEXT NOT NULL DEFAULT 'English',
+ALTER COLUMN "enableLobby" SET DEFAULT false,
+ALTER COLUMN "recordingType" SET DEFAULT 'VIDEO_AUDIO',
+ALTER COLUMN "audioSampleRate" SET DEFAULT 'KHZ_44_1',
+ALTER COLUMN "videoQuality" SET DEFAULT 'STANDARD';

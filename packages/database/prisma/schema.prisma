@@ -22,4 +22,56 @@ model User {
   provider  String   @default("credentials")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  studio    Studio?
+  @@index([id])
+}
+
+model Studio {
+  id                         String   @id 
+  studioName                 String
+  enableLobby                Boolean  @default(false)
+  enableCaptions             Boolean  @default(false)
+  recordingType              RecordingType  @default(VIDEO_AUDIO)
+  audioSampleRate            AudioSampleRate  @default(KHZ_44_1)
+  videoQuality               VideoQuality  @default(STANDARD)
+  countdownBeforeRecording   Boolean  @default(false)
+  autoStartOnGuestJoin       Boolean  @default(false)
+  noiseReduction             Boolean  @default(false)
+  pauseUploads               Boolean  @default(false)
+  language                   String   @default("English")
+  createdAt                  DateTime @default(now())
+  updatedAt                  DateTime @updatedAt
+
+  projects                   Project[]
+  user                       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                     String   @unique
+
+  @@index([id, userId])
+}
+
+enum RecordingType {
+  VIDEO_AUDIO
+  AUDIO_ONLY
+}
+
+enum AudioSampleRate {
+  KHZ_44_1
+  KHZ_48
+}
+
+enum VideoQuality {
+  STANDARD
+  ADVANCED
+}
+
+model Project {
+  id          String     @id @default(cuid())
+  name        String
+  studioId    String
+  studio      Studio     @relation(fields: [studioId], references: [id], onDelete: Cascade)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([id, studioId])
 }

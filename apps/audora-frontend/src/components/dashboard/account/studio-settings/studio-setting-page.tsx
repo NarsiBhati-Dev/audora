@@ -13,18 +13,19 @@ const tabs = [
 
 const StudioSettingPage = () => {
   const [activeTab, setActiveTab] = useState('General');
+
   return (
     <main className='flex h-full flex-col text-white'>
       {/* Tabs header */}
       <div className='flex-shrink-0 border-b-2 border-zinc-700 py-2'>
-        <div className='flex justify-between gap-3 px-2 md:justify-start md:gap-8 md:px-4'>
+        <div className='flex justify-between gap-2 px-2 md:justify-start md:gap-8 md:px-4'>
           {tabs.map(tab => (
             <button
               key={tab.name}
-              className={`px-1 pb-2 text-base font-medium transition-colors ${
-                activeTab === tab.name &&
-                'border-primary-300 text-primary-300 border-b-2'
-              }`}
+              className={`border-b-2 px-4 pb-2 text-sm font-medium transition-colors md:px-8 md:text-base ${activeTab === tab.name
+                ? 'border-primary-300 text-primary-300'
+                : 'border-transparent'
+                }`}
               onClick={() => setActiveTab(tab.name)}
             >
               {tab.name}

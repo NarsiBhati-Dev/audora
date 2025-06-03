@@ -1,5 +1,4 @@
-import type { User } from "@prisma/client";
-import { client } from "..";
+import { client } from "../index";
 
 export const createUser = async ({
   name,
@@ -47,4 +46,12 @@ export const updateUserById = async (id: string, name: string) => {
   });
 
   return updatedUser;
+};
+
+export const deleteUserById = async (id: string) => {
+  const deletedUser = await client.user.delete({
+    where: { id },
+  });
+
+  return deletedUser;
 };

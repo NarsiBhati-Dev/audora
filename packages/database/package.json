@@ -7,7 +7,9 @@
     "@types/bun": "latest"
   },
   "exports": {
-    "./userServices": "./src/services/userServices.ts"
+    "./userServices": "./src/services/user-services.ts",
+    "./studioServices": "./src/services/studio-services.ts",
+    "./projectServices": "./src/services/project-services.ts"
   },
   "scripts": {
     "generate": "bunx prisma generate",

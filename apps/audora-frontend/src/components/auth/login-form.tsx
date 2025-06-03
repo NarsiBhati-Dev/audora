@@ -14,6 +14,7 @@ const LoginForm = () => {
   });
   const [errors, setErrors] = useState<Partial<UserLogin>>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,6 +82,7 @@ const LoginForm = () => {
         <input
           type='email'
           name='email'
+          required
           value={formData.email}
           onChange={handleChange}
           placeholder='Email'
@@ -92,10 +94,11 @@ const LoginForm = () => {
         {errors.email && <p className='text-sm text-red-500'>{errors.email}</p>}
       </div>
 
-      <div className='space-y-1'>
+      <div className='relative space-y-1'>
         <input
-          type='password'
+          type={showPassword ? 'text' : 'password'}
           name='password'
+          required
           value={formData.password}
           onChange={handleChange}
           placeholder='Password'
@@ -104,6 +107,14 @@ const LoginForm = () => {
             errors.password ? 'border border-red-500' : ''
           }`}
         />
+        <button
+          type='button'
+          className='absolute top-1/2 right-3 -translate-y-1/2 text-sm font-medium text-indigo-300 hover:text-indigo-400'
+          onClick={() => setShowPassword(v => !v)}
+          tabIndex={-1}
+        >
+          {showPassword ? 'Hide' : 'Show'}
+        </button>
         {errors.password && (
           <p className='text-sm text-red-500'>{errors.password}</p>
         )}

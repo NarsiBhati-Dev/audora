@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type DeviceOption = {
   label: string;
@@ -13,30 +13,41 @@ export const useMediaDevices = () => {
   const [audioInputId, setAudioInputId] = useState<string>('');
   const [audioOutputId, setAudioOutputId] = useState<string>('');
   const [stream, setStream] = useState<MediaStream | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
   const [cameraOn, setCameraOn] = useState(true);
   const [micOn, setMicOn] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    let localStream: MediaStream;
+  const stopAllTracks = () => {
+    const currentStream = streamRef.current;
+    if (!currentStream) return;
+    currentStream.getTracks().forEach(track => track.stop());
+    streamRef.current = null;
+  };
 
+  useEffect(() => {
     const getDevices = async () => {
       setLoading(true);
       try {
-        stream?.getTracks().forEach(track => track.stop());
-
-        localStream = await navigator.mediaDevices.getUserMedia({
-          video: videoDeviceId ? { deviceId: { exact: videoDeviceId } } : true,
-          audio: audioInputId ? { deviceId: { exact: audioInputId } } : true,
+        const localStream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            deviceId: videoDeviceId ? { exact: videoDeviceId } : undefined,
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
+            frameRate: { ideal: 30, max: 60 },
+          },
+          audio: {
+            deviceId: audioInputId ? { exact: audioInputId } : undefined,
+          },
         });
 
         setStream(localStream);
+        streamRef.current = localStream;
         setCameraOn(true);
         setMicOn(true);
 
         const devices = await navigator.mediaDevices.enumerateDevices();
-
         const cams: DeviceOption[] = [];
         const mics: DeviceOption[] = [];
         const outs: DeviceOption[] = [];
@@ -75,24 +86,40 @@ export const useMediaDevices = () => {
     getDevices();
 
     return () => {
-      localStream?.getTracks().forEach(track => track.stop());
+      stopAllTracks();
     };
   }, [videoDeviceId, audioInputId]);
 
   const toggleMic = () => {
-    if (!stream) return;
-    stream.getAudioTracks().forEach(track => {
+    const currentStream = streamRef.current;
+    if (!currentStream) return;
+    currentStream.getAudioTracks().forEach(track => {
       track.enabled = !track.enabled;
     });
     setMicOn(prev => !prev);
   };
 
   const toggleCamera = () => {
-    if (!stream) return;
-    stream.getVideoTracks().forEach(track => {
+    const currentStream = streamRef.current;
+    if (!currentStream) return;
+    currentStream.getVideoTracks().forEach(track => {
       track.enabled = !track.enabled;
     });
     setCameraOn(prev => !prev);
+  };
+
+  const stopCamera = () => {
+    const currentStream = streamRef.current;
+    if (!currentStream) return;
+    currentStream.getVideoTracks().forEach(track => track.stop());
+    setCameraOn(false);
+  };
+
+  const stopMic = () => {
+    const currentStream = streamRef.current;
+    if (!currentStream) return;
+    currentStream.getAudioTracks().forEach(track => track.stop());
+    setMicOn(false);
   };
 
   return {
@@ -110,6 +137,8 @@ export const useMediaDevices = () => {
     micOn,
     toggleCamera,
     toggleMic,
+    stopCamera,
+    stopMic,
     loading,
     error,
   };

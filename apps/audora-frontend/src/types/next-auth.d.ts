@@ -7,6 +7,7 @@ declare module 'next-auth' {
       email: string;
       name: string;
       accessToken?: string;
+      studioId?: string;
     };
   }
 
@@ -15,6 +16,7 @@ declare module 'next-auth' {
     email: string;
     name: string;
     accessToken?: string;
+    studioId?: string;
   }
 }
 
@@ -24,5 +26,6 @@ declare module 'next-auth/jwt' {
     email: string;
     name: string;
     accessToken?: string;
+    studioId?: string;
   }
 }

@@ -5,10 +5,10 @@ import {
   registerWithGoogle,
 } from "../controllers/auth.controller";
 
-const router = express.Router();
+const authRouter = express.Router();
 
-router.post("/register", register);
-router.post("/login", login);
-router.post("/google", registerWithGoogle);
+authRouter.post("/register", register);
+authRouter.post("/login", login);
+authRouter.post("/google", registerWithGoogle);
 
-export default router;
+export default authRouter;

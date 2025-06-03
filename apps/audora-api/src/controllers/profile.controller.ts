@@ -4,40 +4,48 @@ import type { AuthRequest } from "../utils/request-type";
 import { getUserById, updateUserById } from "@audora/database/userServices";
 
 export const setProfileName = async (req: AuthRequest, res: Response) => {
-  const id = req.auth?.id;
+  const userId = req.auth?.id;
 
-  if (!id) {
-    res
-      .status(HttpStatus.BAD_REQUEST)
-      .json({ success: false, message: "User not found" });
+  if (!userId) {
+    res.status(HttpStatus.BAD_REQUEST).json({
+      success: false,
+      message: "Unauthorized",
+    });
     return;
   }
 
   const { name } = req.body;
-  const user = await getUserById(id);
 
-  if (!user) {
-    res
-      .status(HttpStatus.BAD_REQUEST)
-      .json({ success: false, message: "User not found" });
+  try {
+    const user = await getUserById(userId);
+
+    if (!user) {
+      res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ success: false, message: "User not found" });
+      return;
+    }
+
+    if (!name) {
+      res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ success: false, message: "Name is required" });
+      return;
+    }
+
+    const updatedUser = await updateUserById(userId, name);
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      message: "Profile name updated successfully",
+      user: updatedUser,
+    });
+    return;
+  } catch {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: "Failed to update profile name",
+    });
     return;
   }
-
-  if (!name) {
-    res
-      .status(HttpStatus.BAD_REQUEST)
-      .json({ success: false, message: "Name is required" });
-    return;
-  }
-
-  await updateUserById(id, name);
-
-  res.status(HttpStatus.OK).json({
-    success: true,
-    message: "Profile name updated successfully",
-    user: {
-      name,
-    },
-  });
-  return;
 };

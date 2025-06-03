@@ -4,6 +4,52 @@ interface IconProps {
   className?: string;
 }
 
+export const DashboardSidebarIcon: React.FC<IconProps> = ({
+  className = 'w-6 h-6',
+}) => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='22'
+    height='22'
+    viewBox='0 0 24 24'
+    fill='none'
+    className={className}
+  >
+    <g id='Collapse'>
+      <rect
+        id='Rectangle 1014'
+        x='2'
+        y='3'
+        width='20'
+        height='18'
+        rx='4'
+        stroke='#FAFAFA'
+        strokeWidth='1.5'
+      ></rect>
+      <path
+        id='Rectangle 1016-129'
+        d='M10 3L10 12L10 21'
+        stroke='#FAFAFA'
+        strokeWidth='1.5'
+      ></path>
+      <path
+        id='Rectangle 1017-130'
+        d='M5 8L6 8L7 8'
+        stroke='#FAFAFA'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+      ></path>
+      <path
+        id='Rectangle 1018-131'
+        d='M5 11L6 11L7 11'
+        stroke='#FAFAFA'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+      ></path>
+    </g>
+  </svg>
+);
+
 export const LinkedInIcon: React.FC<IconProps> = ({
   className = 'w-6 h-6',
 }) => (
@@ -39,7 +85,6 @@ export const FacebookIcon: React.FC<IconProps> = ({
     viewBox='0 0 10 16'
     fill='none'
     className={className}
-    data-src='https://app.riverside.fm/6.72.10/static/media/facebook-01.f9d02084bc8e85a680f5.svg'
     xmlnsXlink='http://www.w3.org/1999/xlink'
   >
     <path
@@ -55,7 +100,6 @@ export const YoutubeIcon: React.FC<IconProps> = ({ className = 'w-6 h-6' }) => (
     viewBox='0 0 24 24'
     fill='none'
     className={className}
-    data-src='https://app.riverside.fm/6.72.10/static/media/youtube-logo.a5cc7000982a0b536430.svg'
     xmlnsXlink='http://www.w3.org/1999/xlink'
   >
     <path
@@ -77,7 +121,6 @@ export const TwitchIcon: React.FC<IconProps> = ({ className = 'w-6 h-6' }) => (
     viewBox='0 0 21 22'
     fill='currentColor'
     className={className}
-    data-src='https://app.riverside.fm/6.72.10/static/media/twitch-logo.56c154a7a76928a26028.svg'
     xmlnsXlink='http://www.w3.org/1999/xlink'
   >
     <path d='M1.47196 0L0 3.78125V19.25H5.25V22H8.19392L10.9907 19.25H15.2593L21 13.5045V0H1.47196ZM18.9883 12.5223L15.75 15.7634H10.5L7.70327 18.5625V15.7634H3.23832V2.01339H18.9883V12.5223ZM15.75 5.74554H13.7383V11.4911H15.75V5.74554ZM10.5 5.74554H8.48832V11.4911H10.5V5.74554Z'></path>
@@ -92,7 +135,6 @@ export const TikTokIcon: React.FC<IconProps> = ({ className = 'w-6 h-6' }) => (
     viewBox='0 0 12 14'
     fill='none'
     className={className}
-    data-src='https://app.riverside.fm/6.72.10/static/media/tiktok.32e2d39429aef726a96c.svg'
     xmlnsXlink='http://www.w3.org/1999/xlink'
   >
     <path
@@ -110,7 +152,6 @@ export const RTMPIcon: React.FC<IconProps> = ({ className = 'w-6 h-6' }) => (
     viewBox='0 0 20 20'
     fill='none'
     className={className}
-    data-src='https://app.riverside.fm/6.72.10/static/media/signal-01.b47fac5188ef6d1d39b8.svg'
     xmlnsXlink='http://www.w3.org/1999/xlink'
   >
     <path
@@ -183,7 +224,6 @@ export const InfoIcon: React.FC<IconProps> = ({ className = 'w-8 h-8' }) => (
     viewBox='0 0 20 20'
     fill='none'
     className={className}
-    data-src='https://app.riverside.fm/6.72.10/static/media/film-02.b7704551e33e59b7cfc0.svg'
     xmlnsXlink='http://www.w3.org/1999/xlink'
   >
     <path
@@ -206,7 +246,6 @@ export const StreamingResolutionIcon: React.FC<IconProps> = ({
     viewBox='0 0 20 20'
     fill='none'
     className={className}
-    data-src='https://app.riverside.fm/6.72.10/static/media/settings-04.d6ca069f80fc67cd41fb.svg'
     xmlnsXlink='http://www.w3.org/1999/xlink'
   >
     <path
@@ -229,7 +268,6 @@ export const AudienceInfoIcon: React.FC<IconProps> = ({
     viewBox='0 0 20 20'
     fill='none'
     className={className}
-    data-src='https://app.riverside.fm/6.72.10/static/media/users-03.02d5891b575cff2148d5.svg'
     xmlnsXlink='http://www.w3.org/1999/xlink'
   >
     <path
@@ -250,7 +288,6 @@ export const SupportIcon: React.FC<IconProps> = ({ className = 'w-8 h-8' }) => (
     viewBox='0 0 20 20'
     fill='none'
     className={className}
-    data-src='https://app.riverside.fm/6.72.10/static/media/graduation-hat-01.3a6c4c74c80868fea0e9.svg'
     xmlnsXlink='http://www.w3.org/1999/xlink'
   >
     <path
@@ -273,7 +310,6 @@ export const SupportIcon2: React.FC<IconProps> = ({
     viewBox='0 0 20 20'
     fill='none'
     className={className}
-    data-src='https://app.riverside.fm/6.72.10/static/media/magic-wand-02.733fd52bb2631a4d3cd2.svg'
     xmlnsXlink='http://www.w3.org/1999/xlink'
   >
     <path
@@ -296,7 +332,6 @@ export const SupportIcon3: React.FC<IconProps> = ({
     viewBox='0 0 20 20'
     fill='none'
     className={className}
-    data-src='https://app.riverside.fm/6.72.10/static/media/message-square-01.ab0a62393432c59bd73c.svg'
     xmlnsXlink='http://www.w3.org/1999/xlink'
   >
     <path
@@ -317,7 +352,6 @@ export const ZapIcon: React.FC<IconProps> = ({ className = 'w-8 h-8' }) => (
     viewBox='0 0 20 20'
     fill='none'
     className={className}
-    data-src='https://app.riverside.fm/6.72.10/static/media/zap-subs.fb33e431429d8374c56a.svg'
     xmlnsXlink='http://www.w3.org/1999/xlink'
   >
     <path

@@ -1,6 +1,6 @@
 import { InfoIcon } from '@/data/icons';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React from 'react';
 import {
   PiMicrophoneDuotone,
   PiVideoCameraDuotone,
@@ -9,23 +9,11 @@ import {
   PiSlidersDuotone,
 } from 'react-icons/pi';
 import { ToggleSwitch } from '../toggle-switch';
+import { useStudioSettingsStore } from '@/store/studio-setting-store';
 
 const RecordingTab = () => {
-  // State for toggles and selections
-  const [recordingMode, setRecordingMode] = useState<'Video & audio' | 'Audio'>(
-    'Audio',
-  );
-  const [noiseReduction, setNoiseReduction] = useState(false);
-  const [audioSampleRate, setAudioSampleRate] = useState<'44.1 kHz' | '48 kHz'>(
-    '44.1 kHz',
-  );
-  const [videoResolution, setVideoResolution] = useState<
-    'Standard' | 'Advanced'
-  >('Standard');
-  // const [frameRate, setFrameRate] = useState<'24 FPS'>('24 FPS');
-  const [countdownTimer, setCountdownTimer] = useState(true);
-  const [autoStartRecording, setAutoStartRecording] = useState(false);
-  const [pauseUploads, setPauseUploads] = useState(false);
+  const { studioRecordingSetting, setStudioRecordingSetting } =
+    useStudioSettingsStore();
 
   return (
     <div className='flex w-full flex-col gap-4 md:gap-6'>
@@ -48,14 +36,24 @@ const RecordingTab = () => {
           </p>
           <div className='flex w-full gap-2 rounded-lg bg-zinc-800 p-1'>
             <button
-              className={`w-full rounded-lg px-3 py-2 text-sm font-semibold transition md:px-5 ${recordingMode === 'Video & audio' ? 'bg-zinc-700 text-white' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'}`}
-              onClick={() => setRecordingMode('Video & audio')}
+              className={`w-full rounded-lg px-3 py-2 text-sm font-semibold transition md:px-5 ${studioRecordingSetting.recordingType === 'VIDEO_AUDIO' ? 'bg-zinc-700 text-white' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'}`}
+              onClick={() =>
+                setStudioRecordingSetting({
+                  ...studioRecordingSetting,
+                  recordingType: 'VIDEO_AUDIO',
+                })
+              }
             >
               Video & audio
             </button>
             <button
-              className={`w-full rounded-lg px-5 py-2 text-sm font-semibold transition ${recordingMode === 'Audio' ? 'bg-zinc-700 text-white' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'}`}
-              onClick={() => setRecordingMode('Audio')}
+              className={`w-full rounded-lg px-5 py-2 text-sm font-semibold transition ${studioRecordingSetting.recordingType === 'AUDIO' ? 'bg-zinc-700 text-white' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'}`}
+              onClick={() =>
+                setStudioRecordingSetting({
+                  ...studioRecordingSetting,
+                  recordingType: 'AUDIO',
+                })
+              }
             >
               Audio
             </button>
@@ -73,12 +71,17 @@ const RecordingTab = () => {
             <div className='mb-2 font-bold text-white'>Noise reduction</div>
             {/* Toggle */}
             <ToggleSwitch
-              checked={noiseReduction}
-              onChange={() => setNoiseReduction(v => !v)}
+              checked={studioRecordingSetting.noiseReduction}
+              onChange={() =>
+                setStudioRecordingSetting({
+                  ...studioRecordingSetting,
+                  noiseReduction: !studioRecordingSetting.noiseReduction,
+                })
+              }
               id='noise-reduction'
             />
           </div>
-          <div className='max-w-xs text-sm text-zinc-400'>
+          <div className='max-w-xs text-xs text-zinc-400'>
             Reduce background noise like air conditioners and laptop fans for
             all participants. This usually ensures the best audio quality but
             can compress audio files.
@@ -87,20 +90,33 @@ const RecordingTab = () => {
         <div>
           <div className='mb-2 font-bold text-white'>Audio sample rate</div>
           <div className='flex flex-col items-center justify-between gap-2 md:flex-row'>
-            <div className='max-w-xs text-sm text-zinc-400'>
+            <div className='max-w-xs text-xs text-zinc-400'>
               We suggest 44.1kHz when recording only audio, and 48kHz when
               recording video and audio.
             </div>
             <div className='flex w-full gap-2 rounded-lg bg-zinc-800 p-1'>
               <button
-                className={`flex w-full items-center justify-center gap-1 rounded-lg px-4 py-2 text-sm font-semibold transition ${audioSampleRate === '44.1 kHz' ? 'bg-zinc-700 text-white' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'}`}
-                onClick={() => setAudioSampleRate('44.1 kHz')}
+                type='button'
+                className={`flex w-full items-center justify-center gap-1 rounded-lg px-4 py-2 text-sm font-semibold transition ${studioRecordingSetting.audioSampleRate === 'KHZ_44_1' ? 'bg-zinc-700 text-white' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'}`}
+                onClick={() =>
+                  setStudioRecordingSetting({
+                    ...studioRecordingSetting,
+                    audioSampleRate: 'KHZ_44_1',
+                  })
+                }
               >
                 44.1 kHz
               </button>
               <button
-                className={`flex w-full items-center justify-center gap-1 rounded-lg px-4 py-2 text-sm font-semibold transition ${audioSampleRate === '48 kHz' ? 'bg-zinc-700 text-white' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'}`}
-                onClick={() => setAudioSampleRate('48 kHz')}
+                type='button'
+                disabled={true}
+                className={`flex w-full items-center justify-center gap-1 rounded-lg px-4 py-2 text-sm font-semibold transition ${studioRecordingSetting.audioSampleRate === 'KHZ_48_0' ? 'bg-zinc-700 text-white' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'}`}
+                onClick={() =>
+                  setStudioRecordingSetting({
+                    ...studioRecordingSetting,
+                    audioSampleRate: 'KHZ_48_0',
+                  })
+                }
               >
                 48 kHz{' '}
                 <PiLightningDuotone
@@ -122,11 +138,16 @@ const RecordingTab = () => {
           {/* Standard resolution */}
           <div
             className={`flex-1 rounded-xl border ${
-              videoResolution === 'Standard'
+              studioRecordingSetting.videoQuality === 'STANDARD'
                 ? 'border-primary-500'
                 : 'border-zinc-600'
             } relative flex cursor-pointer flex-col gap-3 bg-zinc-900 p-5 shadow-sm transition`}
-            onClick={() => setVideoResolution('Standard')}
+            onClick={() =>
+              setStudioRecordingSetting({
+                ...studioRecordingSetting,
+                videoQuality: 'STANDARD',
+              })
+            }
           >
             <span className='bg-primary-500 absolute -top-3 left-3 rounded-lg px-2 py-0.5 text-xs font-semibold text-white'>
               Recommended
@@ -134,7 +155,7 @@ const RecordingTab = () => {
             <div className='text-base font-semibold text-white'>
               Standard resolution
             </div>
-            <ul className='list-disc space-y-1.5 pl-5 text-xs leading-relaxed text-zinc-400'>
+            <ul className='list-disc space-y-1.5 pl-5 text-xs text-zinc-400'>
               <li>
                 Separate tracks record in 720p. You can export composed edits in
                 higher resolutions up to 4K.{' '}
@@ -152,11 +173,11 @@ const RecordingTab = () => {
           {/* Advanced resolution */}
           <div
             className={`flex-1 rounded-xl border ${
-              videoResolution === 'Advanced'
+              studioRecordingSetting.videoQuality === 'HIGH'
                 ? 'border-primary-500'
                 : 'border-zinc-600'
             } relative flex cursor-pointer flex-col gap-3 bg-zinc-900 p-5 shadow-sm transition`}
-            onClick={() => setVideoResolution('Advanced')}
+            // onClick={() => setVideoResolution('Advanced')}
           >
             <PiLightningDuotone
               className='absolute -top-3 left-3 rounded-full bg-zinc-900 text-yellow-500'
@@ -164,7 +185,7 @@ const RecordingTab = () => {
             />
 
             <div className='text-base font-semibold text-white'>Advanced</div>
-            <ul className='list-disc space-y-1.5 pb-[19px] pl-5 text-xs leading-relaxed text-zinc-400'>
+            <ul className='list-disc space-y-1.5 pb-[19px] pl-5 text-xs text-zinc-400'>
               <li>
                 Suitable for cameras that support 1080p and 4K HD recording.
               </li>
@@ -172,10 +193,11 @@ const RecordingTab = () => {
             </ul>
           </div>
         </div>
+
         <div className='mt-8 mb-4 flex items-center justify-between gap-2'>
           <div>
             <div className='mb-2 font-bold text-white'>Frame rate</div>
-            <div className='text-sm text-zinc-400'>
+            <div className='text-xs text-zinc-400'>
               Set the video frame rate.{' '}
               <Link href='#' className='text-primary-300 underline'>
                 Learn more
@@ -189,11 +211,12 @@ const RecordingTab = () => {
             <span className='text-xs text-zinc-400'>Recommended</span>
           </div>
         </div>
+
         <div>
           <div className='mb-2 font-bold text-white'>
             Automatic internet backups
           </div>
-          <div className='text-sm text-zinc-400'>
+          <div className='text-xs text-zinc-400'>
             {`Aside from the locally recorded high-quality tracks, you'll also
             have access to backups recorded over the internet.`}
           </div>
@@ -210,12 +233,18 @@ const RecordingTab = () => {
             <div className='mb-2 font-bold text-white'>Countdown timer</div>
             {/* Toggle */}
             <ToggleSwitch
-              checked={countdownTimer}
-              onChange={() => setCountdownTimer(v => !v)}
+              checked={studioRecordingSetting.countdownBeforeRecording}
+              onChange={() =>
+                setStudioRecordingSetting({
+                  ...studioRecordingSetting,
+                  countdownBeforeRecording:
+                    !studioRecordingSetting.countdownBeforeRecording,
+                })
+              }
               id='countdown-timer'
             />
           </div>
-          <div className='max-w-xs text-sm text-zinc-400'>
+          <div className='max-w-xs text-xs text-zinc-400'>
             A five-second countdown will start after you hit record, giving you
             and your guests a heads-up before the recording begins.
           </div>
@@ -227,12 +256,18 @@ const RecordingTab = () => {
             </div>
             {/* Toggle */}
             <ToggleSwitch
-              checked={autoStartRecording}
-              onChange={() => setAutoStartRecording(v => !v)}
+              checked={studioRecordingSetting.autoStartOnGuestJoin}
+              onChange={() =>
+                setStudioRecordingSetting({
+                  ...studioRecordingSetting,
+                  autoStartOnGuestJoin:
+                    !studioRecordingSetting.autoStartOnGuestJoin,
+                })
+              }
               id='auto-start-recording'
             />
           </div>
-          <div className='max-w-xs text-sm text-zinc-400'>
+          <div className='max-w-xs text-xs text-zinc-400'>
             The recording will start automatically as soon as the first guest
             joins the studio, no need to hit record. Test recording is disabled
             when this is on.
@@ -254,12 +289,17 @@ const RecordingTab = () => {
           </div>
           {/* Toggle */}
           <ToggleSwitch
-            checked={pauseUploads}
-            onChange={() => setPauseUploads(v => !v)}
+            checked={studioRecordingSetting.pauseUploads}
+            onChange={() =>
+              setStudioRecordingSetting({
+                ...studioRecordingSetting,
+                pauseUploads: !studioRecordingSetting.pauseUploads,
+              })
+            }
             id='pause-uploads'
           />
         </div>
-        <div className='max-w-xs text-sm text-zinc-400'>
+        <div className='max-w-xs text-xs text-zinc-400'>
           This improves the live session and reduces lag. Uploading resumes as
           soon as recording stops, but everyone has to remain in the studio
           until their upload is done.

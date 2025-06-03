@@ -13,11 +13,11 @@ const DashboardContainer = async ({
     <div className='border-dashboard-bg-light bg-dashboard-bg-darkest h-full rounded-2xl border text-white'>
       <div className='border-dashboard-bg-light flex items-center justify-center border-b p-4'>
         <p className='text-sm text-white'>
-          Welcome back, <span className='font-bold'>{session?.user?.name}</span>
+          Welcome back, <span className='font-bold'>{session?.user.name}</span>
         </p>
       </div>
 
-      <section className='w-full px-3 py-8 sm:px-12 md:px-6 lg:px-12 xl:px-24'>
+      <section className='w-full px-3 py-8 sm:px-12 md:px-6 lg:px-12 xl:px-34'>
         {children}
       </section>
     </div>

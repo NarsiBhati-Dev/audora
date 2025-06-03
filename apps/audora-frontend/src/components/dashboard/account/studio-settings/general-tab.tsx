@@ -6,14 +6,14 @@ import {
   PiChatsCircleDuotone,
 } from 'react-icons/pi';
 import { useUserProfileStore } from '@/store/user-profile';
-import { useStudioSettingStore } from '@/store/studio-setting';
+import { useStudioSettingsStore } from '@/store/studio-setting-store';
 import RemoveStudio from './remove-studio';
 import { ToggleSwitch } from '../toggle-switch';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 
 const GeneralTab = () => {
   const { userProfile, setUserProfile } = useUserProfileStore();
-  const { studioSetting, setStudioSetting } = useStudioSettingStore();
+  const { studioSetting, setStudioSetting } = useStudioSettingsStore();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -21,6 +21,18 @@ const GeneralTab = () => {
     { value: 'English', label: 'English' },
     { value: 'Spanish', label: 'Spanish' },
     { value: 'French', label: 'French' },
+    { value: 'German', label: 'German' },
+    { value: 'Italian', label: 'Italian' },
+    { value: 'Portuguese', label: 'Portuguese' },
+    { value: 'Russian', label: 'Russian' },
+    { value: 'Turkish', label: 'Turkish' },
+    { value: 'Chinese', label: 'Chinese' },
+    { value: 'Japanese', label: 'Japanese' },
+    { value: 'Korean', label: 'Korean' },
+    { value: 'Arabic', label: 'Arabic' },
+    { value: 'Dutch', label: 'Dutch' },
+    { value: 'Polish', label: 'Polish' },
+    { value: 'Romanian', label: 'Romanian' },
   ];
 
   useEffect(() => {
@@ -134,11 +146,11 @@ const GeneralTab = () => {
         <div>
           <h3 className='flex items-center gap-2 text-2xl font-bold text-white'>
             Design
-            <span className='bg-primary-400 rounded-lg px-2 py-0.5 text-xs font-semibold text-white'>
+            <span className='bg-primary-400 rounded-lg px-2 py-0.5 text-xs text-white'>
               NEW
             </span>
           </h3>
-          <p className='mt-1 text-sm text-zinc-400'>
+          <p className='mt-1 text-xs text-zinc-400'>
             Customize the studio background, colors and more.
           </p>
         </div>
@@ -157,7 +169,7 @@ const GeneralTab = () => {
           <PiChatsCircleDuotone className='text-zinc-400' size={24} />
           Language
         </h3>
-        <p className='text-sm text-zinc-400'>
+        <p className='text-xs text-zinc-400'>
           Choose a language for your transcript and captions.
         </p>
         <div className='mt-2 flex flex-col gap-2 md:flex-row md:items-center md:justify-between md:gap-1'>
@@ -193,7 +205,7 @@ const GeneralTab = () => {
                         : ''
                     }`}
                   >
-                    {language.label}
+                    {language.value}
                   </button>
                 ))}
               </div>

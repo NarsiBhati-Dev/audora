@@ -3,7 +3,7 @@ import AccountSidebar from '@/components/dashboard/account/account-sidebar';
 
 const YourAccountLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='mx-auto flex h-[calc(82vh-4rem)] max-w-6xl text-white md:h-[calc(90vh-4rem)]'>
+    <div className='mx-auto flex h-[calc(82vh-4rem)] max-w-5xl text-white md:h-[calc(90vh-4rem)]'>
       <AccountSidebar />
 
       {/* Main content */}
