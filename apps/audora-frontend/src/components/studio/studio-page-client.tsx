@@ -9,10 +9,12 @@ import {
   renderHostView,
 } from './render-view';
 import { useIsDesktop } from '@/hooks/useIsDesktop';
+// import { getGuestUserId } from '@/lib/studio/get-userId';
 
 interface StudioPageClientProps {
   studio: string;
   isHost: boolean;
+  userId: string | null;
   isGuestLanding: boolean;
   isGuestJoining: boolean;
   hostName: string | undefined;
@@ -21,12 +23,15 @@ interface StudioPageClientProps {
 const StudioPageClient = ({
   studio,
   isHost,
+  // userId,
   isGuestLanding,
   isGuestJoining,
   hostName,
 }: StudioPageClientProps) => {
   const { setStudioSetting } = useStudioSettingsStore();
   const isDesktop = useIsDesktop();
+
+  // const effectiveUserId = userId || (!isHost ? getGuestUserId() : null);
 
   useEffect(() => {
     if (studio) {

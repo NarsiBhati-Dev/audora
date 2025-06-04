@@ -1,10 +1,10 @@
-export type RTCSessionDescriptionInit = {
+export interface RTCSessionDescriptionInit {
   type: "offer" | "answer";
   sdp: string;
-};
+}
 
-export type RTCIceCandidateInit = {
+export interface RTCIceCandidateInit {
   candidate: string;
-  sdpMid?: string | null;
-  sdpMLineIndex?: number | null;
-};
+  sdpMid?: string;
+  sdpMLineIndex?: number;
+}

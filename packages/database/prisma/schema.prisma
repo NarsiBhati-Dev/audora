@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   name      String
   email     String   @unique
   password  String?  
@@ -23,13 +23,15 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  studio    Studio?
+  studio    Studio?  @relation("UserStudio")
+
   @@index([id])
 }
 
 model Studio {
   id                         String   @id 
   studioName                 String
+  // settings
   enableLobby                Boolean  @default(false)
   enableCaptions             Boolean  @default(false)
   recordingType              RecordingType  @default(VIDEO_AUDIO)
@@ -43,9 +45,15 @@ model Studio {
   createdAt                  DateTime @default(now())
   updatedAt                  DateTime @updatedAt
 
+  // projects 
   projects                   Project[]
-  user                       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId                     String   @unique
+
+  // user
+  user       User     @relation("UserStudio", fields: [userId], references: [id], onDelete: Cascade)
+  userId     String   @unique
+
+  // meetings
+  meetings                   Meeting[]
 
   @@index([id, userId])
 }
@@ -66,7 +74,7 @@ enum VideoQuality {
 }
 
 model Project {
-  id          String     @id @default(cuid())
+  id          String     @id @default(uuid())
   name        String
   studioId    String
   studio      Studio     @relation(fields: [studioId], references: [id], onDelete: Cascade)
@@ -75,3 +83,28 @@ model Project {
 
   @@index([id, studioId])
 }
+
+
+//  meeting 
+model Meeting {
+  id              String   @id @default(uuid())
+
+  title           String?
+  startedAt       DateTime @default(now())
+  endedAt         DateTime?
+
+  studioToken     String?  @unique @default(cuid())
+  tokenExpiresAt  DateTime?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // relations
+  studioId        String
+  studio          Studio   @relation(fields: [studioId], references: [id], onDelete: Cascade)
+  hostId          String
+  
+  @@index([id, studioId, studioToken])
+}
+
+

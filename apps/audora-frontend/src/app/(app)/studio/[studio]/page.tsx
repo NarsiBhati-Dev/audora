@@ -44,6 +44,7 @@ const StudioPage = async ({ params, searchParams }: Params) => {
     <main className='bg-studio-bg-light'>
       <StudioPageClient
         studio={studio}
+        userId={session?.user?.id || null}
         isHost={isHost}
         isGuestLanding={isGuestLanding}
         isGuestJoining={isGuestJoining}

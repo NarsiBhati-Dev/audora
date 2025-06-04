@@ -5,20 +5,25 @@ import type { Message } from "../types/message-types";
 interface SignalingEvent {
   socket: WebSocket;
   message: Message;
-  userId: string;
 }
 
-export const handleSignalingEvent = (socket: WebSocket) => {
-  logger.info("Signaling handler initialized");
+export const signalingEventHandler = ({ socket, message }: SignalingEvent) => {
+  const { type, data } = message;
 
-  socket.on("message", (data) => {
-    logger.info(`Received message: ${data}`);
-
-    const message = JSON.parse(data.toString());
-
-    switch (message.type) {
-      default:
-        logger.warn(`Unknown message type received: ${message.type}`);
+  switch (type) {
+    case "webrtc:offer":
+      logger.info(`[SIGNAL] ${type} | ${JSON.stringify(data)}`);
+      break;
+    case "webrtc:answer":
+      logger.info(`[SIGNAL] ${type} | ${JSON.stringify(data)}`);
+      break;
+    case "webrtc:ice-candidate": {
+      logger.info(`[SIGNAL] ${type} | ${JSON.stringify(data)}`);
+      break;
     }
-  });
+    default: {
+      logger.warn(`[SIGNAL] Unknown message type: ${type}`);
+      break;
+    }
+  }
 };
