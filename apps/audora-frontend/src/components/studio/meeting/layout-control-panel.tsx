@@ -1,10 +1,11 @@
 'use client';
+
 import { useState, useEffect, useRef } from 'react';
 import { GridLayoutIcon, ScreenFillIcon, ScreenFitIcon, SpeakerFullIcon, SpeakerSplitIcon } from '@/data/icons';
 import { useMeetingStore } from '@/store/meeting-store';
 
 export default function LayoutControlPanel() {
-    const { layout, fitMode, setLayout, setFitMode } = useMeetingStore();
+    const { layout, setLayout, fitMode, setFitMode } = useMeetingStore();
     const [isOpen, setIsOpen] = useState(false);
     const panelRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -22,8 +23,20 @@ export default function LayoutControlPanel() {
             }
         }
 
+        function handleKeyDown(event: KeyboardEvent) {
+            if (event.key === '1') {
+                setLayout('grid');
+            } else if (event.key === '2') {
+                setLayout('speaker-full');
+            } else if (event.key === '3') {
+                setLayout('speaker-split');
+            } 1
+        }
+
+        document.addEventListener('keydown', handleKeyDown);
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
+            document.removeEventListener('keydown', handleKeyDown);
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [isOpen]);
@@ -31,7 +44,7 @@ export default function LayoutControlPanel() {
     return (
         <>
             {isOpen && (
-                <div ref={panelRef} className="absolute bottom-20 right-0 bg-black/90 backdrop-blur-md text-white rounded-xl shadow-2xl p-4 w-80 space-y-4 border border-gray-800/50 animate-slideUp">
+                <div ref={panelRef} className="absolute bottom-14 right-0 bg-dashboard-bg-darkest backdrop-blur-md text-white rounded-xl shadow-2xl p-4 w-80 space-y-4 border border-dashboard-bg-light animate-slideUp">
                     <div className="space-y-2">
                         <button
                             onClick={() => setLayout('grid')}
@@ -41,7 +54,7 @@ export default function LayoutControlPanel() {
                             <span className="flex items-center gap-3">
                                 <GridLayoutIcon className="w-5 h-5" /> Grid
                             </span>
-                            <kbd className="text-xs bg-white/10 px-2 py-1 rounded">⌥+1</kbd>
+                            <kbd className="text-xs bg-white/10 px-2 py-1 rounded">1</kbd>
                         </button>
                         <button
                             onClick={() => setLayout('speaker-full')}
@@ -51,7 +64,7 @@ export default function LayoutControlPanel() {
                             <span className="flex items-center gap-3">
                                 <SpeakerFullIcon className="w-5 h-5" /> Speaker full screen
                             </span>
-                            <kbd className="text-xs bg-white/10 px-2 py-1 rounded">⌥+2</kbd>
+                            <kbd className="text-xs bg-white/10 px-2 py-1 rounded">2</kbd>
                         </button>
                         <button
                             onClick={() => setLayout('speaker-split')}
@@ -61,7 +74,7 @@ export default function LayoutControlPanel() {
                             <span className="flex items-center gap-3">
                                 <SpeakerSplitIcon className="w-5 h-5" /> Speaker split screen
                             </span>
-                            <kbd className="text-xs bg-white/10 px-2 py-1 rounded">⌥+3</kbd>
+                            <kbd className="text-xs bg-white/10 px-2 py-1 rounded">3</kbd>
                         </button>
                     </div>
 
@@ -89,9 +102,9 @@ export default function LayoutControlPanel() {
                 className='p-2 rounded-lg hover:bg-white/10 transition-all duration-200'
                 onClick={() => setIsOpen(!isOpen)}
             >
-                {layout === 'grid' && <GridLayoutIcon className="w-5 h-5" />}
-                {layout === 'speaker-full' && <SpeakerFullIcon className="w-5 h-5" />}
-                {layout === 'speaker-split' && <SpeakerSplitIcon className="w-5 h-5" />}
+                {layout === 'grid' && <GridLayoutIcon className="w-6 h-6" />}
+                {layout === 'speaker-full' && <SpeakerFullIcon className="w-6 h-6" />}
+                {layout === 'speaker-split' && <SpeakerSplitIcon className="w-6 h-6" />}
             </button>
         </>
     );

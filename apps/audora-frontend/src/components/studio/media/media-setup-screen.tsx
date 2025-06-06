@@ -8,30 +8,17 @@ import {
   CameraIcon,
   CameraOffIcon,
   MicrophoneIcon,
-  MicOffIcon,
+  MicrophoneOffIcon,
 } from '@/data/icons';
+import { useSystemStreamStore } from '@/store/system-stream';
+import { useEffect } from 'react';
 
 export default function MediaSetupScreen() {
-  const {
-    cameras,
-    microphones,
-    speakers,
-    stream,
-    videoDeviceId,
-    setVideoDeviceId,
-    audioInputId,
-    setAudioInputId,
-    audioOutputId,
-    setAudioOutputId,
-    cameraOn,
-    micOn,
-    toggleCamera,
-    toggleMic,
-    loading,
-    error,
-  } = useMediaDevices();
+
+  const { stream, micOn, cameraOn, toggleMic, toggleCamera, loading, error, cameras, videoDeviceId, setVideoDeviceId, microphones, audioInputId, setAudioInputId, speakers, audioOutputId, setAudioOutputId } = useMediaDevices();
 
   const videoInfo = useVideoInfo(stream);
+
 
   return (
     <div className='flex w-full items-center justify-center px-4'>
@@ -77,7 +64,7 @@ export default function MediaSetupScreen() {
                   {micOn ? (
                     <MicrophoneIcon className='h-6 w-6' />
                   ) : (
-                    <MicOffIcon className='h-6 w-6 text-red-500' />
+                    <MicrophoneOffIcon className='h-6 w-6 text-red-500' />
                   )}
                 </button>
 

@@ -1,6 +1,6 @@
 'use client';
+
 import React from 'react';
-import { FaChevronLeft, FaQuestionCircle, FaCog, FaUserPlus } from 'react-icons/fa';
 import Logo from '@/components/logo';
 import Link from 'next/link';
 import { FiChevronLeft, FiSettings } from 'react-icons/fi';

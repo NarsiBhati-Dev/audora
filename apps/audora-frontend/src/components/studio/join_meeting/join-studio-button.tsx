@@ -1,9 +1,15 @@
 'use client';
 
+import { useMeetingStartStore } from '@/store/meeting-start-store';
+import { useSystemStreamStore } from '@/store/system-stream';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 export function JoinStudioButton() {
+  const { setIsMeetingStarted } = useMeetingStartStore();
+
+  const { setMicToggle, setCamToggle, setStopCam, setStopMic } = useSystemStreamStore();
+
   const [permissionState, setPermissionState] = useState<
     'loading' | 'granted' | 'prompt' | 'denied'
   >('loading');
@@ -71,17 +77,16 @@ export function JoinStudioButton() {
     }
   };
 
-  const handleJoin = () => {
-    console.log('Joining studio...');
-    // trigger WebSocket + WebRTC logic
-  };
-
   return (
     <button
       className={
         'bg-primary-400 hover:bg-primary-500 w-full rounded-lg px-4 py-2.5 text-sm font-medium text-white transition'
       }
-      onClick={permissionState === 'granted' ? handleJoin : requestAccess}
+      onClick={
+        permissionState === 'granted'
+          ? () => setIsMeetingStarted(true)
+          : requestAccess
+      }
     >
       {permissionState === 'granted' ? 'Join Studio' : 'Allow Access'}
     </button>

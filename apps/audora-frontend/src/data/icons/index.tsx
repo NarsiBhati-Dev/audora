@@ -430,7 +430,7 @@ export const SpeakerIcon: React.FC<IconProps> = ({ className = 'w-8 h-8' }) => (
   </svg>
 );
 
-export const MicOffIcon: React.FC<IconProps> = ({ className = 'w-8 h-8' }) => (
+export const MicrophoneOffIcon: React.FC<IconProps> = ({ className = 'w-8 h-8' }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     width='20'

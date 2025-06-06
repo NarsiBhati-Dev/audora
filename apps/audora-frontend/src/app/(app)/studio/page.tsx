@@ -1,8 +1,8 @@
-import MeetingWarp from '@/components/studio/meeting/meeting-warp';
-import React from 'react';
+// import MeetingStart from '@/components/studio/meeting/meeting-start';
+// import React from 'react';
 
-const page = () => {
-  return <MeetingWarp />;
-};
+// const page = () => {
+//   return <MeetingStart />;
+// };
 
-export default page;
+// export default page;

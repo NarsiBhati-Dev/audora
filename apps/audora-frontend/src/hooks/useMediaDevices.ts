@@ -30,6 +30,21 @@ export const useMediaDevices = () => {
     const getDevices = async () => {
       setLoading(true);
       try {
+        // First check permissions
+        const permissions = await Promise.all([
+          navigator.permissions.query({ name: 'camera' as PermissionName }),
+          navigator.permissions.query({ name: 'microphone' as PermissionName }),
+        ]);
+
+        if (
+          permissions[0].state === 'denied' ||
+          permissions[1].state === 'denied'
+        ) {
+          setError('Camera or microphone access denied');
+          setLoading(false);
+          return;
+        }
+
         const localStream = await navigator.mediaDevices.getUserMedia({
           video: {
             deviceId: videoDeviceId ? { exact: videoDeviceId } : undefined,
@@ -41,6 +56,11 @@ export const useMediaDevices = () => {
             deviceId: audioInputId ? { exact: audioInputId } : undefined,
           },
         });
+
+        // Stop any existing tracks before setting new stream
+        if (streamRef.current) {
+          stopAllTracks();
+        }
 
         setStream(localStream);
         streamRef.current = localStream;
@@ -76,8 +96,11 @@ export const useMediaDevices = () => {
         if (!audioOutputId) setAudioOutputId(outs[0]?.deviceId || '');
 
         setError(null);
-      } catch {
-        setError('Unknown error');
+      } catch (err) {
+        console.error('Error accessing media devices:', err);
+        setError(
+          err instanceof Error ? err.message : 'Failed to access media devices',
+        );
       } finally {
         setLoading(false);
       }
@@ -86,7 +109,10 @@ export const useMediaDevices = () => {
     getDevices();
 
     return () => {
-      stopAllTracks();
+      // Only stop tracks if we're not just switching devices
+      if (!videoDeviceId && !audioInputId) {
+        stopAllTracks();
+      }
     };
   }, [videoDeviceId, audioInputId]);
 

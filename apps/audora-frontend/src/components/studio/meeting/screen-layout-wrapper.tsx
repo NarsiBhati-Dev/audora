@@ -3,14 +3,12 @@ import { useState, useEffect } from 'react';
 import { useMeetingParticipantStore, useMeetingStore } from '@/store/meeting-store';
 import { FiMicOff, FiVideoOff } from 'react-icons/fi';
 import VideoTile from './VideoTile';
-import { useMediaDevices } from '@/hooks/useMediaDevices';
 import HostView from './host-view';
+import { useSystemStreamStore } from '@/store/system-stream';
 
 const getGridCols = (participantCount: number) => {
-    if (participantCount + 1 <= 2) return 'grid-cols-1';
-    if (participantCount + 1 <= 4) return 'grid-cols-2';
-    if (participantCount + 1 <= 6) return 'grid-cols-3';
-    return 'grid-cols-4';
+    if (participantCount <= 2) return 'grid-cols-1';
+    return 'grid-cols-2';
 };
 
 const ParticipantStatus = ({ participant }: { participant: any }) => (
@@ -34,7 +32,7 @@ export default function ScreenLayoutWrapper() {
     const { layout } = useMeetingStore();
     const { participants } = useMeetingParticipantStore();
     const [isLoading, setIsLoading] = useState(true);
-    const { stream: localStream, cameraOn } = useMediaDevices();
+    const { stream, camOn } = useSystemStreamStore();
 
     useEffect(() => {
         // Simulate loading state
@@ -52,21 +50,26 @@ export default function ScreenLayoutWrapper() {
         }
 
         if (!participants.length) {
-            return <HostView localStream={localStream} cameraOn={cameraOn} />;
+            return <HostView localStream={stream} cameraOn={camOn} />;
         }
 
         switch (layout) {
             case 'grid':
+                const totalParticipants = participants.length + 1;
+                const isTwoParticipants = totalParticipants === 2;
                 return (
-                    <div className={`grid ${getGridCols(participants.length + 1)} gap-4 w-full h-full p-6 transition-all duration-300 place-items-center`}>
-                        {/* Local video */}
+                    <div
+                        className={`${isTwoParticipants
+                            ? 'flex justify-center items-center'
+                            : `grid ${getGridCols(totalParticipants)} place-items-center`
+                            } gap-4 w-full h-full p-6 transition-all duration-300`}
+                    >
                         <VideoTile
                             label="You"
-                            stream={localStream}
+                            stream={stream}
                             isSelf={true}
-                            borderColor={cameraOn ? "border-gray-600" : "border-red-500"}
+                            borderColor={camOn ? "border-gray-600" : "border-red-500"}
                         />
-                        {/* Other participants */}
                         {participants.map((p) => (
                             <VideoTile
                                 key={p.id}
@@ -97,13 +100,13 @@ export default function ScreenLayoutWrapper() {
                                 borderColor={participants[0]?.isCameraOn ? "border-gray-600" : "border-red-500"}
                             />
                         </div>
-                        <div className="w-80 flex flex-col gap-4 overflow-hidden">
+                        <div className="w-md h-full flex flex-col gap-4 overflow-hidden">
                             {/* Local video */}
                             <VideoTile
                                 label="You"
-                                stream={localStream}
+                                stream={stream}
                                 isSelf={true}
-                                borderColor={cameraOn ? "border-gray-600" : "border-red-500"}
+                                borderColor={camOn ? "border-gray-600" : "border-red-500"}
                             />
                             {/* Other participants */}
                             {participants.slice(1).map((p) => (
@@ -121,7 +124,7 @@ export default function ScreenLayoutWrapper() {
     };
 
     return (
-        <div className="relative w-full h-[calc(100vh-100px)] bg-black text-white transition-all duration-300">
+        <div className="relative w-full h-[calc(100vh-150px)]  bg-black text-white transition-all duration-300">
             {getLayout()}
         </div>
     );

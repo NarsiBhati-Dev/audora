@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import GuestStudioHeader from './guest-studio-header';
 import JoinStudio from './join_meeting/join-studio';
@@ -8,28 +6,44 @@ import MobileFallback from './mobile-fallback';
 import StudioHeader from './studio-header';
 import StudioLayout from './studio-layout';
 import WelcomeScreen from './welcome-screen';
+import MeetingStart from './meeting/meeting-start';
+
 
 const renderGuestLanding = () => <WelcomeScreen />;
 
-const renderGuestJoining = () => (
-  <>
-    <GuestStudioHeader />
-    <StudioLayout>
-      <JoinStudio isHost={false} />
-      <MediaSetupScreen />
-    </StudioLayout>
-  </>
-);
-
-const renderHostView = (hostName: string | undefined, isDesktop: boolean) => {
-  return isDesktop ? (
+const renderGuestJoining = (isMeetingStarted: boolean) => {
+  return (
     <>
-      <StudioHeader />
-      <StudioLayout>
-        <JoinStudio isHost={true} hostName={hostName} />
-        <MediaSetupScreen />
-      </StudioLayout>
+      {isMeetingStarted ? (
+        <MeetingStart isGuest={true} />
+      ) : (
+        <>
+          <GuestStudioHeader />
+          <StudioLayout>
+            <JoinStudio isHost={false} />
+            <MediaSetupScreen />
+          </StudioLayout>
+        </>
+      )}
     </>
+  );
+};
+
+const renderHostView = (hostName: string | undefined, isDesktop: boolean, isMeetingStarted: boolean) => {
+  return isDesktop ? (
+    isMeetingStarted ? (
+      <>
+        <MeetingStart isGuest={false} />
+      </>
+    ) : (
+      <>
+        <StudioHeader />
+        <StudioLayout>
+          <JoinStudio isHost={true} hostName={hostName} />
+          <MediaSetupScreen />
+        </StudioLayout>
+      </>
+    )
   ) : (
     <MobileFallback />
   );

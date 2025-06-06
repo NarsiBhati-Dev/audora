@@ -3,6 +3,7 @@
 import { useStudioSettingsStore } from '@/store/studio-setting-store';
 import React, { useState } from 'react';
 import { JoinStudioButton } from './join-studio-button';
+import { useMeetingStartStore } from '@/store/meeting-start-store';
 
 interface JoinStudioProps {
   isHost: boolean;
