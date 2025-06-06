@@ -3,6 +3,7 @@ import { logger } from "../utils/logger";
 import type { Message } from "../types/message-types";
 import { createRoomManager, RoomUtils } from "../rooms/room-manager";
 import type { Room } from "../rooms/room-manager";
+import { sendAndClose } from "../utils/sendAndClose";
 
 const roomManager = createRoomManager();
 
@@ -11,55 +12,78 @@ interface RoomEvent {
   message: Message;
 }
 
-export const roomEventHandler = ({ socket, message }: RoomEvent) => {
+export const roomEventHandler = async ({ socket, message }: RoomEvent) => {
   const { type, data } = message;
 
   switch (type) {
     case "user:join": {
-      const { role, studioId, userId, name } = data;
+      const { role, studioId, userId, name = "" } = data;
+
+      if (!studioId || !userId || !role) {
+        sendAndClose(socket, "error", "Missing required fields.");
+        return;
+      }
 
       let room: Room | undefined;
 
       if (role === "host") {
-        // Host can create room
         room = roomManager.getOrCreateRoom(studioId);
+        logger.info(`[${studioId}] Host (${name}) created or joined room`);
       } else if (role === "guest") {
-        // Guest can only join existing room
         room = roomManager.getRoom(studioId);
+
         if (!room) {
-          logger.warn(`Guest attempted to join non-existent room: ${studioId}`);
-          socket.send(
-            JSON.stringify({
-              type: "error",
-              data: { message: "Room does not exist." },
-            })
+          logger.warn(`Host has not started the room: ${studioId}`);
+
+          sendAndClose(
+            socket,
+            "error",
+            "The host hasn't started the room yet."
           );
-          socket.close();
           return;
         }
       } else {
-        logger.warn(`Unknown role: ${role}`);
-        socket.close();
+        logger.warn(`Unknown role received: ${role}`);
+        sendAndClose(socket, "error", "Unknown role.");
         return;
       }
 
+      // Add participant to the room
       const [updatedRoom] = RoomUtils.addParticipant(room, socket, {
         userId,
-        name: name || "",
+        name,
         role,
       });
 
       roomManager.updateRoom(studioId, () => updatedRoom);
 
-      logger.info(`[${studioId}] ${role} (${name}) connected`);
+      // Broadcast to others (excluding new joiner)
+      RoomUtils.broadcast(
+        updatedRoom,
+        {
+          type: "user:joined",
+          data: { userId, name, role },
+        },
+        socket
+      );
 
-      if (RoomUtils.getParticipantCount(updatedRoom) === 2) {
-        RoomUtils.broadcast(updatedRoom, {
-          type: "room:ready",
-          data: { studioId },
-        });
+      // Send participant list to the new user
+      if (updatedRoom.participants.size > 1) {
+        RoomUtils.broadcastToSpecificSocket(
+          {
+            type: "participants:list",
+            data: {
+              participants: RoomUtils.serializeParticipants(
+                updatedRoom,
+                socket
+              ),
+            },
+          },
+          socket
+        );
       }
 
+      logger.info(`[${studioId}] ${role} (${name}) connected`);
       break;
     }
 
@@ -67,13 +91,16 @@ export const roomEventHandler = ({ socket, message }: RoomEvent) => {
       const { studioId, userId } = data;
 
       const room = roomManager.getRoom(studioId);
-      if (!room) break;
+      if (!room) {
+        logger.warn(`[${studioId}] Leave attempted, but room not found`);
+        break;
+      }
 
       const updatedRoom = RoomUtils.removeParticipantBySocket(room, socket);
       roomManager.updateRoom(studioId, () => updatedRoom);
       roomManager.removeRoomIfEmpty(studioId);
 
-      logger.info(`[${studioId}] user ${userId} disconnected`);
+      logger.info(`[${studioId}] User ${userId} disconnected`);
 
       RoomUtils.broadcast(
         updatedRoom,
@@ -89,6 +116,7 @@ export const roomEventHandler = ({ socket, message }: RoomEvent) => {
 
     default: {
       logger.warn(`Unhandled message type: ${type}`);
+      sendAndClose(socket, "error", `Unknown message type: ${type}`);
       break;
     }
   }

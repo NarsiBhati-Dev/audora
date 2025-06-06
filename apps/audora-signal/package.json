@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@audora/typescript-config": "*",
+    "@audora/database": "*",
     "@types/uuid": "^10.0.0",
     "@types/ws": "^8.18.1",
     "uuid": "^11.1.0",
