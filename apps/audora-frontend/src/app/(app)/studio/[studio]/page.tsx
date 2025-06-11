@@ -32,7 +32,7 @@ const StudioPage = async ({ params, searchParams }: Params) => {
   const session = await getServerSession(authOptions);
   const studioData = await getStudio(session?.user?.accessToken as string);
 
-  const isHost = studioData?.id === studio;
+  const isHost = studioData?.studioSlug === studio;
   const isGuestLanding = !isHost && t !== undefined && gw === undefined;
   const isGuestJoining = !isHost && t !== undefined && gw === 'on';
 

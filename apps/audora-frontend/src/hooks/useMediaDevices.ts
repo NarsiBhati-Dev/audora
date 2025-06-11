@@ -110,9 +110,9 @@ export const useMediaDevices = () => {
 
     return () => {
       // Only stop tracks if we're not just switching devices
-      if (!videoDeviceId && !audioInputId) {
-        stopAllTracks();
-      }
+      // if (!videoDeviceId && !audioInputId) {
+      // }
+      stopAllTracks();
     };
   }, [videoDeviceId, audioInputId]);
 

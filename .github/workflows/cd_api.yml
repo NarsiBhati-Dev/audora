@@ -28,8 +28,8 @@ jobs:
           file: ./docker/backend.prod.Dockerfile
           push: true
           tags: |
-            narsibhati6545/audora-api:${{ github.sha }} 
-            narsibhati6545/audora-api:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/audora-api:${{ github.sha }} 
+            ${{ secrets.DOCKERHUB_USERNAME }}/audora-api:latest
 
       - name: Deploy to VM
         uses: appleboy/ssh-action@v1.2.0
@@ -39,7 +39,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            sudo docker pull narsibhati6545/audora-api:latest
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/audora-api:latest
 
             if sudo docker ps -a --format '{{.Names}}' | grep -q "^audora-api$"; then
               sudo docker stop audora-api
@@ -49,13 +49,13 @@ jobs:
             sudo docker run -d \
               --name audora-api \
               -e NODE_ENV=production \
-              -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
               -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
-              -e JWT_EXPIRES_IN="1d" \
               -e FRONTEND_URL="${{ secrets.FRONTEND_URL }}" \
+              -e PORT=9000 \
+              -e NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}" \
               -p 9000:9000 \
               --restart always \
-              narsibhati6545/audora-api:latest
+              ${{ secrets.DOCKERHUB_USERNAME }}/audora-api:latest
 
             echo "Audora API deployed successfully!"
             sudo docker image prune -f --filter "until=24h"

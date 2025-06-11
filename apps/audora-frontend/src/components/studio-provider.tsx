@@ -15,8 +15,8 @@ const StudioProvider = ({ studio, children }: StudioProviderProps) => {
   useEffect(() => {
     setAllSettings({
       studioSetting: {
-        studioId: studio.id,
-        name: studio.studioName,
+        studioSlug: studio.studioSlug,
+        studioName: studio.studioName,
         enableLobby: studio.enableLobby,
         language: studio.language,
       },

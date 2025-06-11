@@ -87,17 +87,17 @@ interface MeetingParticipantStore {
 export const useMeetingParticipantStore = create<MeetingParticipantStore>(
   set => ({
     participants: [
-      // {
-      //   id: '1',
-      //   name: 'John Doe',
-      //   isSpeaker: true,
-      //   isMuted: false,
-      //   isDeafened: false,
-      //   isCameraOn: true,
-      //   isMicOn: true,
-      //   isScreenShareOn: false,
-      //   isScreenShareMuted: false,
-      // },
+      {
+        id: '1',
+        name: 'John Doe',
+        isSpeaker: true,
+        isMuted: false,
+        isDeafened: false,
+        isCameraOn: true,
+        isMicOn: false,
+        isScreenShareOn: false,
+        isScreenShareMuted: false,
+      },
       // {
       //   id: '2',
       //   name: 'Jane Doe',

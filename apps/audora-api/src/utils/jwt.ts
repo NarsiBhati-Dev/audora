@@ -10,6 +10,7 @@ interface TokenPayload {
  * @param id - The user ID to encode in the token.
  * @returns The generated JWT token.
  */
+
 export const generateToken = (id: string): string => {
   return jwt.sign({ id }, NEXTAUTH_SECRET as string, { expiresIn: "1d" });
 };

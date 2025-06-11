@@ -10,8 +10,8 @@
     "typescript": "^5"
   },
   "scripts": {
-    "dev": "bun run src/server.ts",
-    "start:backend": "bun run src/server.ts"
+    "start:backend": "bun run src/server.ts",
+    "dev": "bun run src/server.ts"
   },
   "dependencies": {
     "@audora/database": "*",

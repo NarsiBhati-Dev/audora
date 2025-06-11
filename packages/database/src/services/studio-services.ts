@@ -6,7 +6,7 @@ import type {
 } from "@prisma/client";
 
 import { client } from "../index";
-import generateStudioId from "../utils/generateStudioId";
+import slugifyStudioName from "../utils/slugifyStudioName";
 
 export const createStudioService = async ({
   userId,
@@ -35,9 +35,11 @@ export const createStudioService = async ({
   autoStartOnGuestJoin?: boolean;
   pauseUploads?: boolean;
 }) => {
+  const studioSlug = slugifyStudioName(studioName);
+
   const studio = await client.studio.create({
     data: {
-      id: generateStudioId(studioName),
+      studioSlug,
       studioName,
       enableLobby,
       enableCaptions,

@@ -20,6 +20,7 @@ export const LanguageSchema = z.enum([
 
 export const StudioSchema = z.object({
   id: z.string(),
+  studioSlug: z.string(),
   studioName: z.string(),
   userId: z.string(),
   recordingType: z.enum(["VIDEO_AUDIO", "AUDIO"]),
@@ -44,7 +45,7 @@ export const DeleteStudioSchema = z.object({
 });
 
 export const UpdateStudioSchema = StudioSchema.omit({
-  studioName: true,
+  studioSlug: true,
   userId: true,
 });
 

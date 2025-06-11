@@ -1,6 +1,5 @@
 'use client';
 
-import { useMediaDevices } from '@/hooks/useMediaDevices';
 import { useVideoInfo } from '@/hooks/useVideoInfo';
 import Spinner1 from '../../loaders/spinner1';
 import DropdownSelect from './dropdown-select';
@@ -11,14 +10,28 @@ import {
   MicrophoneOffIcon,
 } from '@/data/icons';
 import { useSystemStreamStore } from '@/store/system-stream';
-import { useEffect } from 'react';
 
 export default function MediaSetupScreen() {
-
-  const { stream, micOn, cameraOn, toggleMic, toggleCamera, loading, error, cameras, videoDeviceId, setVideoDeviceId, microphones, audioInputId, setAudioInputId, speakers, audioOutputId, setAudioOutputId } = useMediaDevices();
+  const {
+    stream,
+    micOn,
+    camOn,
+    loading,
+    error,
+    cameras,
+    videoDeviceId,
+    setVideoDeviceId,
+    microphones,
+    audioInputId,
+    setAudioInputId,
+    speakers,
+    audioOutputId,
+    setAudioOutputId,
+    setMicToggle,
+    setCamToggle,
+  } = useSystemStreamStore();
 
   const videoInfo = useVideoInfo(stream);
-
 
   return (
     <div className='flex w-full items-center justify-center px-4'>
@@ -45,7 +58,7 @@ export default function MediaSetupScreen() {
                   }}
                 />
               )}
-              {!cameraOn && (
+              {!camOn && (
                 <div className='absolute inset-0 flex items-center justify-center bg-zinc-800'>
                   <p className='text-sm text-zinc-400'>Camera off</p>
                 </div>
@@ -58,7 +71,7 @@ export default function MediaSetupScreen() {
               )}
               <div className='absolute right-0 bottom-2 left-0 mt-2 flex justify-center gap-4'>
                 <button
-                  onClick={toggleMic}
+                  onClick={() => setMicToggle(true)}
                   className={`rounded-2xl bg-zinc-700/30 p-2 text-sm font-semibold transition duration-200 hover:bg-zinc-700/70 ${micOn ? 'text-white' : 'text-red-500'}`}
                 >
                   {micOn ? (
@@ -69,10 +82,10 @@ export default function MediaSetupScreen() {
                 </button>
 
                 <button
-                  onClick={toggleCamera}
-                  className={`rounded-2xl bg-zinc-700/30 p-2 text-sm font-semibold transition duration-200 hover:bg-zinc-700/70 ${cameraOn ? 'text-white' : 'text-red-500'}`}
+                  onClick={() => setCamToggle(true)}
+                  className={`rounded-2xl bg-zinc-700/30 p-2 text-sm font-semibold transition duration-200 hover:bg-zinc-700/70 ${camOn ? 'text-white' : 'text-red-500'}`}
                 >
-                  {cameraOn ? (
+                  {camOn ? (
                     <CameraIcon className='h-6 w-6' />
                   ) : (
                     <CameraOffIcon className='h-6 w-6 text-red-500' />
@@ -95,7 +108,7 @@ export default function MediaSetupScreen() {
               iconType='camera'
               value={videoDeviceId}
               onChange={setVideoDeviceId}
-              disabled={!cameraOn}
+              disabled={!camOn}
               placeholder='Select a camera'
             />
             <DropdownSelect

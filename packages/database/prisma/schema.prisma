@@ -29,8 +29,11 @@ model User {
 }
 
 model Studio {
-  id                         String   @id 
+  id                         String   @id @default(uuid())
+  studioSlug                 String   @unique
   studioName                 String
+  token                      String   @unique @default(cuid())
+
   // settings
   enableLobby                Boolean  @default(false)
   enableCaptions             Boolean  @default(false)
@@ -55,7 +58,7 @@ model Studio {
   // meetings
   meetings                   Meeting[]
 
-  @@index([id, userId])
+  @@index([id, userId ,studioSlug])
 }
 
 enum RecordingType {

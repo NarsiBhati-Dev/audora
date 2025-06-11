@@ -35,7 +35,7 @@ const authOptions: NextAuthOptions = {
           return {
             ...response.user,
             accessToken: response.accessToken,
-            studioId: response.studioId,
+            studioSlug: response.studioSlug,
           };
         } catch (error) {
           if (error instanceof Error) {
@@ -62,7 +62,7 @@ const authOptions: NextAuthOptions = {
           email: user.email,
           name: user.name,
           accessToken: user.accessToken,
-          studioId: user.studioId,
+          studioSlug: user.studioSlug,
         };
       }
 
@@ -79,7 +79,7 @@ const authOptions: NextAuthOptions = {
             email: response.user.email,
             name: response.user.name,
             accessToken: response.accessToken,
-            studioId: response.studioId,
+            studioSlug: response.studioSlug,
           };
         } else {
           console.error('Google sign-in failed');
@@ -98,7 +98,7 @@ const authOptions: NextAuthOptions = {
           email: token.email,
           name: token.name,
           accessToken: token.accessToken,
-          studioId: token.studioId,
+          studioSlug: token.studioSlug,
         },
       };
 

@@ -17,14 +17,14 @@ const WelcomeScreen = () => {
           <div className='space-y-6 text-center'>
             <p className='text-6xl text-zinc-400'>👋</p>
             <h1 className='text-3xl font-bold text-white'>
-              Welcome to {studioSetting.name}
+              Welcome to {studioSetting.studioName}
             </h1>
-            <p className='text-zinc-300'>
+            <p className='text-sm text-zinc-400'>
               {`You're about to join a recording session on Audora.`}
               <br />
               {`Have a great time!`}
             </p>
-            <JoinSessionButton studioId={studioSetting.studioId} />
+            <JoinSessionButton studioSlug={studioSetting.studioSlug} />
           </div>
         </div>
       </main>

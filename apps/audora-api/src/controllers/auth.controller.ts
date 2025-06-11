@@ -130,7 +130,7 @@ export const login = async (req: Request, res: Response) => {
       success: true,
       message: "Login successful",
       user,
-      studioId: studio?.id,
+      studioSlug: studio?.studioSlug,
       accessToken,
     });
     return;
@@ -193,13 +193,21 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
       language: "English",
     });
 
+    if (!studio) {
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        success: false,
+        error: "Failed to create studio",
+      });
+      return;
+    }
+
     const accessToken = generateToken(newUser.id);
 
     res.status(HttpStatus.CREATED).json({
       success: true,
       message: "User created successfully",
       user: newUser,
-      studioId: studio?.id,
+      studioSlug: studio?.studioSlug,
       accessToken,
     });
     return;

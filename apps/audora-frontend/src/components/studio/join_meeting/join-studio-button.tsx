@@ -1,14 +1,18 @@
 'use client';
 
 import { useMeetingStartStore } from '@/store/meeting-start-store';
-import { useSystemStreamStore } from '@/store/system-stream';
+// import { useMeetingStore } from '@/store/meeting-store';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
+// interface JoinStudioButtonProps {
+//   isHost: boolean;
+//   name: string;
+// }
+
+// export function JoinStudioButton({ isHost, name }: JoinStudioButtonProps) {
 export function JoinStudioButton() {
   const { setIsMeetingStarted } = useMeetingStartStore();
-
-  const { setMicToggle, setCamToggle, setStopCam, setStopMic } = useSystemStreamStore();
 
   const [permissionState, setPermissionState] = useState<
     'loading' | 'granted' | 'prompt' | 'denied'
@@ -77,16 +81,16 @@ export function JoinStudioButton() {
     }
   };
 
+  const handleJoinStudio = async () => {
+    setIsMeetingStarted(true);
+  };
+
   return (
     <button
       className={
         'bg-primary-400 hover:bg-primary-500 w-full rounded-lg px-4 py-2.5 text-sm font-medium text-white transition'
       }
-      onClick={
-        permissionState === 'granted'
-          ? () => setIsMeetingStarted(true)
-          : requestAccess
-      }
+      onClick={permissionState === 'granted' ? handleJoinStudio : requestAccess}
     >
       {permissionState === 'granted' ? 'Join Studio' : 'Allow Access'}
     </button>

@@ -48,7 +48,7 @@ export const LoginUser = async (userData: {
         name: response.data.user.name,
       },
       accessToken: response.data.accessToken,
-      studioId: response.data.studioId,
+      studioSlug: response.data.studioSlug,
     };
 
     return processedData;
@@ -81,7 +81,7 @@ export const RegisterWithGoogle = async (userData: {
         name: response.data.user.name,
       },
       accessToken: response.data.accessToken,
-      studioId: response.data.studioId,
+      studioSlug: response.data.studioSlug,
     };
 
     return processedData;

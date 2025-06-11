@@ -9,7 +9,7 @@ const DeleteAccountCard = () => {
   return (
     <div className='flex flex-col gap-2 rounded-2xl bg-[#18181b] p-6'>
       <h2 className='text-xl font-bold text-white'>Delete account</h2>
-      <div className='flex items-center justify-between'>
+      <div className='flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-2'>
         <p className='text-sm text-zinc-400'>
           {`Your account will be deactivated and you'll lose access to all your
         content.`}{' '}
@@ -19,7 +19,7 @@ const DeleteAccountCard = () => {
         </p>
 
         <button
-          className='rounded-md bg-red-500 px-4 py-2 text-sm font-semibold text-white hover:bg-red-400'
+          className='rounded-md w-full md:w-auto bg-red-500 px-4 py-2 text-sm font-semibold text-white hover:bg-red-400'
           onClick={() => setIsOpen(true)}
         >
           Delete account

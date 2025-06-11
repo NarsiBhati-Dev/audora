@@ -2,10 +2,11 @@
 
 import {
     Volume2,
-    Upload,
+    // Upload,
     PhoneOff,
     VideoIcon,
 } from 'lucide-react';
+import { useState } from 'react';
 import MeetingControllerButton from './meeting-controller-button';
 import {
     CameraIcon,
@@ -16,6 +17,7 @@ import {
 import LayoutControlPanel from './layout-control-panel';
 import { useRouter } from 'next/navigation';
 import { useSystemStreamStore } from '@/store/system-stream';
+import LeaveConfirmModal from './leave-confirm-modal';
 
 const MeetingControlBar = ({ isGuest = false }) => {
     const router = useRouter();
@@ -25,8 +27,21 @@ const MeetingControlBar = ({ isGuest = false }) => {
         setMicToggle,
         setCamToggle,
     } = useSystemStreamStore();
+    const [isLeaving, setIsLeaving] = useState(false);
 
     const handleLeave = () => {
+        // Stop all media tracks
+        const tracks = document.querySelectorAll('video, audio');
+        tracks.forEach(track => {
+            if (track instanceof HTMLMediaElement) {
+                track.srcObject = null;
+            }
+        });
+
+        router.push('/');
+    };
+
+    const handleEndMeeting = () => {
         // Stop all media tracks
         const tracks = document.querySelectorAll('video, audio');
         tracks.forEach(track => {
@@ -86,9 +101,15 @@ const MeetingControlBar = ({ isGuest = false }) => {
                 /> */}
                 <MeetingControllerButton
                     label="Leave"
-                    onToggle={handleLeave}
+                    onToggle={() => setIsLeaving(true)}
                     icon={<PhoneOff className="w-5 h-5 text-red-500" />}
                 />
+                {isLeaving && <LeaveConfirmModal
+                    isHost={!isGuest}
+                    onCancel={() => setIsLeaving(false)}
+                    onLeave={handleLeave}
+                    onEndMeeting={handleEndMeeting}
+                />}
             </div>
             <div className="flex items-center relative">
                 <LayoutControlPanel />

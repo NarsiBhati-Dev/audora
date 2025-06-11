@@ -8,121 +8,250 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Code of Conduct](https://img.shields.io/badge/Code%20of%20Conduct-v2.0-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
-## 🌟 Overview
+## 🎬 Audora Demo
 
-Audora.xyz is a cutting-edge web application that enables creators to record professional-quality podcasts and video content directly from their browsers. Built with modern web technologies, it offers a seamless experience for real-time audio/video recording, processing, and distribution.
+[![Watch the Audora Demo](https://img.youtube.com/vi/placeholder/maxresdefault.jpg)](https://www.youtube.com/watch?v=placeholder)
 
-### 🎯 Key Features
+## Code of Conduct
 
-- **🎥 High-Quality Recording**: Record studio-grade audio and video directly in your browser
-- **🌐 Real-Time Communication**: Seamless WebRTC-based peer-to-peer connections
-- **📤 Reliable Uploads**: Robust S3 multipart uploads with automatic retry
-- **🎬 Professional Processing**: Advanced video rendering and audio normalization
-- **🔒 Secure & Private**: End-to-end encryption for all communications
+Please read and follow our [Code of Conduct](./CODE_OF_CONDUCT.md) to help keep **Audora** a welcoming and inclusive space for everyone.
 
-## 🛠️ Technology Stack
+## License
 
-### Frontend
+This project is licensed under the [MIT License](./LICENSE.md).
 
-- **Framework**: Next.js 14 with React
-- **Styling**: Tailwind CSS with custom design system
-- **State Management**: React Query + Zustand
-- **Real-time**: WebRTC, Socket.IO
+## 🏗 Project Structure
 
-### Backend
+This monorepo is managed using **Turborepo** and is structured as follows:
 
-- **Runtime**: Node.js with Fastify
-- **Database**: PostgreSQL with Prisma ORM
-- **Storage**: AWS S3 with multipart uploads
-- **Media Processing**: FFmpeg/GStreamer
-- **Queue System**: BullMQ for job processing
+```sh
+audora/
+├── apps/ # Contains independent applications
+│   ├── audora-frontend/        # Next.js app for the UI
+│   ├── audora-backend/         # Fastify backend for API handling
+│   ├── audora-signal/       # WebSocket server for real-time communication
+├── packages/ # Shared code across apps
+│   ├── database/        # Prisma & PostgreSQL setup
+│   ├── types/           # Shared TypeScript types
+# │   ├── backend-common/  # Common utilities for backend services
+├── docker/              # Docker configuration
+│   ├── backend.prod.Dockerfile    # Production Dockerfile for backend
+│   ├── frontend.prod.Dockerfile   # Production Dockerfile for frontend
+│   ├── signal.prod.Dockerfile  # Production Dockerfile for WebSocket
+│   ├── db.docker-compose.yml         # Docker Compose configuration
+├── .github/workflows/    # GitHub Actions CI/CD pipelines
+│   ├── cd_api.yml    # CI/CD pipeline for backend
+│   ├── cd_frontend.yml   # CI/CD pipeline for frontend
+│   ├── cd_signal.yml  # CI/CD pipeline for WebSocket
+├── turbo.json           # Turborepo config file
+├── package.json         # Root package.json for Bun & Turborepo setup
+└── README.md            # Project documentation
+```
 
-### Infrastructure
+## 🧩 Features
 
-- **Containerization**: Docker
-- **CI/CD**: GitHub Actions
-- **Monitoring**: Sentry, Grafana
-- **Hosting**: AWS/Vercel
+Audora offers a comprehensive set of features for professional podcast recording:
+
+- 🎥 **High-Quality Recording**
+
+  - Studio-grade audio and video recording
+  - Multiple input device support
+  - Customizable recording settings
+
+- 🌐 **Real-Time Communication**
+
+  - WebRTC-based peer-to-peer connections
+  - Low-latency audio/video streaming
+  - Multi-participant support
+
+- 📤 **Reliable Uploads**
+
+  - S3 multipart uploads with automatic retry
+  - Progress tracking and resume capability
+  - Secure file transfer
+
+- 🎬 **Professional Processing**
+
+  - Video transcoding pipeline
+  - Audio normalization and enhancement
+  - Custom overlays and branding
+
+- 🔒 **Security & Privacy**
+  - End-to-end encryption
+  - Secure room management
+  - Privacy-focused design
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
-- PostgreSQL 14+
-- FFmpeg
-- AWS Account (for S3)
+- **Bun** (v1.2.5 or later)
+- **Node.js** (v18 or later)
+- **PostgreSQL** (v14 or later)
+- **FFmpeg**
+- **AWS Account** (for S3)
+- **Docker** and **Docker Compose**
 
-### Installation
+### Install Dependencies
 
-1. Clone the repository:
+```sh
+bun install
+```
 
-   ```bash
-   git clone https://github.com/yourusername/audora.xyz.git
-   cd audora.xyz
-   ```
+### Configure Environment Variables
 
-2. Install dependencies:
+Create environment files for each app:
 
-   ```bash
-   bun install
-   ```
+1. Copy the example environment files
+2. Rename them to `.env` in each app directory
+3. Fill in the required values like `DATABASE_URL`, `AWS_CREDENTIALS`, etc.
 
-3. Set up environment variables:
+### Database Setup
 
-   ```bash
-   cp .env.example .env
-   # Edit .env with your configuration
-   ```
+Start the PostgreSQL database using Docker:
 
-4. Start the development server:
+```sh
+bun run db:up
+```
 
-   ```bash
-   bun dev
-   ```
+### Generate Prisma Client
 
-## 📋 Development Roadmap
+```sh
+bun run generate
+```
 
-### Phase 1: Core Infrastructure (Week 1-2)
+### Deploy Database Migrations
 
-- [x] Project setup and architecture
-- [x] WebRTC implementation
-- [x] Basic UI components
-- [ ] Room management system
+```sh
+bun run db:deploy
+```
 
-### Phase 2: Recording & Upload (Week 3-4)
+### Run the Application
 
-- [ ] MediaRecorder integration
-- [ ] S3 multipart uploads
-- [ ] Upload progress tracking
-- [ ] Error handling and retries
+#### Development Mode
 
-### Phase 3: Processing & Delivery (Week 5-6)
+```sh
+bun run dev
+```
 
-- [ ] Video transcoding pipeline
-- [ ] Audio normalization
-- [ ] Custom overlays
-- [ ] Download/streaming system
+#### Production Mode
 
-### Phase 4: Polish & Launch (Week 7-8)
+```sh
+bun run build
+bun run start
+```
 
-- [ ] Performance optimization
-- [ ] Security hardening
-- [ ] Documentation
-- [ ] Production deployment
+Or use the combined command:
 
-## 🤝 Contributing
+```sh
+bun run server:start
+```
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on:
+### Start Individual Apps
 
-- Code style and standards
-- Development workflow
-- Pull request process
-- Testing requirements
+```sh
+# Start frontend only
+bun run start:frontend
 
-## 📄 License
+# Start backend API only
+bun run start:backend
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
+# Start WebSocket server only
+bun run start:websocket
+```
+
+## 📦 Tech Stack
+
+- **Turborepo** → Monorepo management
+- **Bun** → Fast JavaScript package manager & runtime
+- **Next.js 14** → Frontend framework
+- **Fastify** → Backend API
+- **WebRTC** → Real-time communication
+- **PostgreSQL** → Database
+- **Prisma** → ORM for database management
+- **AWS S3** → File storage
+- **FFmpeg** → Media processing
+- **Docker** → Containerization
+- **GitHub Actions** → CI/CD pipelines
+
+## 🗄 Database Setup
+
+### Start PostgreSQL with Docker
+
+```sh
+bun db:up
+```
+
+### Stop PostgreSQL
+
+```sh
+bun db:down
+```
+
+### Run Database Migrations
+
+```sh
+bun run db:deploy
+```
+
+## 🚢 Deployment
+
+The project includes production Docker configurations and GitHub Actions workflows for continuous deployment:
+
+### Docker Production Setup
+
+The `/docker` directory contains production Dockerfiles for each service:
+
+- `backend.prod.Dockerfile` - Production container for the backend API
+- `frontend.prod.Dockerfile` - Production container for the Next.js frontend
+- `websocket.prod.Dockerfile` - Production container for the WebSocket server
+
+### CI/CD Pipelines
+
+GitHub Actions workflows in the `.github/workflows` directory automate the deployment process:
+
+- `cd_backend.yml` - Deploys the backend service
+- `cd_frontend.yml` - Deploys the frontend application
+- `cd_websocket.yml` - Deploys the WebSocket server
+
+## 📜 Available Scripts
+
+```json
+{
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "turbo run start",
+    "start:frontend": "turbo run start:frontend --filter=audora-frontend",
+    "start:backend": "turbo run start:backend --filter=audora-backend",
+    "start:websocket": "turbo run start:websocket --filter=audora-websocket",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check-types": "turbo run check-types",
+    "db:up": "docker-compose -f docker/docker-compose.yml up -d",
+    "db:down": "docker-compose -f docker/docker-compose.yml down",
+    "infra:build": "docker-compose -f docker-compose.yml build",
+    "infra:up": "docker-compose -f docker-compose.yml up -d",
+    "infra:down": "docker-compose -f docker-compose.yml down",
+    "db:deploy": "turbo run db:deploy",
+    "server:start": "bun run db:deploy && bun run start",
+    "generate": "turbo run generate"
+  }
+}
+```
+
+## Development Tools
+
+```sh
+# Run linting across all packages
+bun run lint
+
+# Format code with Prettier
+bun run format
+
+# Type checking
+bun run check-types
+```
 
 ## 📞 Support
 
