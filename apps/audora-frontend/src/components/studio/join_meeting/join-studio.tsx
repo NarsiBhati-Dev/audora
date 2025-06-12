@@ -47,7 +47,7 @@ const JoinStudio = ({ isHost, hostName = '' }: JoinStudioProps) => {
               <>
                 <input
                   type='text'
-                  value={guestName}
+                  value={guestName || 'Me'}
                   onChange={e => setGuestName(e.target.value)}
                   placeholder='Enter your name'
                   className='focus:ring-primary-500 w-full rounded-lg bg-zinc-800 px-4 py-3 pr-20 text-sm font-medium text-white outline-none focus:ring-1 focus:ring-offset-0'
@@ -77,6 +77,7 @@ const JoinStudio = ({ isHost, hostName = '' }: JoinStudioProps) => {
 
         <JoinStudioButton
         // isHost={isHost}
+        // studioToken={studioToken}
         // name={isHost ? hostName : guestName}
         />
 

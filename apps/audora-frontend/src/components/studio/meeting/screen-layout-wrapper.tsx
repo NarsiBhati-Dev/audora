@@ -1,9 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
-import {
-  useMeetingParticipantStore,
-  useMeetingStore,
-} from '@/store/meeting-store';
+import { useMeetingParticipantStore } from '@/store/meeting-participant-store';
+import { useMeetingStore } from '@/store/meeting-store';
 // import { FiMicOff, FiVideoOff } from 'react-icons/fi';
 import VideoTile from './VideoTile';
 import HostView from './host-view';
@@ -60,11 +58,10 @@ export default function ScreenLayoutWrapper() {
         const isTwoParticipants = totalParticipants === 2;
         return (
           <div
-            className={`${
-              isTwoParticipants
+            className={`${isTwoParticipants
                 ? 'flex items-center justify-center'
                 : `grid ${getGridCols(totalParticipants)} place-items-center`
-            } h-full w-full gap-4 p-6 transition-all duration-300`}
+              } h-full w-full gap-4 p-6 transition-all duration-300`}
           >
             <VideoTile
               label='You'

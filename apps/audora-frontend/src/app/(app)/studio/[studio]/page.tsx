@@ -3,7 +3,7 @@ import getPageMetadata from '@/lib/seo/getPageMetadata';
 import { getServerSession } from 'next-auth';
 import authOptions from '@/lib/auth/auth-options';
 import { notFound } from 'next/navigation';
-import { getStudio } from '@/actions/studio';
+import { generateMeetingToken } from '@/actions/meeting';
 
 export async function generateMetadata({
   params,
@@ -13,6 +13,7 @@ export async function generateMetadata({
   const { studio } = await params;
   return getPageMetadata({
     title: `${studio}`,
+    description: `Join the ${studio} studio`,
   });
 }
 
@@ -30,21 +31,35 @@ const StudioPage = async ({ params, searchParams }: Params) => {
   const { studio } = await params;
   const { t, gw } = await searchParams;
   const session = await getServerSession(authOptions);
-  const studioData = await getStudio(session?.user?.accessToken as string);
 
-  const isHost = studioData?.studioSlug === studio;
-  const isGuestLanding = !isHost && t !== undefined && gw === undefined;
-  const isGuestJoining = !isHost && t !== undefined && gw === 'on';
+  const meetingTokenResponse = await generateMeetingToken(
+    studio,
+    session?.user?.id as string | undefined,
+    t as string,
+  );
+
+  if (!meetingTokenResponse.success) {
+    notFound();
+  }
+
+  const { token, userId, participantRole } = meetingTokenResponse.data;
+
+  const isHost = participantRole === 'host';
+  const isGuestLanding =
+    participantRole === 'guest' && t !== undefined && gw === undefined;
+  const isGuestJoining =
+    participantRole === 'guest' && t !== undefined && gw === 'on';
 
   if (!isHost && !isGuestLanding && !isGuestJoining) {
     notFound();
   }
 
   return (
-    <main className='bg-studio-bg-light'>
+    <main className="bg-studio-bg-light">
       <StudioPageClient
-        studio={studio}
-        userId={session?.user?.id || null}
+        studioSlug={studio}
+        userId={userId}
+        token={token}
         isHost={isHost}
         isGuestLanding={isGuestLanding}
         isGuestJoining={isGuestJoining}

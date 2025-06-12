@@ -1,8 +1,11 @@
-import { useEffect } from 'react';
+'use client';
+
+import { useEffect, useState } from 'react';
 import { useMediaDevices } from '@/hooks/useMediaDevices';
 import { useSystemStreamStore } from '@/store/system-stream';
 import GuestJoinView from './guest-join-view';
 import HostStudioView from './host-studio-view';
+// import { useSignaling } from '@/hooks/webRTC/useSignaling';
 
 interface StudioRoleViewProps {
   isGuestJoining: boolean;
@@ -10,6 +13,7 @@ interface StudioRoleViewProps {
   hostName: string | undefined;
   isDesktop: boolean;
   isMeetingStarted: boolean;
+  studioSlug: string;
 }
 
 const StudioRoleView = ({
@@ -18,7 +22,9 @@ const StudioRoleView = ({
   hostName,
   isDesktop,
   isMeetingStarted,
+  // studioSlug,
 }: StudioRoleViewProps) => {
+  const [token, setToken] = useState<string | null>(null);
   const { setAllSettings } = useSystemStreamStore();
   const {
     cameras,
@@ -76,7 +82,18 @@ const StudioRoleView = ({
     error,
   ]);
 
-  // If guest token is present, show join as guest screen
+  useEffect(() => {
+    const token = localStorage.getItem('studio-token');
+    setToken(token);
+  }, []);
+
+  if (!token) return null;
+
+  // const { sendMessage, socket, status } = useSignaling({
+  //   studioSlug,
+  //   token: token,
+  // });
+
   if (isGuestJoining)
     return (
       <GuestJoinView
@@ -85,7 +102,6 @@ const StudioRoleView = ({
       />
     );
 
-  // If host token is present, show host view
   if (isHost)
     return (
       <HostStudioView

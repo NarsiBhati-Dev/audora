@@ -1,24 +1,21 @@
-import authOptions from '@/lib/auth/auth-options';
+import { API_URL } from '@/config';
 import axios from 'axios';
-import { getServerSession } from 'next-auth';
 
-export const createMeeting = async (studioId: string, hostId: string) => {
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    throw new Error('Unauthorized');
-  }
-
+export const generateMeetingToken = async (
+  studioSlug: string,
+  userId: string | undefined,
+  studioToken?: string | null,
+) => {
   const response = await axios.post(
-    '/api/meeting/create',
+    `${API_URL}/meeting/generate-token`,
     {
-      studioId,
-      hostId,
+      studioSlug,
+      userId,
+      studioToken,
     },
     {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `${session.user.accessToken}`,
       },
     },
   );

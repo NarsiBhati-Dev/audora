@@ -26,7 +26,10 @@ const HostStudioView = ({
     <>
       <StudioHeader />
       <StudioLayout>
-        <JoinStudio isHost hostName={hostName} />
+        <JoinStudio
+          isHost
+          hostName={hostName}
+        />
         <MediaSetupScreen />
       </StudioLayout>
     </>

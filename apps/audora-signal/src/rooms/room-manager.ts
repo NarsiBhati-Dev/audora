@@ -1,259 +1,201 @@
 import { WebSocket } from "ws";
 import { v4 as uuidv4 } from "uuid";
 
-// --------------------
-// Types
-// --------------------
+export type ParticipantRole = "host" | "guest";
+
 export interface Participant {
   userId: string;
-  role: "host" | "guest";
+  participantId: string;
   name: string;
+  role: ParticipantRole;
   socketId: string;
-}
-
-interface ParticipantEntry {
   socket: WebSocket;
-  meta: Participant;
+  connected: boolean;
+  lastSeen: number;
 }
 
 export interface Room {
   roomId: string;
-  participants: Map<string, ParticipantEntry>;
+  participants: Map<string, Participant>;
+  createdAt: number;
+  lastActivity: number;
 }
 
 type RoomMap = Map<string, Room>;
 
-// --------------------
-// Room & Participant Utilities
-// --------------------
+// Singleton instance
+let rooms: RoomMap = new Map();
 
-const createRoom = (roomId: string): Room => ({
-  roomId,
-  participants: new Map(),
-});
+// ─── Room Core ───────────────────────────────────────────────
 
-const addParticipant = (
-  room: Room,
+export const createRoom = (roomId: string): Room => {
+  const now = Date.now();
+  const room: Room = {
+    roomId,
+    participants: new Map(),
+    createdAt: now,
+    lastActivity: now,
+  };
+  rooms.set(roomId, room);
+  return room;
+};
+
+export const getRoom = (roomId: string): Room | undefined => {
+  return rooms.get(roomId);
+};
+
+export const deleteRoomIfEmpty = (roomId: string): boolean => {
+  const room = rooms.get(roomId);
+  if (room && room.participants.size === 0) {
+    rooms.delete(roomId);
+    return true;
+  }
+  return false;
+};
+
+// ─── Participant Handling ────────────────────────────────────
+
+export const addParticipant = (
+  roomId: string,
   socket: WebSocket,
-  participant: Omit<Participant, "socketId">
-): [Room, string] => {
+  userId: string,
+  name: string,
+  role: ParticipantRole
+): Participant => {
+  const room = rooms.get(roomId) ?? createRoom(roomId);
   const socketId = uuidv4();
-  const fullParticipant: Participant = { ...participant, socketId };
-  const newParticipants = new Map(room.participants);
-  newParticipants.set(socketId, { socket, meta: fullParticipant });
-  return [{ ...room, participants: newParticipants }, socketId];
+  const now = Date.now();
+
+  const participant: Participant = {
+    userId,
+    participantId: uuidv4(),
+    name,
+    role,
+    socketId,
+    socket,
+    connected: true,
+    lastSeen: now,
+  };
+
+  room.participants.set(socketId, participant);
+  room.lastActivity = now;
+  return participant;
 };
 
-const removeParticipantById = (room: Room, socketId: string): Room => {
-  const newParticipants = new Map(room.participants);
-  newParticipants.delete(socketId);
-  return { ...room, participants: newParticipants };
-};
+export const removeParticipantBySocket = (
+  roomId: string,
+  socket: WebSocket
+): void => {
+  const room = rooms.get(roomId);
+  if (!room) return;
 
-const removeParticipantBySocket = (room: Room, socket: WebSocket): Room => {
-  const newParticipants = new Map(
-    Array.from(room.participants.entries()).filter(
-      ([, entry]) => entry.socket !== socket
-    )
-  );
-  return { ...room, participants: newParticipants };
-};
-
-const removeParticipantByUserId = (room: Room, userId: string): Room => {
-  const newParticipants = new Map(room.participants);
-  for (const [socketId, { meta }] of newParticipants.entries()) {
-    if (meta.userId === userId) {
-      newParticipants.delete(socketId);
+  for (const [socketId, participant] of room.participants.entries()) {
+    if (participant.socket === socket) {
+      room.participants.delete(socketId);
+      room.lastActivity = Date.now();
       break;
     }
   }
-  return { ...room, participants: newParticipants };
+
+  deleteRoomIfEmpty(roomId);
 };
 
-// --------------------
-// Disconnection Utilities
-// --------------------
+export const updateParticipantLastSeen = (
+  roomId: string,
+  socketId: string
+): void => {
+  const room = rooms.get(roomId);
+  if (!room) return;
 
-const markParticipantDisconnected = (room: Room, socket: WebSocket): Room => {
-  const updatedParticipants = new Map(room.participants);
-  for (const [socketId, entry] of updatedParticipants.entries()) {
-    if (entry.socket === socket) {
-      (entry.meta as any).disconnected = true;
-      break;
-    }
+  const participant = room.participants.get(socketId);
+  if (participant) {
+    participant.lastSeen = Date.now();
+    room.lastActivity = Date.now();
   }
-  return { ...room, participants: updatedParticipants };
 };
 
-const isUserStillDisconnected = (room: Room, userId: string): boolean => {
-  for (const { meta } of room.participants.values()) {
-    if (meta.userId === userId && (meta as any).disconnected === true) {
-      return true;
-    }
-  }
-  return false;
-};
+// ─── Broadcast Utilities ─────────────────────────────────────
 
-const isUserInRoom = (room: Room, userId: string): boolean => {
-  for (const { meta } of room.participants.values()) {
-    if (meta.userId === userId) {
-      return true;
-    }
-  }
-  return false;
-};
-
-// --------------------
-// Broadcast Utilities
-// --------------------
-
-const broadcast = (
-  room: Room,
+export const broadcastToRoom = (
+  roomId: string,
   message: any,
   excludeSocket?: WebSocket
 ): void => {
+  const room = rooms.get(roomId);
+  if (!room) return;
+
   const data = JSON.stringify(message);
-  for (const { socket } of room.participants.values()) {
-    if (socket.readyState === WebSocket.OPEN && socket !== excludeSocket) {
-      socket.send(data);
+  const now = Date.now();
+  const disconnectedThreshold = 30000; // 30 seconds
+
+  for (const participant of room.participants.values()) {
+    if (
+      participant.socket.readyState === WebSocket.OPEN &&
+      participant.socket !== excludeSocket &&
+      now - participant.lastSeen < disconnectedThreshold
+    ) {
+      participant.socket.send(data);
     }
   }
 };
 
-const broadcastToSpecificSocket = (
-  // room: Room,
-  message: any,
-  socket: WebSocket
-): void => {
-  const data = JSON.stringify(message, null, 2);
+export const sendToSocket = (socket: WebSocket, message: any): boolean => {
   if (socket.readyState === WebSocket.OPEN) {
-    socket.send(data);
+    socket.send(JSON.stringify(message));
+    return true;
   }
+  return false;
 };
 
-const broadcastToHost = (room: Room, message: any): void => {
-  const hostSocket = getSocketByUserId(room, "host");
-  if (!hostSocket) return;
-  broadcastToSpecificSocket(message, hostSocket);
+// ─── Room Queries ────────────────────────────────────────────
+
+export const getParticipants = (
+  roomId: string,
+  excludeSocket?: WebSocket
+): Participant[] => {
+  const room = rooms.get(roomId);
+  if (!room) return [];
+
+  const now = Date.now();
+  const disconnectedThreshold = 30000; // 30 seconds
+
+  return Array.from(room.participants.values()).filter(
+    (p) =>
+      p.socket !== excludeSocket && now - p.lastSeen < disconnectedThreshold
+  );
 };
 
-// --------------------
-// Getters
-// --------------------
+export const isUserInRoom = (roomId: string, userId: string): boolean => {
+  const room = rooms.get(roomId);
+  if (!room) return false;
 
-const getOtherSocket = (
-  room: Room,
-  excludeSocketId: string
-): WebSocket | null => {
-  for (const [socketId, { socket }] of room.participants.entries()) {
-    if (socketId !== excludeSocketId && socket.readyState === WebSocket.OPEN) {
-      return socket;
-    }
-  }
-  return null;
+  const now = Date.now();
+  const disconnectedThreshold = 30000; // 30 seconds
+
+  return Array.from(room.participants.values()).some(
+    (participant) =>
+      participant.userId === userId &&
+      now - participant.lastSeen < disconnectedThreshold
+  );
 };
 
-const getSocketByUserId = (
-  room: Room,
-  userId: string
-): WebSocket | undefined => {
-  for (const { socket, meta } of room.participants.values()) {
-    if (meta.userId === userId) {
-      return socket;
-    }
-  }
-  return undefined;
-};
+export const getRoomStats = (roomId: string) => {
+  const room = rooms.get(roomId);
+  if (!room) return null;
 
-const getParticipantMeta = (
-  room: Room,
-  socketId: string
-): Participant | undefined => room.participants.get(socketId)?.meta;
+  const now = Date.now();
+  const disconnectedThreshold = 30000; // 30 seconds
 
-const serializeParticipants = (room: Room, excludeSocket?: WebSocket) => {
-  return Array.from(room.participants.values())
-    .filter(({ socket }) => socket !== excludeSocket)
-    .map(({ meta }) => ({
-      userId: meta.userId,
-      name: meta.name,
-      role: meta.role,
-      socketId: meta.socketId,
-    }));
-};
-
-const getParticipantCount = (room: Room): number => room.participants.size;
-
-const isRoomEmpty = (room: Room): boolean => room.participants.size === 0;
-
-// --------------------
-// Room Manager
-// --------------------
-
-export const createRoomManager = () => {
-  let rooms: RoomMap = new Map();
-
-  const getOrCreateRoom = (roomId: string): Room => {
-    if (!rooms.has(roomId)) {
-      rooms.set(roomId, createRoom(roomId));
-    }
-    return rooms.get(roomId)!;
-  };
-
-  const getRoom = (roomId: string): Room | undefined => rooms.get(roomId);
-
-  const updateRoom = (roomId: string, updater: (room: Room) => Room): void => {
-    const room = rooms.get(roomId);
-    if (!room) return;
-    const updated = updater(room);
-    rooms.set(roomId, updated);
-  };
-
-  const removeRoomIfEmpty = (roomId: string): void => {
-    const room = rooms.get(roomId);
-    if (room && isRoomEmpty(room)) {
-      rooms.delete(roomId);
-    }
-  };
-
-  const removeParticipantFromAllRooms = (socket: WebSocket): void => {
-    for (const [roomId, room] of rooms.entries()) {
-      const updatedRoom = removeParticipantBySocket(room, socket);
-      if (isRoomEmpty(updatedRoom)) {
-        rooms.delete(roomId);
-      } else {
-        rooms.set(roomId, updatedRoom);
-      }
-    }
-  };
+  const activeParticipants = Array.from(room.participants.values()).filter(
+    (p) => now - p.lastSeen < disconnectedThreshold
+  );
 
   return {
-    getOrCreateRoom,
-    getRoom,
-    updateRoom,
-    removeRoomIfEmpty,
-    removeParticipantFromAllRooms,
+    roomId,
+    participantCount: activeParticipants.length,
+    hostCount: activeParticipants.filter((p) => p.role === "host").length,
+    guestCount: activeParticipants.filter((p) => p.role === "guest").length,
+    createdAt: room.createdAt,
+    lastActivity: room.lastActivity,
   };
-};
-
-// --------------------
-// Exported Utilities
-// --------------------
-
-export const RoomUtils = {
-  addParticipant,
-  removeParticipantById,
-  removeParticipantBySocket,
-  removeParticipantByUserId,
-  markParticipantDisconnected,
-  isUserStillDisconnected,
-  broadcast,
-  broadcastToSpecificSocket,
-  broadcastToHost,
-  getOtherSocket,
-  getSocketByUserId,
-  getParticipantMeta,
-  getParticipantCount,
-  isRoomEmpty,
-  isUserInRoom,
-  serializeParticipants,
 };

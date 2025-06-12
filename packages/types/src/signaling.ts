@@ -1,5 +1,18 @@
 import { z } from "zod";
 
+// --- Participant structure ---
+const Participant = z.object({
+  userId: z.string(),
+  name: z.string(),
+  role: z.union([z.literal("host"), z.literal("guest")]),
+  socketId: z.string(),
+});
+
+const ParticipantsListData = z.object({
+  participants: z.array(Participant),
+});
+
+// --- Connection / Disconnection ---
 const ConnectData = z.object({
   userId: z.string(),
   studioId: z.string(),
@@ -13,6 +26,7 @@ const DisconnectData = z.object({
   role: z.union([z.literal("host"), z.literal("guest")]),
 });
 
+// --- WebRTC Types ---
 const RTCSessionDescriptionInitSchema = z.object({
   type: z.union([z.literal("offer"), z.literal("answer")]),
   sdp: z.string(),
@@ -31,6 +45,7 @@ const WebRTCData = z.object({
   candidate: RTCIceCandidateInitSchema.optional(),
 });
 
+// --- Recording & Speaking Events ---
 const RecordingData = z.object({
   studioId: z.string(),
   userId: z.string(),
@@ -43,10 +58,12 @@ const SpeakingData = z.object({
   timestamp: z.number(),
 });
 
+// --- Meeting End Event ---
 const MeetingEndData = z.object({
   studioId: z.string(),
 });
 
+// --- Message Schema ---
 export const MessageSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("user:join"), data: ConnectData }),
   z.object({ type: z.literal("user:leave"), data: DisconnectData }),
@@ -58,6 +75,10 @@ export const MessageSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("user:start-speaking"), data: SpeakingData }),
   z.object({ type: z.literal("user:stop-speaking"), data: SpeakingData }),
   z.object({ type: z.literal("meeting:end"), data: MeetingEndData }),
+  z.object({
+    type: z.literal("participants:list"),
+    data: ParticipantsListData,
+  }),
 ]);
 
 export type Message = z.infer<typeof MessageSchema>;

@@ -1,8 +1,8 @@
 import MeetingStart from '@/components/studio/meeting/meeting-start';
 import React from 'react';
 
-const page = () => {
+const StudioPage = () => {
   return <MeetingStart />;
 };
 
-export default page;
+export default StudioPage;

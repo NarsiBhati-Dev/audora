@@ -1,15 +1,8 @@
 import { Router } from "express";
-import {
-  createMeeting,
-  getMeeting,
-  verifyMeeting,
-} from "../controllers/meeting.controller";
-import { auth } from "../middleware/auth";
-import { verifyLimiter } from "../middleware/rateLimiters";
+import { generateMeetingTokenController } from "../controllers/meeting.controller";
 
 export const meetingRoutes = Router();
-meetingRoutes.post("/verify", verifyLimiter, verifyMeeting);
-meetingRoutes.post("/get", verifyLimiter, getMeeting);
 
-meetingRoutes.use(auth);
-meetingRoutes.post("/create", createMeeting);
+meetingRoutes.post("/generate-token", generateMeetingTokenController);
+
+export default meetingRoutes;

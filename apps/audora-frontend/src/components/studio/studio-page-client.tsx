@@ -7,21 +7,22 @@ import { useIsDesktop } from '@/hooks/useIsDesktop';
 import { useMeetingStartStore } from '@/store/meeting-start-store';
 import StudioRoleView from './views/studio-role-view';
 import GuestLandingScreen from './views/guest-landing-screen';
-// import { getGuestUserId } from '@/lib/studio/get-userId';
 
 interface StudioPageClientProps {
-  studio: string;
+  studioSlug: string;
   isHost: boolean;
-  userId: string | null;
+  userId: string | undefined;
+  token: string | null;
   isGuestLanding: boolean;
   isGuestJoining: boolean;
   hostName: string | undefined;
 }
 
 const StudioPageClient = ({
-  studio,
+  studioSlug,
   isHost,
   // userId,
+  token,
   isGuestLanding,
   isGuestJoining,
   hostName,
@@ -31,23 +32,31 @@ const StudioPageClient = ({
   const { isMeetingStarted, setIsMeetingStarted } = useMeetingStartStore();
 
   useEffect(() => {
-    if (studio) {
+    if (studioSlug) {
       setStudioSetting({
-        studioSlug: studio,
-        studioName: getStudioNameFromSlug(studio),
+        studioSlug: studioSlug,
+        studioName: getStudioNameFromSlug(studioSlug),
       });
+    }
+
+    if (token) {
+      localStorage.setItem('studio-token', token);
     }
 
     return () => {
       setIsMeetingStarted(false);
+      setStudioSetting({
+        studioSlug: '',
+        studioName: '',
+      });
     };
-  }, [studio, setStudioSetting, setIsMeetingStarted]);
+  }, [studioSlug, setStudioSetting, setIsMeetingStarted, token]);
 
-  // If welcome token is present, show welcome screen
   if (isGuestLanding) return <GuestLandingScreen />;
 
   return (
     <StudioRoleView
+      studioSlug={studioSlug}
       isGuestJoining={isGuestJoining}
       isHost={isHost}
       hostName={hostName}

@@ -2,7 +2,7 @@ export type Participant = {
   userId: string;
   socketId: string;
   name: string;
-  role: "host" | "guest" | "producer";
+  participantRole: "host" | "guest" | "producer";
   joinedAt: number;
   isUsingHeadphones?: boolean;
   isConnected: boolean;

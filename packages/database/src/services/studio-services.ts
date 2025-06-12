@@ -97,3 +97,11 @@ export const deleteStudioService = async (studioId: string) => {
 
   return deletedStudio;
 };
+
+export const getStudioByStudioSlugService = async (studioSlug: string) => {
+  const studio = await client.studio.findFirst({
+    where: { studioSlug },
+  });
+
+  return studio;
+};

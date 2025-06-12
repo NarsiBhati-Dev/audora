@@ -1,116 +1,171 @@
 import { WebSocket } from "ws";
 import { logger } from "../utils/logger";
-import type { Message } from "../types/message-types";
-import { createRoomManager, RoomUtils } from "../rooms/room-manager";
-import type { Room } from "../rooms/room-manager";
+import type { InboundMessage } from "../types/message-types";
+import {
+  addParticipant,
+  removeParticipantBySocket,
+  broadcastToRoom,
+  sendToSocket,
+  getParticipants,
+  isUserInRoom,
+  getRoomStats,
+  updateParticipantLastSeen,
+} from "../rooms/room-manager";
 import { sendAndClose } from "../utils/sendAndClose";
+import type { MeetingTokenPayload } from "../services/verifyToken";
 
-const roomManager = createRoomManager();
-
-interface RoomEvent {
-  socket: WebSocket;
-  message: Message;
+interface SocketWithMeta extends WebSocket {
+  meta?: MeetingTokenPayload & { socketId: string };
 }
 
-export const roomEventHandler = async ({ socket, message }: RoomEvent) => {
+interface RoomEvent {
+  socket: SocketWithMeta;
+  message: InboundMessage;
+  meetingToken: MeetingTokenPayload;
+}
+
+export const roomEventHandler = async ({
+  socket,
+  message,
+  meetingToken,
+}: RoomEvent) => {
   const { type, data } = message;
+  const { studioId, userId, participantRole } = meetingToken;
+
+  // Update last seen timestamp for all messages
+  if (socket.meta?.socketId) {
+    updateParticipantLastSeen(studioId, socket.meta.socketId);
+  }
 
   switch (type) {
     case "user:join": {
-      const { role, studioId, userId, name = "" } = data;
-
-      if (!studioId || !userId || !role) {
+      const { name } = data;
+      if (!studioId || !userId || !participantRole || !name) {
         sendAndClose(socket, "error", "Missing required fields.");
         return;
       }
 
-      let room: Room | undefined;
-
-      if (role === "host") {
-        room = roomManager.getOrCreateRoom(studioId);
-        logger.info(`[${studioId}] Host (${name}) created or joined room`);
-      } else if (role === "guest") {
-        room = roomManager.getRoom(studioId);
-
-        if (!room) {
-          logger.warn(`Host has not started the room: ${studioId}`);
-
-          sendAndClose(
-            socket,
-            "error",
-            "The host hasn't started the room yet."
-          );
-          return;
-        }
-      } else {
-        logger.warn(`Unknown role received: ${role}`);
-        sendAndClose(socket, "error", "Unknown role.");
+      // Check if user is already in room
+      if (isUserInRoom(studioId, userId)) {
+        sendAndClose(socket, "error", "User is already in the room.");
         return;
       }
 
-      // Add participant to the room
-      const [updatedRoom] = RoomUtils.addParticipant(room, socket, {
-        userId,
-        name,
-        role,
-      });
+      try {
+        // Add participant to room
+        const participant = addParticipant(
+          studioId,
+          socket,
+          userId,
+          name,
+          participantRole
+        );
 
-      roomManager.updateRoom(studioId, () => updatedRoom);
+        // Store socket metadata
+        socket.meta = {
+          ...meetingToken,
+          socketId: participant.socketId,
+        };
 
-      // Broadcast to others (excluding new joiner)
-      RoomUtils.broadcast(
-        updatedRoom,
-        {
-          type: "user:joined",
-          data: { userId, name, role },
-        },
-        socket
-      );
-
-      // Send participant list to the new user
-      if (updatedRoom.participants.size > 1) {
-        RoomUtils.broadcastToSpecificSocket(
+        // Broadcast to others (excluding new joiner)
+        broadcastToRoom(
+          studioId,
           {
-            type: "participants:list",
+            type: "user:joined",
             data: {
-              participants: RoomUtils.serializeParticipants(
-                updatedRoom,
-                socket
-              ),
+              userId,
+              name,
+              role: participantRole,
+              socketId: participant.socketId,
             },
           },
           socket
         );
-      }
 
-      logger.info(`[${studioId}] ${role} (${name}) connected`);
+        // Send room stats to the new user
+        const roomStats = getRoomStats(studioId);
+        if (roomStats) {
+          sendToSocket(socket, {
+            type: "room:stats",
+            data: roomStats,
+          });
+        }
+
+        // Send participant list to the new user
+        const participants = getParticipants(studioId, socket);
+        if (participants.length > 0) {
+          sendToSocket(socket, {
+            type: "participants:list",
+            data: {
+              participants: participants.map((p) => ({
+                userId: p.userId,
+                name: p.name,
+                role: p.role,
+                socketId: p.socketId,
+              })),
+            },
+          });
+        }
+
+        logger.info(
+          `[${studioId}] ${participantRole} (${name}) joined room successfully`
+        );
+      } catch (error) {
+        logger.error(`Error adding participant to room: ${error}`);
+        sendAndClose(socket, "error", "Failed to join room.");
+      }
       break;
     }
 
     case "user:leave": {
-      const { studioId, userId } = data;
+      try {
+        removeParticipantBySocket(studioId, socket);
 
-      const room = roomManager.getRoom(studioId);
-      if (!room) {
-        logger.warn(`[${studioId}] Leave attempted, but room not found`);
-        break;
+        // Broadcast to others
+        broadcastToRoom(
+          studioId,
+          {
+            type: "user:left",
+            data: { userId },
+          },
+          socket
+        );
+
+        // Send updated room stats to remaining participants
+        const roomStats = getRoomStats(studioId);
+        if (roomStats) {
+          broadcastToRoom(studioId, {
+            type: "room:stats",
+            data: roomStats,
+          });
+        }
+
+        logger.info(`[${studioId}] User ${userId} left room successfully`);
+      } catch (error) {
+        logger.error(`Error removing participant from room: ${error}`);
       }
+      break;
+    }
 
-      const updatedRoom = RoomUtils.removeParticipantBySocket(room, socket);
-      roomManager.updateRoom(studioId, () => updatedRoom);
-      roomManager.removeRoomIfEmpty(studioId);
+    case "meeting:end": {
+      try {
+        // Only host can end the meeting
+        if (participantRole !== "host") {
+          sendAndClose(socket, "error", "Only host can end the meeting.");
+          return;
+        }
 
-      logger.info(`[${studioId}] User ${userId} disconnected`);
+        // Broadcast meeting end to all participants
+        broadcastToRoom(studioId, {
+          type: "meeting:end",
+          data: { studioId },
+        });
 
-      RoomUtils.broadcast(
-        updatedRoom,
-        {
-          type: "user:left",
-          data: { userId },
-        },
-        socket
-      );
-
+        logger.info(`[${studioId}] Meeting ended by host ${userId}`);
+      } catch (error) {
+        logger.error(`Error ending meeting: ${error}`);
+        sendAndClose(socket, "error", "Failed to end meeting.");
+      }
       break;
     }
 

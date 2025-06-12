@@ -1,137 +1,67 @@
-import {
-  createMeetingService,
-  getMeetingByTokenService,
-  verifyMeetingTokenService,
-} from "@audora/database/meetingServices";
-
 import type { Request, Response } from "express";
-import type { AuthRequest } from "../utils/request-type";
 import { HttpStatus } from "../utils/HttpStatus";
+import { generateMeetingToken } from "../utils/jwt";
+import { getStudioByStudioSlugService } from "@audora/database/studioServices";
 
-export const createMeeting = async (req: AuthRequest, res: Response) => {
-  const userId = req.auth?.id;
-
-  if (!userId) {
-    res.status(HttpStatus.UNAUTHORIZED).json({
-      success: false,
-      message: "Unauthorized",
-    });
-    return;
-  }
-
-  const { studioId, hostId } = req.body;
-
-  if (!studioId || !hostId) {
-    res.status(HttpStatus.BAD_REQUEST).json({
-      success: false,
-      message: "Studio ID and host ID are required",
-    });
-    return;
-  }
-
+export const generateMeetingTokenController = async (
+  req: Request,
+  res: Response
+) => {
   try {
-    const meeting = await createMeetingService(studioId, hostId);
+    const { studioSlug, userId, studioToken } = req.body;
 
-    if (!meeting) {
-      res.status(HttpStatus.BAD_REQUEST).json({
+    if (!studioSlug) {
+      return res.status(HttpStatus.BAD_REQUEST).json({
         success: false,
-        message: "Meeting not created",
+        message: "Missing required field: studioSlug",
       });
-      return;
     }
 
-    res.status(HttpStatus.CREATED).json({
-      success: true,
-      message: "Meeting created successfully",
-      meeting,
-    });
-  } catch (error) {
-    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      message: "Internal server error",
-    });
-    return;
-  }
-};
+    const studio = await getStudioByStudioSlugService(studioSlug);
 
-export const getMeeting = async (req: AuthRequest, res: Response) => {
-  const userId = req.auth?.id;
-
-  if (!userId) {
-    res.status(HttpStatus.UNAUTHORIZED).json({
-      success: false,
-      message: "Unauthorized",
-    });
-    return;
-  }
-
-  const { studioId, token } = req.body;
-
-  if (!studioId || !token) {
-    res.status(HttpStatus.BAD_REQUEST).json({
-      success: false,
-      message: "Studio ID and token are required",
-    });
-    return;
-  }
-
-  try {
-    const meeting = await getMeetingByTokenService(studioId, token);
-
-    if (!meeting) {
-      res.status(HttpStatus.NOT_FOUND).json({
+    if (!studio) {
+      return res.status(HttpStatus.NOT_FOUND).json({
         success: false,
-        message: "Meeting not found",
+        message: "Studio not found",
       });
-      return;
     }
 
-    res.status(HttpStatus.OK).json({
-      success: true,
-      message: "Meeting found",
-      meeting,
-    });
-  } catch (error) {
-    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      message: "Internal server error",
-    });
-    return;
-  }
-};
+    const isHost = studio.userId === userId;
+    const finalUserId = userId || crypto.randomUUID();
+    const participantRole = isHost ? "host" : "guest";
 
-export const verifyMeeting = async (req: Request, res: Response) => {
-  const { studioId, token } = req.body;
-
-  if (!studioId || !token) {
-    res.status(HttpStatus.BAD_REQUEST).json({
-      success: false,
-      message: "Studio ID and token are required",
-    });
-    return;
-  }
-
-  try {
-    const meeting = await verifyMeetingTokenService(studioId, token);
-
-    if (!meeting) {
-      res.status(HttpStatus.NOT_FOUND).json({
+    // If not host, validate studioToken for guest access
+    if (!isHost && studio.token !== studioToken) {
+      return res.status(HttpStatus.UNAUTHORIZED).json({
         success: false,
-        message: "Meeting not found",
+        message: "Invalid studio token for guest",
       });
-      return;
     }
 
-    res.status(HttpStatus.OK).json({
+    const token = generateMeetingToken({
+      studioId: studio.id,
+      studioSlug: studio.studioSlug,
+      userId: finalUserId,
+      participantId: crypto.randomUUID(),
+      participantRole,
+      recordable: isHost,
+      roomId: `${studio.studioSlug}-${Date.now()}`,
+    });
+
+    return res.status(HttpStatus.OK).json({
       success: true,
-      message: "Meeting verified",
-      meeting,
+      message: "Meeting token generated successfully",
+      data: {
+        token,
+        userId: finalUserId,
+        participantRole,
+      },
     });
   } catch (error) {
-    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+    console.error("Error generating meeting token:", error);
+    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       success: false,
-      message: "Internal server error",
+      message: "Failed to generate meeting token",
     });
-    return;
   }
 };

@@ -27,12 +27,10 @@ const DashboardMobileSidebar = ({ studio }: DashboardMobileSidebarProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  // Close sidebar on route change
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
 
-  // Prevent body scroll when sidebar is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -46,7 +44,6 @@ const DashboardMobileSidebar = ({ studio }: DashboardMobileSidebarProps) => {
 
   return (
     <>
-      {/* Hamburger Toggle Button */}
       <button
         onClick={() => setIsOpen(true)}
         className='fixed top-3 left-3 z-50 rounded-full bg-[#1e1e1e] p-2.5 text-white shadow-lg transition-transform hover:scale-105 active:scale-95 lg:hidden'
@@ -55,7 +52,6 @@ const DashboardMobileSidebar = ({ studio }: DashboardMobileSidebarProps) => {
         <FiMenu size={20} />
       </button>
 
-      {/* Backdrop */}
       {isOpen && (
         <div
           onClick={() => setIsOpen(false)}
@@ -64,7 +60,6 @@ const DashboardMobileSidebar = ({ studio }: DashboardMobileSidebarProps) => {
         />
       )}
 
-      {/* Sidebar */}
       <div
         className={`bg-dashboard-bg fixed top-0 left-0 z-51 h-screen w-72 transform p-4 text-white transition-all duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
@@ -73,7 +68,6 @@ const DashboardMobileSidebar = ({ studio }: DashboardMobileSidebarProps) => {
         aria-label='Navigation menu'
       >
         <div className='flex h-full flex-col justify-between'>
-          {/* Header */}
           <div>
             <div className='mb-8 flex items-center justify-between'>
               <Logo scrolled={false} href='/dashboard/home' />
@@ -115,7 +109,6 @@ const DashboardMobileSidebar = ({ studio }: DashboardMobileSidebarProps) => {
             </nav>
           </div>
 
-          {/* Footer */}
           <div className='flex flex-col gap-6'>
             {studio.studioSlug && (
               <div className='flex flex-col gap-3 border-b border-[#292929] pb-4'>

@@ -1,8 +1,9 @@
 import type { RTCIceCandidateInit, RTCSessionDescriptionInit } from "./webrtc";
 
-export type Message =
-  | { type: "user:join"; data: ConnectData }
-  | { type: "user:leave"; data: DisconnectData }
+// Inbound = Client ➜ Server
+export type InboundMessage =
+  | { type: "user:join"; data: { name: string } }
+  | { type: "user:leave"; data: {} }
   | { type: "webrtc:offer"; data: WebRTCData }
   | { type: "webrtc:answer"; data: WebRTCData }
   | { type: "webrtc:ice-candidate"; data: WebRTCData }
@@ -12,38 +13,57 @@ export type Message =
   | { type: "user:stop-speaking"; data: SpeakingData }
   | { type: "meeting:end"; data: MeetingEndData };
 
-export interface ConnectData {
+// Outbound = Server ➜ Clients
+export type OutboundMessage =
+  | { type: "user:joined"; data: ParticipantInfo }
+  | { type: "user:left"; data: { userId: string } }
+  | { type: "participants:list"; data: { participants: ParticipantInfo[] } }
+  | { type: "webrtc:offer"; data: WebRTCData }
+  | { type: "webrtc:answer"; data: WebRTCData }
+  | { type: "webrtc:ice-candidate"; data: WebRTCData };
+
+export interface ParticipantInfo {
   userId: string;
+  name: string;
+  participantRole: "host" | "guest";
   studioId: string;
-  name?: string;
-  role: "host" | "guest";
+  roomId: string;
+  participantId: string;
 }
 
-export interface DisconnectData {
-  userId: string;
-  studioId: string;
-  role: "host" | "guest";
+export interface ConnectData {
+  name: string;
 }
+
+export interface UserJoinedData {
+  userId: string;
+  name: string;
+  participantRole: "host" | "guest";
+  studioId: string;
+  roomId: string;
+  participantId: string;
+}
+
+export interface UserLeftData {
+  userId: string;
+}
+
+export interface StudioFullData {}
+export interface StudioFullData {}
+export interface DisconnectData {}
+export interface MeetingEndData {}
 
 export interface WebRTCData {
-  studioId: string;
   to: string;
+  from: string;
   sdp?: RTCSessionDescriptionInit;
   candidate?: RTCIceCandidateInit;
 }
 
 export interface RecordingData {
-  studioId: string;
-  userId: string;
   timestamp: number;
 }
 
 export interface SpeakingData {
-  studioId: string;
-  userId: string;
   timestamp: number;
-}
-
-export interface MeetingEndData {
-  studioId: string;
 }

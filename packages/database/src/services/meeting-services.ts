@@ -41,7 +41,7 @@ export const verifyMeetingTokenService = async (
 
     return meeting;
   } catch (error) {
-    console.error("Error verifying meeting token:", error);
+    console.error("Error verifying meeting token:");
     return null;
   }
 };
