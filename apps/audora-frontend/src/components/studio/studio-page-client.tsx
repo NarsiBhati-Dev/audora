@@ -3,11 +3,10 @@
 import { useEffect } from 'react';
 import { useStudioSettingsStore } from '@/store/studio-setting-store';
 import { getStudioNameFromSlug } from '@/lib/studio/getStudioNameFromSlug';
-import { renderGuestLanding } from './render-view';
 import { useIsDesktop } from '@/hooks/useIsDesktop';
 import { useMeetingStartStore } from '@/store/meeting-start-store';
-import GuestHostRender from './guest-host-render';
-
+import StudioRoleView from './views/studio-role-view';
+import GuestLandingScreen from './views/guest-landing-screen';
 // import { getGuestUserId } from '@/lib/studio/get-userId';
 
 interface StudioPageClientProps {
@@ -45,10 +44,10 @@ const StudioPageClient = ({
   }, [studio, setStudioSetting, setIsMeetingStarted]);
 
   // If welcome token is present, show welcome screen
-  if (isGuestLanding) return renderGuestLanding();
+  if (isGuestLanding) return <GuestLandingScreen />;
 
   return (
-    <GuestHostRender
+    <StudioRoleView
       isGuestJoining={isGuestJoining}
       isHost={isHost}
       hostName={hostName}

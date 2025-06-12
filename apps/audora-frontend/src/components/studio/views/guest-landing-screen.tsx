@@ -1,12 +1,12 @@
 'use client';
 
 import React from 'react';
-import GuestStudioHeader from './guest-studio-header';
+import GuestStudioHeader from '../guest-studio-header';
 import { useStudioSettingsStore } from '@/store/studio-setting-store';
 import Link from 'next/link';
-import { JoinSessionButton } from './join_meeting/join-session-button';
+import { JoinSessionButton } from '../join_meeting/join-session-button';
 
-const WelcomeScreen = () => {
+const GuestLandingScreen = () => {
   const { studioSetting } = useStudioSettingsStore();
 
   return (
@@ -50,4 +50,4 @@ const WelcomeScreen = () => {
   );
 };
 
-export default WelcomeScreen;
+export default GuestLandingScreen; 
