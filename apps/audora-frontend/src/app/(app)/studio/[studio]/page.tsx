@@ -42,7 +42,7 @@ const StudioPage = async ({ params, searchParams }: Params) => {
     notFound();
   }
 
-  const { token, userId, participantRole } = meetingTokenResponse.data;
+  const { token, userId, participantRole, studioFixedToken } = meetingTokenResponse.data;
 
   const isHost = participantRole === 'host';
   const isGuestLanding =
@@ -60,6 +60,7 @@ const StudioPage = async ({ params, searchParams }: Params) => {
         studioSlug={studio}
         userId={userId}
         token={token}
+        studioFixedToken={studioFixedToken}
         isHost={isHost}
         isGuestLanding={isGuestLanding}
         isGuestJoining={isGuestJoining}

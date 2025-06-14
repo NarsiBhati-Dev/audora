@@ -19,7 +19,7 @@ export const authenticateWebSocket = (
     }
 
     logger.info(
-      `[authenticateWebSocket] ${decoded.userId} ${decoded.studioId} ${decoded.participantRole} User authenticated`
+      `[authenticateWebSocket] ${decoded.studioSlug} ${decoded.participantRole} User authenticated`
     );
     return decoded;
   } catch (error) {

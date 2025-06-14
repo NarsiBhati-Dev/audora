@@ -9,6 +9,7 @@ export interface StudioSetting {
   studioName: string;
   enableLobby: boolean;
   language: string;
+  studioFixedToken?: string;
 }
 
 export interface StudioRecordingSetting {
@@ -38,6 +39,7 @@ export const useStudioSettingsStore = create<StudioSettingsStore>(set => ({
     studioName: '',
     enableLobby: false,
     language: 'English',
+    studioFixedToken: undefined,
   },
   studioRecordingSetting: {
     recordingType: 'AUDIO',

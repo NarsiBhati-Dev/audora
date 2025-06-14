@@ -1,22 +1,18 @@
 import { WebSocketServer, WebSocket } from "ws";
 import { logger } from "../utils/logger";
 import { PORT } from "../config";
-import type { InboundMessage } from "../types/message-types";
+import type { InboundMessage } from "@audora/types";
 import { roomEventHandler } from "./roomHandler";
 import { signalingEventHandler } from "./signalingHandler";
 import { sendAndClose } from "../utils/sendAndClose";
 import { removeParticipantBySocket } from "../rooms/room-manager";
 import { authenticateWebSocket } from "../services/auth";
 import { getToken } from "../services/getToken";
-import type { MeetingTokenPayload } from "../services/verifyToken";
-
-interface SocketWithMeta extends WebSocket {
-  meta?: MeetingTokenPayload & { socketId: string };
-}
 
 export const setupSignalingServer = (wss: WebSocketServer) => {
-  wss.on("connection", (socket: SocketWithMeta, request) => {
+  wss.on("connection", (socket: WebSocket, request) => {
     const url = request.url;
+
     if (!url) {
       logger.error("Connection request missing URL");
       socket.close();
@@ -33,9 +29,23 @@ export const setupSignalingServer = (wss: WebSocketServer) => {
     }
 
     socket.on("message", (data) => {
-      try {
-        const message = JSON.parse(data.toString()) as InboundMessage;
+      let message: InboundMessage;
 
+      try {
+        message = JSON.parse(data.toString());
+      } catch (error) {
+        logger.error("Invalid JSON received:", data.toString());
+        sendAndClose(socket, "error", "Malformed message: Invalid JSON format");
+        return;
+      }
+
+      if (typeof message !== "object" || typeof message.type !== "string") {
+        logger.warn("Invalid message structure:", message);
+        sendAndClose(socket, "error", "Invalid message format.");
+        return;
+      }
+
+      try {
         switch (message.type) {
           case "user:join":
           case "user:leave":
@@ -49,45 +59,39 @@ export const setupSignalingServer = (wss: WebSocketServer) => {
             signalingEventHandler({ socket, message, meetingToken });
             break;
 
-          default: {
+          default:
             logger.warn(`Unknown message type received: ${message.type}`);
             sendAndClose(
               socket,
               "error",
               `Unknown message type: ${message.type}`
             );
-            break;
-          }
         }
       } catch (error) {
-        logger.error(`Error handling message: ${error}`);
+        logger.error(
+          `Error handling message of type "${message?.type}":`,
+          error
+        );
         sendAndClose(socket, "error", "Internal server error");
-        return;
       }
     });
 
     socket.on("close", () => {
-      if (!meetingToken) {
-        logger.warn("Socket closed but no metadata found. Skipping cleanup.");
-        return;
-      }
-
-      const { studioId, userId, participantRole } = meetingToken;
+      const { studioSlug, userId, participantRole } = meetingToken;
 
       try {
-        // Remove participant from room
-        removeParticipantBySocket(studioId, socket);
+        // removeParticipantBySocket(studioSlug, socket);
 
         logger.info(
-          `[${studioId}] ${participantRole} (${userId}) connection closed`
+          `[${studioSlug}] ${participantRole} (${userId}) connection closed`
         );
 
-        // Handle user leave event
+        // Trigger leave logic
         roomEventHandler({
           socket,
           message: {
             type: "user:leave",
-            data: { studioId, userId, participantRole },
+            data: { userId },
           },
           meetingToken,
         }).catch((err) => {
@@ -107,13 +111,4 @@ export const setupSignalingServer = (wss: WebSocketServer) => {
   wss.on("listening", () => {
     logger.info(`Signaling server running at ws://localhost:${PORT}`);
   });
-
-  // Set up periodic ping to all clients
-  setInterval(() => {
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.ping();
-      }
-    });
-  }, 30000); // Every 30 seconds
 };

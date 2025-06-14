@@ -36,7 +36,7 @@ export const useSignaling = ({
   const retryCount = useRef(0);
   const retryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const closedByClient = useRef(false);
-  const MAX_RETRIES = 3;
+  const MAX_RETRIES = 1;
   const componentMountedRef = useRef(true);
 
   const [status, setStatus] = useState<
@@ -101,6 +101,7 @@ export const useSignaling = ({
     try {
       const wsURL = `${SIGNALING_URL}?token=${encodeURIComponent(token)}`;
       const socket = new WebSocket(wsURL);
+
       socketRef.current = socket;
       globalSocket = socket;
       activeConnections++;
@@ -112,7 +113,14 @@ export const useSignaling = ({
         retryCount.current = 0;
         activeRoomId = studioSlug;
         setStatus('connected');
-        socket.send(JSON.stringify({ type: 'user:join', room: studioSlug }));
+        // socket.send(
+        //   JSON.stringify({
+        //     type: 'user:join',
+        //     data: {
+        //       name,
+        //     },
+        //   }),
+        // );
         onOpenRef.current?.();
       };
 
@@ -129,6 +137,10 @@ export const useSignaling = ({
         console.log('WebSocket disconnected', event.code, event.reason);
         connectingRef.current = false;
         setStatus('disconnected');
+
+        if (onClose) {
+          onClose();
+        }
         onCloseRef.current?.();
 
         if (globalSocket === socket) {
@@ -155,9 +167,12 @@ export const useSignaling = ({
         console.error('WebSocket error:', err);
         connectingRef.current = false;
         setStatus('disconnected');
+        if (onClose) {
+          onClose();
+        }
       };
-    } catch (err) {
-      console.error('Failed to create WebSocket:', err);
+    } catch {
+      // console.error('Failed to create WebSocket:', err);
       connectingRef.current = false;
       retryCount.current++;
       setStatus('disconnected');

@@ -7,12 +7,14 @@ import { useIsDesktop } from '@/hooks/useIsDesktop';
 import { useMeetingStartStore } from '@/store/meeting-start-store';
 import StudioRoleView from './views/studio-role-view';
 import GuestLandingScreen from './views/guest-landing-screen';
+import { StudioProvider } from '@/providers/StudioProvider';
 
 interface StudioPageClientProps {
   studioSlug: string;
   isHost: boolean;
   userId: string | undefined;
   token: string | null;
+  studioFixedToken: string;
   isGuestLanding: boolean;
   isGuestJoining: boolean;
   hostName: string | undefined;
@@ -21,8 +23,9 @@ interface StudioPageClientProps {
 const StudioPageClient = ({
   studioSlug,
   isHost,
-  // userId,
+  userId,
   token,
+  studioFixedToken,
   isGuestLanding,
   isGuestJoining,
   hostName,
@@ -36,6 +39,7 @@ const StudioPageClient = ({
       setStudioSetting({
         studioSlug: studioSlug,
         studioName: getStudioNameFromSlug(studioSlug),
+        studioFixedToken: studioFixedToken,
       });
     }
 
@@ -48,21 +52,23 @@ const StudioPageClient = ({
       setStudioSetting({
         studioSlug: '',
         studioName: '',
+        studioFixedToken: '',
       });
     };
-  }, [studioSlug, setStudioSetting, setIsMeetingStarted, token]);
+  }, [studioSlug, setStudioSetting, setIsMeetingStarted, token, studioFixedToken]);
 
   if (isGuestLanding) return <GuestLandingScreen />;
 
   return (
-    <StudioRoleView
-      studioSlug={studioSlug}
-      isGuestJoining={isGuestJoining}
-      isHost={isHost}
-      hostName={hostName}
-      isDesktop={isDesktop}
-      isMeetingStarted={isMeetingStarted}
-    />
+    <StudioProvider studioSlug={studioSlug} token={token} selfId={userId || ''} >
+      <StudioRoleView
+        isGuestJoining={isGuestJoining}
+        isHost={isHost}
+        hostName={hostName}
+        isDesktop={isDesktop}
+        isMeetingStarted={isMeetingStarted}
+      />
+    </StudioProvider >
   );
 };
 

@@ -55,6 +55,7 @@ export const generateMeetingTokenController = async (
         token,
         userId: finalUserId,
         participantRole,
+        studioFixedToken: studio.token,
       },
     });
   } catch (error) {

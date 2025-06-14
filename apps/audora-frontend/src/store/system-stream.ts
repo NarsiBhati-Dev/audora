@@ -7,6 +7,7 @@ interface DeviceOption {
 }
 
 interface SystemStreamStore {
+  selfId: string;
   stream: MediaStream | null;
   micOn: boolean;
   camOn: boolean;
@@ -20,6 +21,7 @@ interface SystemStreamStore {
   error: string | null;
 
   // Setters
+  setSelfId: (id: string) => void;
   setSystemStream: (stream: MediaStream | null) => void;
   setMicToggle: (state: boolean) => void;
   setCamToggle: (state: boolean) => void;
@@ -39,6 +41,7 @@ interface SystemStreamStore {
 }
 
 export const useSystemStreamStore = create<SystemStreamStore>(set => ({
+  selfId: '',
   stream: null,
   micOn: true,
   camOn: true,
@@ -51,6 +54,7 @@ export const useSystemStreamStore = create<SystemStreamStore>(set => ({
   loading: true,
   error: null,
 
+  setSelfId: id => set({ selfId: id }),
   setSystemStream: stream => set({ stream: stream }),
   setMicToggle: micOn => set({ micOn }),
   setCamToggle: camOn => set({ camOn }),

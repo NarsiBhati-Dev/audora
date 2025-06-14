@@ -4,15 +4,16 @@ import { useMeetingStartStore } from '@/store/meeting-start-store';
 // import { useMeetingStore } from '@/store/meeting-store';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useSignalStore } from '@/store/signal-store';
 
-// interface JoinStudioButtonProps {
-//   isHost: boolean;
-//   name: string;
-// }
+interface JoinStudioButtonProps {
+  // isHost: boolean;
+  name: string;
+}
 
-// export function JoinStudioButton({ isHost, name }: JoinStudioButtonProps) {
-export function JoinStudioButton() {
+export function JoinStudioButton({ name }: JoinStudioButtonProps) {
   const { setIsMeetingStarted } = useMeetingStartStore();
+  const { sendMessage } = useSignalStore();
 
   const [permissionState, setPermissionState] = useState<
     'loading' | 'granted' | 'prompt' | 'denied'
@@ -83,6 +84,13 @@ export function JoinStudioButton() {
 
   const handleJoinStudio = async () => {
     setIsMeetingStarted(true);
+    console.log('name', name);
+    sendMessage({
+      type: 'user:join',
+      data: {
+        name: name,
+      },
+    });
   };
 
   return (

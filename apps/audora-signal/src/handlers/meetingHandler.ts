@@ -1,26 +1,29 @@
 import type { WebSocket } from "ws";
-import { createRoomManager, RoomUtils } from "../rooms/room-manager";
-import type { Message } from "../types/message-types";
+import { broadcastToRoom } from "../rooms/room-manager";
+import type { InboundMessage } from "@audora/types";
 
 export const meetingHandler = ({
   socket,
   message,
 }: {
   socket: WebSocket;
-  message: Message;
+  message: InboundMessage;
 }) => {
   const { type, data } = message;
 
   switch (type) {
     case "meeting:end": {
-      const { studioId } = data;
-      const room = createRoomManager().getRoom(studioId);
-      if (!room) return;
-      RoomUtils.broadcast(
-        room,
-        { type: "meeting:end", data: { studioId } },
-        socket
-      );
+      broadcastToRoom(data.studioSlug, {
+        type: "meeting:end",
+        data: { studioSlug: data.studioSlug },
+      });
+
+      console.log(`[meeting:end] Broadcasted to room ${data.studioSlug}`);
+      break;
+    }
+
+    default: {
+      console.warn(`[meetingHandler] Unhandled type: ${type}`);
       break;
     }
   }

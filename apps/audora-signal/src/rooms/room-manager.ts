@@ -1,145 +1,82 @@
+// rooms/room-manager.ts
 import { WebSocket } from "ws";
-import { v4 as uuidv4 } from "uuid";
+import { logger } from "../utils/logger";
 
-export type ParticipantRole = "host" | "guest";
+export type Role = "host" | "guest";
 
-export interface Participant {
+interface Participant {
   userId: string;
-  participantId: string;
   name: string;
-  role: ParticipantRole;
+  role: Role;
   socketId: string;
   socket: WebSocket;
-  connected: boolean;
-  lastSeen: number;
 }
 
-export interface Room {
+interface Room {
   roomId: string;
-  participants: Map<string, Participant>;
-  createdAt: number;
-  lastActivity: number;
+  host?: Participant;
+  guest?: Participant;
 }
 
-type RoomMap = Map<string, Room>;
+const rooms = new Map<string, Room>();
 
-// Singleton instance
-let rooms: RoomMap = new Map();
-
-// ─── Room Core ───────────────────────────────────────────────
-
-export const createRoom = (roomId: string): Room => {
-  const now = Date.now();
-  const room: Room = {
-    roomId,
-    participants: new Map(),
-    createdAt: now,
-    lastActivity: now,
-  };
-  rooms.set(roomId, room);
-  return room;
-};
-
-export const getRoom = (roomId: string): Room | undefined => {
-  return rooms.get(roomId);
-};
-
-export const deleteRoomIfEmpty = (roomId: string): boolean => {
-  const room = rooms.get(roomId);
-  if (room && room.participants.size === 0) {
-    rooms.delete(roomId);
-    return true;
-  }
-  return false;
-};
-
-// ─── Participant Handling ────────────────────────────────────
-
-export const addParticipant = (
+export const addToRoom = (
   roomId: string,
   socket: WebSocket,
   userId: string,
   name: string,
-  role: ParticipantRole
+  role: Role
 ): Participant => {
-  const room = rooms.get(roomId) ?? createRoom(roomId);
-  const socketId = uuidv4();
-  const now = Date.now();
+  const room = rooms.get(roomId) ?? { roomId };
+  const socketId = crypto.randomUUID();
 
   const participant: Participant = {
     userId,
-    participantId: uuidv4(),
     name,
     role,
     socketId,
     socket,
-    connected: true,
-    lastSeen: now,
   };
 
-  room.participants.set(socketId, participant);
-  room.lastActivity = now;
+  if (role === "host") {
+    room.host = participant;
+  } else {
+    room.guest = participant;
+  }
+
+  rooms.set(roomId, room);
   return participant;
+};
+
+export const getRoomParticipants = (roomId: string): Participant[] => {
+  const room = rooms.get(roomId);
+  if (!room) return [];
+  return [room.host, room.guest].filter(Boolean) as Participant[];
 };
 
 export const removeParticipantBySocket = (
   roomId: string,
   socket: WebSocket
-): void => {
+) => {
   const room = rooms.get(roomId);
   if (!room) return;
 
-  for (const [socketId, participant] of room.participants.entries()) {
-    if (participant.socket === socket) {
-      room.participants.delete(socketId);
-      room.lastActivity = Date.now();
-      break;
-    }
-  }
+  if (room.host?.socket === socket) room.host = undefined;
+  if (room.guest?.socket === socket) room.guest = undefined;
 
-  deleteRoomIfEmpty(roomId);
+  if (room.host === undefined && room.guest === undefined) {
+    rooms.delete(roomId);
+    logger.info(`[${roomId}] Room deleted`);
+  }
 };
 
-export const updateParticipantLastSeen = (
-  roomId: string,
-  socketId: string
-): void => {
+export const isUserInRoom = (roomId: string, userId: string): boolean => {
   const room = rooms.get(roomId);
-  if (!room) return;
-
-  const participant = room.participants.get(socketId);
-  if (participant) {
-    participant.lastSeen = Date.now();
-    room.lastActivity = Date.now();
-  }
+  if (!room) return false;
+  return room.host?.userId === userId || room.guest?.userId === userId;
 };
 
-// ─── Broadcast Utilities ─────────────────────────────────────
-
-export const broadcastToRoom = (
-  roomId: string,
-  message: any,
-  excludeSocket?: WebSocket
-): void => {
-  const room = rooms.get(roomId);
-  if (!room) return;
-
-  const data = JSON.stringify(message);
-  const now = Date.now();
-  const disconnectedThreshold = 30000; // 30 seconds
-
-  for (const participant of room.participants.values()) {
-    if (
-      participant.socket.readyState === WebSocket.OPEN &&
-      participant.socket !== excludeSocket &&
-      now - participant.lastSeen < disconnectedThreshold
-    ) {
-      participant.socket.send(data);
-    }
-  }
-};
-
-export const sendToSocket = (socket: WebSocket, message: any): boolean => {
+export const sendToSocket = (socket: WebSocket, message: any) => {
   if (socket.readyState === WebSocket.OPEN) {
     socket.send(JSON.stringify(message));
     return true;
@@ -147,55 +84,17 @@ export const sendToSocket = (socket: WebSocket, message: any): boolean => {
   return false;
 };
 
-// ─── Room Queries ────────────────────────────────────────────
-
-export const getParticipants = (
+export const broadcastToRoom = (
   roomId: string,
+  message: any,
   excludeSocket?: WebSocket
-): Participant[] => {
+) => {
   const room = rooms.get(roomId);
-  if (!room) return [];
-
-  const now = Date.now();
-  const disconnectedThreshold = 30000; // 30 seconds
-
-  return Array.from(room.participants.values()).filter(
-    (p) =>
-      p.socket !== excludeSocket && now - p.lastSeen < disconnectedThreshold
-  );
-};
-
-export const isUserInRoom = (roomId: string, userId: string): boolean => {
-  const room = rooms.get(roomId);
-  if (!room) return false;
-
-  const now = Date.now();
-  const disconnectedThreshold = 30000; // 30 seconds
-
-  return Array.from(room.participants.values()).some(
-    (participant) =>
-      participant.userId === userId &&
-      now - participant.lastSeen < disconnectedThreshold
-  );
-};
-
-export const getRoomStats = (roomId: string) => {
-  const room = rooms.get(roomId);
-  if (!room) return null;
-
-  const now = Date.now();
-  const disconnectedThreshold = 30000; // 30 seconds
-
-  const activeParticipants = Array.from(room.participants.values()).filter(
-    (p) => now - p.lastSeen < disconnectedThreshold
-  );
-
-  return {
-    roomId,
-    participantCount: activeParticipants.length,
-    hostCount: activeParticipants.filter((p) => p.role === "host").length,
-    guestCount: activeParticipants.filter((p) => p.role === "guest").length,
-    createdAt: room.createdAt,
-    lastActivity: room.lastActivity,
-  };
+  if (!room) return;
+  const sockets = [room.host?.socket, room.guest?.socket].filter(Boolean);
+  for (const sock of sockets) {
+    if (sock !== excludeSocket && sock?.readyState === WebSocket.OPEN) {
+      sock.send(JSON.stringify(message));
+    }
+  }
 };

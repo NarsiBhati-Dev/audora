@@ -3,9 +3,11 @@
 // import { useStudioSettingsStore } from '@/store/studio-setting-store';
 import React, { useState } from 'react';
 import { JoinStudioButton } from './join_meeting/join-studio-button';
+import { useUserProfileStore } from '@/store/user-profile';
 
 const JoinStudio = () => {
   const [isUsingHeadphones, setIsUsingHeadphones] = useState(false);
+  const { name } = useUserProfileStore().userProfile;
   // const { studioSetting } = useStudioSettingsStore();
   // console.log(studioSetting);
 
@@ -25,7 +27,7 @@ const JoinStudio = () => {
           <div className='relative w-full'>
             <input
               type='text'
-              value='Narsi Bhati'
+              value={name}
               readOnly
               className='focus:ring-primary-500 w-full rounded-lg bg-zinc-800 px-4 py-3 pr-20 text-sm font-medium text-white outline-none focus:ring-1 focus:ring-offset-0'
             />
@@ -50,7 +52,7 @@ const JoinStudio = () => {
           </button>
         </div>
 
-        <JoinStudioButton />
+        <JoinStudioButton name={name} />
 
         <p className='text-center text-sm text-zinc-400'>
           You are joining as a host.{' '}

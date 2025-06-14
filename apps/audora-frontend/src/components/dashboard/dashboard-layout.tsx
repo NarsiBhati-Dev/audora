@@ -1,8 +1,8 @@
-import StudioProvider from '@/components/studio-provider';
 import DashboardSidebar from '@/components/dashboard/dashboard-sidebar';
 import DashboardMobileSidebar from '@/components/dashboard/dashboard-mobile-sidebar';
 import DashboardContainer from '@/components/dashboard/dashboard-container';
 import { Studio } from '@audora/types';
+import StudioSettingsProvider from '@/components/studio-settings-provider';
 
 interface DashboardLayoutProps {
     studio: Studio;
@@ -11,7 +11,7 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout({ studio, children }: DashboardLayoutProps) {
     return (
-        <StudioProvider studio={studio}>
+        <StudioSettingsProvider studio={studio}>
             <div className="bg-dashboard-bg flex h-full w-screen overflow-hidden">
                 <DashboardSidebar studio={studio} />
                 <DashboardMobileSidebar studio={studio} />
@@ -19,6 +19,6 @@ export default function DashboardLayout({ studio, children }: DashboardLayoutPro
                     <DashboardContainer>{children}</DashboardContainer>
                 </div>
             </div>
-        </StudioProvider>
+        </StudioSettingsProvider>
     );
 }

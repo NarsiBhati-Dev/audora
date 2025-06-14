@@ -1,84 +1,135 @@
 import { z } from "zod";
 
-// --- Participant structure ---
-const Participant = z.object({
+// ─────────────────────────────────────────
+// Core: Shared Participant + RTC Types
+// ─────────────────────────────────────────
+
+export const ParticipantRoleSchema = z.union([
+  z.literal("host"),
+  z.literal("guest"),
+]);
+
+export type ParticipantRole = z.infer<typeof ParticipantRoleSchema>;
+
+export const ParticipantSchema = z.object({
   userId: z.string(),
   name: z.string(),
-  role: z.union([z.literal("host"), z.literal("guest")]),
+  role: ParticipantRoleSchema,
   socketId: z.string(),
 });
 
-const ParticipantsListData = z.object({
-  participants: z.array(Participant),
-});
+export type Participant = z.infer<typeof ParticipantSchema>;
 
-// --- Connection / Disconnection ---
-const ConnectData = z.object({
-  userId: z.string(),
-  studioId: z.string(),
-  name: z.string().optional(),
-  role: z.union([z.literal("host"), z.literal("guest")]),
-});
-
-const DisconnectData = z.object({
-  userId: z.string(),
-  studioId: z.string(),
-  role: z.union([z.literal("host"), z.literal("guest")]),
-});
-
-// --- WebRTC Types ---
-const RTCSessionDescriptionInitSchema = z.object({
+export const RTCSessionDescriptionInitSchema = z.object({
   type: z.union([z.literal("offer"), z.literal("answer")]),
   sdp: z.string(),
 });
 
-const RTCIceCandidateInitSchema = z.object({
+export const RTCIceCandidateInitSchema = z.object({
   candidate: z.string(),
-  sdpMid: z.string().nullable().optional(),
-  sdpMLineIndex: z.number().nullable().optional(),
+  sdpMid: z.string().optional().nullable(),
+  sdpMLineIndex: z.number().optional().nullable(),
 });
 
-const WebRTCData = z.object({
-  studioId: z.string(),
+export type RTCSessionDescriptionInit = z.infer<
+  typeof RTCSessionDescriptionInitSchema
+>;
+
+export type RTCIceCandidateInit = z.infer<typeof RTCIceCandidateInitSchema>;
+
+export const WebRTCDataSchema = z.object({
   to: z.string(),
+  from: z.string(),
   sdp: RTCSessionDescriptionInitSchema.optional(),
   candidate: RTCIceCandidateInitSchema.optional(),
 });
 
-// --- Recording & Speaking Events ---
-const RecordingData = z.object({
-  studioId: z.string(),
-  userId: z.string(),
-  timestamp: z.number(),
-});
+export type WebRTCData = z.infer<typeof WebRTCDataSchema>;
 
-const SpeakingData = z.object({
-  studioId: z.string(),
-  userId: z.string(),
-  timestamp: z.number(),
-});
+// ─────────────────────────────────────────
+// InboundMessage (Client ➜ Server)
+// ─────────────────────────────────────────
 
-// --- Meeting End Event ---
-const MeetingEndData = z.object({
-  studioId: z.string(),
-});
-
-// --- Message Schema ---
-export const MessageSchema = z.discriminatedUnion("type", [
-  z.object({ type: z.literal("user:join"), data: ConnectData }),
-  z.object({ type: z.literal("user:leave"), data: DisconnectData }),
-  z.object({ type: z.literal("webrtc:offer"), data: WebRTCData }),
-  z.object({ type: z.literal("webrtc:answer"), data: WebRTCData }),
-  z.object({ type: z.literal("webrtc:ice-candidate"), data: WebRTCData }),
-  z.object({ type: z.literal("recording:start"), data: RecordingData }),
-  z.object({ type: z.literal("recording:stop"), data: RecordingData }),
-  z.object({ type: z.literal("user:start-speaking"), data: SpeakingData }),
-  z.object({ type: z.literal("user:stop-speaking"), data: SpeakingData }),
-  z.object({ type: z.literal("meeting:end"), data: MeetingEndData }),
+export const InboundMessageSchema = z.discriminatedUnion("type", [
   z.object({
-    type: z.literal("participants:list"),
-    data: ParticipantsListData,
+    type: z.literal("user:join"),
+    data: z.object({ name: z.string() }),
+  }),
+  z.object({
+    type: z.literal("user:leave"),
+    data: z.object({ userId: z.string() }),
+  }),
+  z.object({ type: z.literal("webrtc:offer"), data: WebRTCDataSchema }),
+  z.object({ type: z.literal("webrtc:answer"), data: WebRTCDataSchema }),
+  z.object({ type: z.literal("webrtc:ice-candidate"), data: WebRTCDataSchema }),
+  z.object({
+    type: z.literal("recording:start"),
+    data: z.object({ timestamp: z.number() }),
+  }),
+  z.object({
+    type: z.literal("recording:stop"),
+    data: z.object({ timestamp: z.number() }),
+  }),
+  z.object({
+    type: z.literal("user:start-speaking"),
+    data: z.object({ timestamp: z.number() }),
+  }),
+  z.object({
+    type: z.literal("user:stop-speaking"),
+    data: z.object({ timestamp: z.number() }),
+  }),
+  z.object({
+    type: z.literal("meeting:end"),
+    data: z.object({ studioSlug: z.string() }),
   }),
 ]);
 
-export type Message = z.infer<typeof MessageSchema>;
+export type InboundMessage = z.infer<typeof InboundMessageSchema>;
+
+// ─────────────────────────────────────────
+// OutboundMessage (Server ➜ Client)
+// ─────────────────────────────────────────
+
+const UserSchema = z.object({
+  userId: z.string(),
+  name: z.string(),
+  role: ParticipantRoleSchema,
+  socketId: z.string(),
+});
+
+export const OutboundMessageSchema = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("user:joined"),
+    data: z.object({ user: UserSchema }),
+  }),
+  z.object({
+    type: z.literal("user:left"),
+    data: z.object({ user: UserSchema }),
+  }),
+  z.object({
+    type: z.literal("participants:list"),
+    data: z.object({
+      participants: z.array(z.object({ user: UserSchema })),
+      selfId: z.string().optional(),
+    }),
+  }),
+  z.object({
+    type: z.literal("room:ready"),
+    data: z.object({ studioSlug: z.string() }),
+  }),
+  z.object({ type: z.literal("webrtc:offer"), data: WebRTCDataSchema }),
+  z.object({ type: z.literal("webrtc:answer"), data: WebRTCDataSchema }),
+  z.object({ type: z.literal("webrtc:ice-candidate"), data: WebRTCDataSchema }),
+  z.object({
+    type: z.literal("meeting:end"),
+    data: z.object({ studioSlug: z.string() }),
+  }),
+]);
+
+export type OutboundMessage = z.infer<typeof OutboundMessageSchema>;
+
+// ─────────────────────────────────────────
+// Utility Exports
+// ─────────────────────────────────────────
+
+export type Message = InboundMessage | OutboundMessage;

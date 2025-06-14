@@ -1,41 +1,36 @@
 'use client';
 
-import VideoTile from './VideoTile';
+import VideoTile from './video-tile';
 import InviteModal from './invite-modal';
 
-const HostView = ({
-  localStream,
-  cameraOn,
-}: {
+interface HostViewProps {
   localStream: MediaStream | null;
   cameraOn: boolean;
-}) => {
+  micOn: boolean;
+}
+
+const HostView = ({ localStream, cameraOn, micOn }: HostViewProps) => {
   return (
-    <div className='flex h-[calc(100vh-100px)] w-full flex-col bg-black text-white md:flex-row'>
-      {/* Host Video Section */}
-      <div className='flex flex-1 items-center justify-center p-6'>
-        <div
-          className='h-full w-full rounded-2xl shadow-xl transition-colors duration-300'
-          style={{
-            borderColor: cameraOn ? '#4B5563' : '#EF4444',
-          }}
-        >
-          <VideoTile
-            label='You (Host)'
-            stream={localStream}
-            isSelf={true}
-            borderColor=''
-            camOn={cameraOn}
-            micOn={false}
-          />
-        </div>
+    <div className='flex h-[calc(100vh-160px)] w-full flex-col md:flex-row bg-black text-white'>
+      {/* Left: Video */}
+      <div className='w-full md:w-1/2 flex aspect-video items-center justify-center p-6'>
+        <VideoTile
+          label='You (Host)'
+          stream={localStream}
+          isSelf={true}
+          borderColor={cameraOn ? 'border-gray-600' : 'border-red-500'}
+          camOn={cameraOn}
+          micOn={micOn}
+        />
       </div>
 
-      {/* Share Meeting Link Panel */}
-      <div className='bg-dashboard-bg-darkest my-6 flex h-full w-xl overflow-hidden rounded-2xl'>
-        <InviteModal />
+      {/* Right: Invite Modal */}
+      <div className='w-full md:w-1/2 flex items-center justify-center p-6'>
+        <div className='w-full max-w-2xl'>
+          <InviteModal />
+        </div>
       </div>
-    </div>
+    </div >
   );
 };
 

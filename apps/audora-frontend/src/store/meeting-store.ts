@@ -29,7 +29,7 @@ interface MeetingState {
 
 export const useMeetingStore = create<MeetingState>(set => ({
   layout: 'grid',
-  fitMode: 'fit',
+  fitMode: 'fill',
   participants: [],
   setLayout: layout => set({ layout }),
   setFitMode: fitMode => set({ fitMode }),

@@ -1,52 +1,91 @@
 'use client';
 
 import { useState } from 'react';
-// import { FiCopy, FiShare2 } from 'react-icons/fi';
-// import { X } from 'lucide-react';
+import { SITE_URL } from '@/config';
+import { useStudioSettingsStore } from '@/store/studio-setting-store';
+import { FiCopy, FiCheck, FiShare2 } from 'react-icons/fi';
 
 const InviteModal = () => {
   const [copied, setCopied] = useState(false);
-  // const [role, setRole] = useState('Guest');
-  const meetingLink = 'https://audora.xyz/studio/sss-lJ0...';
+  const { studioSetting } = useStudioSettingsStore();
+
+  const meetingLink = `${SITE_URL}/studio/${studioSetting.studioSlug}?t=${studioSetting.studioFixedToken}`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(meetingLink);
     setCopied(true);
-    setTimeout(() => setCopied(false), 1000);
+    setTimeout(() => setCopied(false), 1500);
+  };
+
+  const shareLink = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Join my studio on Audora',
+          text: 'Join my studio session on Audora',
+          url: meetingLink,
+        });
+      } catch {
+        // do nothing
+      }
+    }
   };
 
   return (
-    <div className='bg-dashboard-bg-darkest flex h-full w-full items-center justify-center border-2 border-transparent'>
-      <div className='bg-dashboard-bg-darkest w-full rounded-2xl text-white shadow-xl'>
-        {/* Title */}
-        <h2 className='mb-1 text-center text-3xl font-semibold'>
+    <div className='bg-dashboard-bg-darkest w-full rounded-2xl border border-gray-800 p-6 text-white shadow-2xl backdrop-blur-sm'>
+      {/* Header */}
+      <div className='mb-4 flex items-center justify-between'>
+        <h2 className='from-primary-400 to-primary-600 bg-gradient-to-r bg-clip-text text-2xl font-bold text-transparent'>
           Invite People
         </h2>
-        <p className='mb-6 text-center text-sm text-gray-400'>
-          Share this link to invite people to your studio.
-        </p>
+      </div>
 
-        <div className='relative mb-4 flex flex-col items-center justify-center space-y-3'>
-          {/* Input + Role */}
-          <div className='relative w-2/3'>
-            <input
-              type='text'
-              readOnly
-              value={meetingLink}
-              className='w-full truncate rounded-lg border border-[#2d2d34] bg-[#1e1e24] px-2 py-3 text-sm'
-            />
-            <div className='bg-dashboard-bg absolute top-1/2 right-2 -translate-y-1/2 rounded-lg px-3 py-2 text-sm'>
-              Guest
-            </div>
+      <p className='mb-6 text-sm text-gray-400'>
+        Share this link to invite people to your studio.
+      </p>
+
+      {/* Invite Link Section */}
+      <div className='space-y-4'>
+        {/* Input with role badge */}
+        <div className='relative'>
+          <input
+            type='text'
+            readOnly
+            value={meetingLink}
+            className='focus:ring-primary-500 w-full truncate rounded-lg border border-[#2d2d34] bg-[#1e1e24] px-4 py-3.5 text-sm text-white focus:ring-2 focus:outline-none'
+          />
+          <div className='bg-primary-500/20 text-primary-400 absolute top-1/2 right-3 -translate-y-1/2 rounded-full px-3 py-1 text-xs font-semibold'>
+            Guest
           </div>
+        </div>
 
-          {/* Copy Button */}
+        {/* Action Buttons */}
+        <div className='flex space-x-3'>
           <button
             onClick={copyToClipboard}
-            className='bg-primary-500 hover:bg-primary-400 w-2/3 rounded-lg px-4 py-3 text-base font-semibold transition'
+            className='bg-primary-500 hover:bg-primary-400 focus:ring-primary-600 flex flex-1 items-center justify-center space-x-2 rounded-lg px-4 py-3.5 text-base font-semibold text-white transition focus:ring-2 focus:outline-none'
           >
-            {copied ? 'Copied to clipboard!' : 'Copy Link'}
+            {copied ? (
+              <>
+                <FiCheck className='h-5 w-5' />
+                <span>Copied!</span>
+              </>
+            ) : (
+              <>
+                <FiCopy className='h-5 w-5' />
+                <span>Copy Link</span>
+              </>
+            )}
           </button>
+
+          {typeof navigator.share !== 'undefined' && (
+            <button
+              onClick={shareLink}
+              className='flex items-center justify-center rounded-lg bg-gray-700 px-4 py-3.5 text-base font-semibold text-white transition hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:outline-none'
+            >
+              <FiShare2 className='h-5 w-5' />
+            </button>
+          )}
         </div>
       </div>
     </div>

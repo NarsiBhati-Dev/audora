@@ -3,7 +3,6 @@
 import { useStudioSettingsStore } from '@/store/studio-setting-store';
 import React, { useState } from 'react';
 import { JoinStudioButton } from './join-studio-button';
-// import { useMeetingStartStore } from '@/store/meeting-start-store';
 
 interface JoinStudioProps {
   isHost: boolean;
@@ -12,7 +11,7 @@ interface JoinStudioProps {
 
 const JoinStudio = ({ isHost, hostName = '' }: JoinStudioProps) => {
   const [isUsingHeadphones, setIsUsingHeadphones] = useState(false);
-  const [guestName, setGuestName] = useState('');
+  const [guestName, setGuestName] = useState<string>('Me');
   const { studioSetting } = useStudioSettingsStore();
 
   return (
@@ -47,7 +46,7 @@ const JoinStudio = ({ isHost, hostName = '' }: JoinStudioProps) => {
               <>
                 <input
                   type='text'
-                  value={guestName || 'Me'}
+                  value={guestName}
                   onChange={e => setGuestName(e.target.value)}
                   placeholder='Enter your name'
                   className='focus:ring-primary-500 w-full rounded-lg bg-zinc-800 px-4 py-3 pr-20 text-sm font-medium text-white outline-none focus:ring-1 focus:ring-offset-0'
@@ -75,11 +74,7 @@ const JoinStudio = ({ isHost, hostName = '' }: JoinStudioProps) => {
           </button>
         </div>
 
-        <JoinStudioButton
-        // isHost={isHost}
-        // studioToken={studioToken}
-        // name={isHost ? hostName : guestName}
-        />
+        <JoinStudioButton name={isHost ? hostName : guestName} />
 
         <p className='text-center text-sm text-zinc-400'>
           {isHost ? (
