@@ -18,8 +18,8 @@ const StudiosLayout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className='bg-dashboard-bg flex h-full w-screen overflow-hidden'>
-      <DashboardSidebar />
-      <DashboardMobileSidebar />
+      <DashboardSidebar studio={studio} />
+      <DashboardMobileSidebar studio={studio} />
       <div className='m-1.5 flex-1 lg:m-3'>
         <DashboardContainer>{children}</DashboardContainer>
       </div>

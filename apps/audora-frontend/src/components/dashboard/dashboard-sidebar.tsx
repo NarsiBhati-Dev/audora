@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import {
   FiHome,
-  // FiFolder,
+  FiFolder,
   // FiCalendar,
   FiVideo,
   FiUserPlus,
@@ -19,14 +19,15 @@ import { DashboardSidebarIcon } from '@/data/icons';
 import { Plus } from 'lucide-react';
 import PopupWrapper from '../ui/popup-wrapper';
 import CreateStudioPopup from './account/create-studio-popup';
+import { Studio } from '@audora/types';
 
 const navItems = [
   { href: '/dashboard/home', icon: <FiHome size={22} />, label: 'Home' },
-  // {
-  //   href: '/dashboard/projects',
-  //   icon: <FiFolder size={22} />,
-  //   label: 'Projects',
-  // },
+  {
+    href: '/projects',
+    icon: <FiFolder size={22} />,
+    label: 'Projects',
+  },
   // {
   //   href: '/dashboard/schedule',
   //   icon: <FiCalendar size={22} />,
@@ -40,10 +41,10 @@ const navItems = [
 ];
 
 interface DashboardSidebarProps {
-  studioId?: string;
+  studio: Studio;
 }
 
-const DashboardSidebar = ({ studioId }: DashboardSidebarProps) => {
+const DashboardSidebar = ({ studio }: DashboardSidebarProps) => {
   const [open, setOpen] = useState(true);
   const [isCreateStudioOpen, setIsCreateStudioOpen] = useState(false);
 
@@ -72,13 +73,12 @@ const DashboardSidebar = ({ studioId }: DashboardSidebarProps) => {
           </Tooltip>
         </div>
         <nav className='flex flex-col gap-4 px-2'>
-          {!studioId ? (
+          {!studio.studioSlug ? (
             <>
               <button
                 onClick={() => setIsCreateStudioOpen(true)}
-                className={`flex items-center gap-4 rounded-xl px-3 py-2 text-base font-medium transition-colors hover:bg-[#292929] ${
-                  open ? '' : 'justify-center'
-                }`}
+                className={`flex items-center gap-4 rounded-xl px-3 py-2 text-base font-medium transition-colors hover:bg-[#292929] ${open ? '' : 'justify-center'
+                  }`}
               >
                 <Plus size={26} className='text-white' />
                 {open && 'Create Studio'}
@@ -103,10 +103,9 @@ const DashboardSidebar = ({ studioId }: DashboardSidebarProps) => {
                 delay={100}
               >
                 <Link
-                  href={item.href}
-                  className={`flex items-center gap-4 rounded-xl px-3 py-2 text-base font-medium transition-colors hover:bg-[#292929] ${
-                    open ? '' : 'justify-center'
-                  }`}
+                  href={item.label === 'Projects' ? `/studio/${studio.studioSlug}${item.href}` : item.href}
+                  className={`flex items-center gap-4 rounded-xl px-3 py-2 text-base font-medium transition-colors hover:bg-[#292929] ${open ? '' : 'justify-center'
+                    }`}
                 >
                   {item.icon}
                   {open && item.label}
@@ -121,19 +120,18 @@ const DashboardSidebar = ({ studioId }: DashboardSidebarProps) => {
       <div
         className={`flex flex-col gap-4 px-2 pb-8 ${open ? '' : 'items-center'}`}
       >
-        {studioId && (
+        {studio.studioSlug && (
           <>
             {/* Studio and Invite */}
             <div
               className={`flex items-center gap-3 ${open ? '' : 'flex-col gap-2 border-b border-[#292929] pb-4'}`}
             >
               <Link
-                href={`/studio/${studioId}`}
-                className={`flex items-center gap-2 bg-[#232323] text-sm font-semibold transition hover:bg-[#292929] ${
-                  open
-                    ? 'rounded-3xl px-4 py-3'
-                    : 'justify-center rounded-full p-3'
-                }`}
+                href={`/studio/${studio.studioSlug}`}
+                className={`flex items-center gap-2 bg-[#232323] text-sm font-semibold transition hover:bg-[#292929] ${open
+                  ? 'rounded-3xl px-4 py-3'
+                  : 'justify-center rounded-full p-3'
+                  }`}
               >
                 <FiVideo size={20} />
                 {open && 'Open Studio'}
@@ -141,11 +139,10 @@ const DashboardSidebar = ({ studioId }: DashboardSidebarProps) => {
 
               <Link
                 href='/dashboard/invite'
-                className={`rounded-full bg-[#232323] p-3 transition hover:bg-[#292929] ${
-                  open
-                    ? 'flex items-center gap-2 rounded-3xl px-4 py-3'
-                    : 'justify-center rounded-full p-3'
-                }`}
+                className={`rounded-full bg-[#232323] p-3 transition hover:bg-[#292929] ${open
+                  ? 'flex items-center gap-2 rounded-3xl px-4 py-3'
+                  : 'justify-center rounded-full p-3'
+                  }`}
               >
                 <FiUserPlus size={20} />
               </Link>

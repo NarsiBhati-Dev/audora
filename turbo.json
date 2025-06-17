@@ -9,6 +9,7 @@
       "env": [
         "NEXT_PUBLIC_SITE_URL",
         "NEXT_PUBLIC_API_URL",
+        "NEXT_PUBLIC_SIGNAL_URL",
         "NODE_ENV",
         "GOOGLE_CLIENT_ID",
         "GOOGLE_CLIENT_SECRET",
@@ -31,7 +32,7 @@
     },
 
     "start": {
-      "dependsOn": ["start:frontend"],
+      "dependsOn": ["start:frontend", "start:backend", "start:signal"],
       "cache": false
     },
 
@@ -45,9 +46,28 @@
         "NEXTAUTH_SECRET",
         "NEXT_PUBLIC_API_URL",
         "NEXT_PUBLIC_SITE_URL",
+        "NEXT_PUBLIC_SIGNAL_URL",
         "NODE_ENV"
       ],
       "outputs": [".next/**", "!.next/cache/**"]
+    },
+
+    "start:backend": {
+      "dependsOn": ["^db:deploy"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "env": [
+        "DATABASE_URL",
+        "FRONTEND_URL",
+        "PORT",
+        "NEXTAUTH_SECRET",
+        "NODE_ENV"
+      ]
+    },
+
+    "start:signal": {
+      "dependsOn": ["^db:deploy"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "env": ["DATABASE_URL", "PORT", "NODE_ENV"]
     },
 
     "generate": {

@@ -31,8 +31,8 @@ jobs:
             NEXT_PUBLIC_SITE_URL=${{ secrets.NEXT_PUBLIC_SITE_URL }}
             NEXT_PUBLIC_NEXTAUTH_URL=${{ secrets.NEXT_PUBLIC_NEXTAUTH_URL }}
           tags: |
-            narsibhati6545/audora-frontend:${{ github.sha }} 
-            narsibhati6545/audora-frontend:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/audora-frontend:${{ github.sha }} 
+            ${{ secrets.DOCKERHUB_USERNAME }}/audora-frontend:latest
 
 #       - name: Deploy to VM
 #         uses: appleboy/ssh-action@v1.2.0
@@ -42,7 +42,7 @@ jobs:
 #           key: ${{ secrets.SSH_PRIVATE_KEY }}
 #           port: 22
 #           script: |
-#             sudo docker pull narsibhati6545/audora-frontend:latest
+#             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/audora-frontend:latest
 
 #             if sudo docker ps -a --format '{{.Names}}' | grep -q "^audora-frontend$"; then
 #               sudo docker stop audora-frontend
@@ -53,7 +53,7 @@ jobs:
 #               --name audora-frontend \
 #               -p 3000:3000 \
 #               --restart always \
-#               narsibhati6545/audora-frontend:latest
+#               ${{ secrets.DOCKERHUB_USERNAME }}/audora-frontend:latest
 
 #             echo "Audora frontend deployed successfully!"
 #             sudo docker image prune -f --filter "until=24h"

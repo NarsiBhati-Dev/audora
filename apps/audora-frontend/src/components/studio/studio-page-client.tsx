@@ -1,74 +1,75 @@
 'use client';
 
-import { useIsDesktop } from '@/hooks/useIsDesktop';
-import React from 'react';
-import JoinStudio from './join_meeting/join-studio';
-import MediaSetupScreen from './media/media-setup-screen';
-import MobileFallback from './mobile-fallback';
+import { useEffect } from 'react';
 import { useStudioSettingsStore } from '@/store/studio-setting-store';
-import StudioHeader from './studio-header';
-import WelcomeScreen from './welcome-screen';
-import GuestStudioHeader from './guest-studio-header';
+import { getStudioNameFromSlug } from '@/lib/studio/getStudioNameFromSlug';
+import { useIsDesktop } from '@/hooks/useIsDesktop';
+import { useMeetingStartStore } from '@/store/meeting-start-store';
+import StudioRoleView from './views/studio-role-view';
+import GuestLandingScreen from './views/guest-landing-screen';
+import { StudioProvider } from '@/providers/StudioProvider';
 
 interface StudioPageClientProps {
-  studio: string;
-  t: string | undefined;
-  gw: string | undefined;
+  studioSlug: string;
   isHost: boolean;
-  hostName: string;
+  userId: string | undefined;
+  token: string | null;
+  studioFixedToken: string;
+  isGuestLanding: boolean;
+  isGuestJoining: boolean;
+  hostName: string | undefined;
 }
 
 const StudioPageClient = ({
-  studio,
-  t,
-  gw,
+  studioSlug,
   isHost,
+  userId,
+  token,
+  studioFixedToken,
+  isGuestLanding,
+  isGuestJoining,
   hostName,
 }: StudioPageClientProps) => {
+  const { setStudioSetting } = useStudioSettingsStore();
   const isDesktop = useIsDesktop();
-  const { studioSetting } = useStudioSettingsStore();
+  const { isMeetingStarted, setIsMeetingStarted } = useMeetingStartStore();
 
-  studioSetting.studioId = studio;
-  studioSetting.name = getStudioNameFromSlug(studio);
+  useEffect(() => {
+    if (studioSlug) {
+      setStudioSetting({
+        studioSlug: studioSlug,
+        studioName: getStudioNameFromSlug(studioSlug),
+        studioFixedToken: studioFixedToken,
+      });
+    }
 
-  // If welcome token is present, show welcome screen
-  if (t && !isHost && gw === undefined) {
-    return <WelcomeScreen />;
-  }
+    if (token) {
+      localStorage.setItem('studio-token', token);
+    }
 
-  // If guest token is present, show join as guest screen
-  if (t && gw && !isHost) {
-    return (
-      <>
-        <GuestStudioHeader studioName={studioSetting.name} />
-        <div className='mx-auto mt-16 h-[calc(100vh-64px)] max-w-6xl flex-col items-center justify-center gap-10 px-4 md:flex md:flex-col md:gap-12 lg:flex-row'>
-          <JoinStudio isHost={false} hostName={hostName} />
-          <MediaSetupScreen />
-        </div>
-      </>
-    );
-  }
+    return () => {
+      setIsMeetingStarted(false);
+      setStudioSetting({
+        studioSlug: '',
+        studioName: '',
+        studioFixedToken: '',
+      });
+    };
+  }, [studioSlug, setStudioSetting, setIsMeetingStarted, token, studioFixedToken]);
 
-  // Default view for host
+  if (isGuestLanding) return <GuestLandingScreen />;
+
   return (
-    <>
-      {isDesktop ? (
-        <>
-          <StudioHeader />
-          <div className='mx-auto mt-16 h-[calc(100vh-64px)] max-w-6xl flex-col items-center justify-center gap-10 px-4 md:flex md:flex-col md:gap-12 lg:flex-row'>
-            <JoinStudio isHost={true} hostName={hostName} />
-            <MediaSetupScreen />
-          </div>
-        </>
-      ) : (
-        <MobileFallback />
-      )}
-    </>
+    <StudioProvider studioSlug={studioSlug} token={token} selfId={userId || ''} >
+      <StudioRoleView
+        isGuestJoining={isGuestJoining}
+        isHost={isHost}
+        hostName={hostName}
+        isDesktop={isDesktop}
+        isMeetingStarted={isMeetingStarted}
+      />
+    </StudioProvider >
   );
 };
-
-function getStudioNameFromSlug(slug: string): string {
-  return slug.slice(0, -7);
-}
 
 export default StudioPageClient;

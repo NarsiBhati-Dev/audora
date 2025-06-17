@@ -10,8 +10,8 @@
     "typescript": "^5"
   },
   "scripts": {
-    "dev": "bun run src/server.ts",
-    "start:backend": "bun run src/server.ts"
+    "start:backend": "bun run src/server.ts",
+    "dev": "bun run src/server.ts"
   },
   "dependencies": {
     "@audora/database": "*",
@@ -23,6 +23,7 @@
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
     "jsonwebtoken": "^9.0.2"
   }
 }

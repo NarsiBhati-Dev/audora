@@ -19,8 +19,8 @@ const RemoveStudio = () => {
         // First clear all studio related state
         setAllSettings({
           studioSetting: {
-            studioId: '',
-            name: '',
+            studioSlug: '',
+            studioName: '',
             enableLobby: false,
             language: 'English',
           },
@@ -52,7 +52,7 @@ const RemoveStudio = () => {
   return (
     <div className='flex items-center gap-2'>
       <button
-        className='rounded-md bg-red-500 px-4 py-2 text-sm text-white hover:bg-red-400'
+        className='rounded-md bg-red-500 px-4 py-2 text-sm text-white hover:bg-red-400 lg:px-6'
         onClick={() => setIsOpen(true)}
         disabled={isOpen}
       >

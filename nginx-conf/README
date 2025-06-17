@@ -1,0 +1,234 @@
+# 🖥️ Audora.xyz - NGINX Reverse Proxy + SSL Setup
+
+This README describes how to set up NGINX as a reverse proxy for the Audora.xyz project, including support for WebSockets and HTTPS via Let's Encrypt (Certbot).
+
+---
+
+## 🌐 Domains and Ports
+
+| Subdomain           | Port | Service      | Description                          |
+| ------------------- | ---- | ------------ | ------------------------------------ |
+| `audora.xyz`        | 3000 | Frontend     | Main frontend                        |
+| `server.audora.xyz` | 9000 | Backend API  | Handles REST API requests            |
+| `signal.audora.xyz` | 8000 | WS Signaling | Handles real-time socket connections |
+
+---
+
+## ⚙️ NGINX Reverse Proxy Setup
+
+### Step 1: Install NGINX
+
+```bash
+sudo apt update
+sudo apt install nginx
+```
+
+Step 2: Replace default config
+
+Edit the NGINX config file:
+
+```bash
+sudo nano /etc/nginx/nginx.conf
+```
+
+**Path:** `/etc/nginx/nginx.conf`
+
+```nginx
+events {}
+
+http {
+    # Enable gzip for faster responses
+    gzip on;
+    gzip_types text/plain application/json application/javascript text/css;
+
+    # -------------------------------
+    # WebSocket Server
+    # -------------------------------
+    server {
+        listen 80;
+        server_name signal.audora.xyz;
+
+        access_log off; # Disable access logs
+        error_log /var/log/nginx/ws.error.log warn; # Log only warnings and errors
+
+        location / {
+            proxy_pass http://localhost:8000;
+            proxy_http_version 1.1;
+
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+
+            # ⏱ Prevent WebSocket disconnections on idle connections
+            # keep WebSocket alive for 30 mins to avoid disconnects during inactivity
+            proxy_read_timeout 86400;
+            proxy_send_timeout 86400;
+        }
+    }
+
+    # -------------------------------
+    # Backend API Server
+    # -------------------------------
+    server {
+        listen 80;
+        server_name server.audora.xyz;
+
+        access_log off;
+        error_log /var/log/nginx/backend.error.log warn;
+
+        location / {
+            proxy_pass http://localhost:9000;
+            proxy_http_version 1.1;
+
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+        }
+    }
+
+    # -------------------------------
+    # Frontend App (Next.js)
+    # -------------------------------
+    server {
+        listen 80;
+        server_name audora.xyz www.audora.xyz;
+
+        access_log off;
+        error_log /var/log/nginx/frontend.error.log warn;
+
+        # Cache static files
+        location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|otf|eot)$ {
+            expires 7d;
+            access_log off;
+            proxy_pass http://localhost:3000;
+        }
+
+        location / {
+            proxy_pass http://localhost:3000;
+            proxy_http_version 1.1;
+
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+        }
+    }
+}
+```
+
+Here’s the complete and correct Step 3: Restart the NGINX server section for your README:
+
+⸻
+
+### Step 3: Restart the NGINX Server
+
+#### Test NGINX config for syntax errors
+
+```bash
+sudo nginx -t
+```
+
+#### Reload NGINX without downtime
+
+```bash
+sudo systemctl reload nginx
+```
+
+If NGINX is not running yet, use:
+
+```bash
+sudo systemctl start nginx
+```
+
+Or if you made major changes and want to fully restart:
+
+```bash
+sudo systemctl restart nginx
+```
+
+⸻
+
+Let me know if you want to add a systemd status check or auto-restart config too.
+
+⸻
+
+Enable HTTPS with Certbot (Let’s Encrypt)
+
+Step 1: Install Certbot
+
+```bash
+sudo apt update
+sudo apt install certbot python3-certbot-nginx
+```
+
+Step 2: Generate SSL Certificates
+
+```bash
+sudo certbot --nginx -d server.audora.xyz -d signal.audora.xyz
+```
+
+If you later add the frontend:
+
+```bash
+sudo certbot --nginx -d audora.xyz -d www.audora.xyz
+```
+
+Step 3: Test Auto-Renewal
+
+```bash
+sudo certbot renew --dry-run
+```
+
+⸻
+
+WebSocket over HTTPS (WSS)
+
+Use the wss:// protocol on the frontend:
+
+```ts
+const signal = new WebSocket("wss://signal.audora.xyz");
+```
+
+⸻
+
+Logs :
+
+Each block can optionally include if you don't want just off :
+
+```nginx
+access_log /var/log/nginx/<service>.access.log;
+error_log /var/log/nginx/<service>.error.log;
+```
+
+⸻
+
+Note :
+
+Make sure Docker is installed on your Ubuntu EC2 machine. You can install Docker using the following command:
+
+```bash
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+```
+
+```bash
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+If Docker isn’t already set up, refer to the full Docker installation steps for Ubuntu.
+
+⸻

@@ -3,6 +3,10 @@
   "module": "index.ts",
   "type": "module",
   "private": true,
+  "scripts": {
+    "start:signal": "bun run src/server.ts",
+    "dev": "bun run src/server.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
@@ -11,7 +15,10 @@
   },
   "dependencies": {
     "@audora/typescript-config": "*",
+    "@audora/database": "*",
+    "@types/uuid": "^10.0.0",
     "@types/ws": "^8.18.1",
+    "uuid": "^11.1.0",
     "ws": "^8.18.2"
   }
 }

@@ -4,19 +4,20 @@ import { useStudioSettingsStore } from '@/store/studio-setting-store';
 import { Studio } from '@audora/types';
 import React, { useEffect } from 'react';
 
-interface StudioProviderProps {
+interface StudioSettingsProviderProps {
   studio: Studio;
   children: React.ReactNode;
 }
 
-const StudioProvider = ({ studio, children }: StudioProviderProps) => {
+const StudioSettingsProvider = ({ studio, children }: StudioSettingsProviderProps) => {
   const { setAllSettings } = useStudioSettingsStore();
 
   useEffect(() => {
     setAllSettings({
       studioSetting: {
-        studioId: studio.id,
-        name: studio.studioName,
+        studioSlug: studio.studioSlug,
+        studioName: studio.studioName,
+
         enableLobby: studio.enableLobby,
         language: studio.language,
       },
@@ -35,4 +36,4 @@ const StudioProvider = ({ studio, children }: StudioProviderProps) => {
   return <>{children}</>;
 };
 
-export default StudioProvider;
+export default StudioSettingsProvider;

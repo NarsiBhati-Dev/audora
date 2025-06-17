@@ -1,8 +1,8 @@
-import ThankYouPage from '@/components/studio/thankyou-page';
+import MeetingStart from '@/components/studio/meeting/meeting-start';
 import React from 'react';
 
-const page = () => {
-  return <ThankYouPage />;
+const StudioPage = () => {
+  return <MeetingStart isGuest={false} />;
 };
 
-export default page;
+export default StudioPage;

@@ -20,8 +20,8 @@ const StudioHeader = () => {
         </Link>
         <Logo
           scrolled={false}
-          page={studioSetting.name}
-          href={`/studio/${studioSetting.studioId}`}
+          page={studioSetting.studioName}
+          href={`/studio/${studioSetting.studioSlug}`}
         />
       </div>
     </header>

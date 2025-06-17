@@ -5,10 +5,11 @@ export type AudioSampleRate = 'KHZ_44_1' | 'KHZ_48_0';
 export type VideoQuality = 'STANDARD' | 'HIGH';
 
 export interface StudioSetting {
-  studioId: string;
-  name: string;
+  studioSlug: string;
+  studioName: string;
   enableLobby: boolean;
   language: string;
+  studioFixedToken?: string;
 }
 
 export interface StudioRecordingSetting {
@@ -34,10 +35,11 @@ interface StudioSettingsStore {
 
 export const useStudioSettingsStore = create<StudioSettingsStore>(set => ({
   studioSetting: {
-    studioId: '',
-    name: '',
+    studioSlug: '',
+    studioName: '',
     enableLobby: false,
     language: 'English',
+    studioFixedToken: undefined,
   },
   studioRecordingSetting: {
     recordingType: 'AUDIO',

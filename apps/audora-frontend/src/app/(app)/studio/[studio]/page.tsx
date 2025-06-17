@@ -3,7 +3,7 @@ import getPageMetadata from '@/lib/seo/getPageMetadata';
 import { getServerSession } from 'next-auth';
 import authOptions from '@/lib/auth/auth-options';
 import { notFound } from 'next/navigation';
-import { getStudio } from '@/actions/studio';
+import { generateMeetingToken } from '@/actions/meeting';
 
 export async function generateMetadata({
   params,
@@ -13,6 +13,7 @@ export async function generateMetadata({
   const { studio } = await params;
   return getPageMetadata({
     title: `${studio}`,
+    description: `Join the ${studio} studio`,
   });
 }
 
@@ -30,28 +31,40 @@ const StudioPage = async ({ params, searchParams }: Params) => {
   const { studio } = await params;
   const { t, gw } = await searchParams;
   const session = await getServerSession(authOptions);
-  const studioData = await getStudio(session?.user?.accessToken as string);
 
-  if (studioData?.id !== studio && !gw && !t) {
+  const meetingTokenResponse = await generateMeetingToken(
+    studio,
+    session?.user?.id as string | undefined,
+    t as string,
+  );
+
+  if (!meetingTokenResponse.success) {
     notFound();
   }
 
-  // Check if user is the host
-  const isHost = studioData?.id === studio;
+  const { token, userId, participantRole, studioFixedToken } = meetingTokenResponse.data;
 
-  // If not host and no guest token, show 404
-  if (!isHost && gw === undefined && t === undefined) {
+  const isHost = participantRole === 'host';
+  const isGuestLanding =
+    participantRole === 'guest' && t !== undefined && gw === undefined;
+  const isGuestJoining =
+    participantRole === 'guest' && t !== undefined && gw === 'on';
+
+  if (!isHost && !isGuestLanding && !isGuestJoining) {
     notFound();
   }
 
   return (
-    <main className='bg-studio-bg-light'>
+    <main className="bg-studio-bg-light">
       <StudioPageClient
-        studio={studio}
-        t={t || undefined}
-        gw={gw || undefined}
+        studioSlug={studio}
+        userId={userId}
+        token={token}
+        studioFixedToken={studioFixedToken}
         isHost={isHost}
-        hostName={session?.user?.name || ''}
+        isGuestLanding={isGuestLanding}
+        isGuestJoining={isGuestJoining}
+        hostName={session?.user?.name}
       />
     </main>
   );

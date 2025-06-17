@@ -6,12 +6,12 @@ import { JoinStudioButton } from './join-studio-button';
 
 interface JoinStudioProps {
   isHost: boolean;
-  hostName: string;
+  hostName?: string;
 }
 
-const JoinStudio = ({ isHost, hostName }: JoinStudioProps) => {
+const JoinStudio = ({ isHost, hostName = '' }: JoinStudioProps) => {
   const [isUsingHeadphones, setIsUsingHeadphones] = useState(false);
-  const [guestName, setGuestName] = useState('');
+  const [guestName, setGuestName] = useState<string>('Me');
   const { studioSetting } = useStudioSettingsStore();
 
   return (
@@ -19,7 +19,9 @@ const JoinStudio = ({ isHost, hostName }: JoinStudioProps) => {
       <div className='flex flex-col gap-4'>
         <p className='text-sm text-zinc-400'>
           {`You're about to join`}{' '}
-          <span className='font-medium text-white'>{studioSetting.name}</span>
+          <span className='font-medium text-white'>
+            {studioSetting.studioName}
+          </span>
         </p>
 
         <h1 className='text-2xl font-bold text-white'>
@@ -72,7 +74,7 @@ const JoinStudio = ({ isHost, hostName }: JoinStudioProps) => {
           </button>
         </div>
 
-        <JoinStudioButton />
+        <JoinStudioButton name={isHost ? hostName : guestName} />
 
         <p className='text-center text-sm text-zinc-400'>
           {isHost ? (

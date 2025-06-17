@@ -5,14 +5,14 @@ import {
   PiTrashDuotone,
   PiChatsCircleDuotone,
 } from 'react-icons/pi';
-import { useUserProfileStore } from '@/store/user-profile';
+// import { useUserProfileStore } from '@/store/user-profile';
 import { useStudioSettingsStore } from '@/store/studio-setting-store';
 import RemoveStudio from './remove-studio';
 import { ToggleSwitch } from '../toggle-switch';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 
 const GeneralTab = () => {
-  const { userProfile, setUserProfile } = useUserProfileStore();
+  // const { userProfile, setUserProfile } = useUserProfileStore();
   const { studioSetting, setStudioSetting } = useStudioSettingsStore();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -70,13 +70,6 @@ const GeneralTab = () => {
       ...studioSetting,
       [name]: inputValue,
     });
-
-    if (name === 'name') {
-      setUserProfile({
-        ...userProfile,
-        name: value,
-      });
-    }
   };
 
   return (
@@ -107,7 +100,7 @@ const GeneralTab = () => {
             id='name'
             name='name'
             type='text'
-            value={studioSetting.name}
+            value={studioSetting.studioName}
             onChange={handleInputChange}
             className='focus:outline-primary-500 focus:ring-primary-500 rounded-lg border-none bg-zinc-800 px-4 py-2 text-white outline-none placeholder:text-zinc-500 focus:ring-1'
             placeholder='Enter studio name'
@@ -215,7 +208,7 @@ const GeneralTab = () => {
       </section>
 
       {/* Remove Studio */}
-      <section className='flex flex-col justify-between gap-4 rounded-2xl bg-zinc-900 p-5 md:flex-row md:items-center md:gap-2'>
+      <section className='flex flex-col justify-between gap-4 rounded-2xl bg-zinc-900 p-5 lg:flex-row lg:items-center lg:gap-2'>
         <div className='flex flex-col gap-2'>
           <h3 className='flex items-center gap-1 text-2xl font-bold text-white'>
             <PiTrashDuotone size={24} />

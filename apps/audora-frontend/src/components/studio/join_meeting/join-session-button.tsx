@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 
-export function JoinSessionButton({ studioId }: { studioId: string }) {
+export function JoinSessionButton({ studioSlug }: { studioSlug: string }) {
   const searchParams = useSearchParams();
   const t = searchParams.get('t');
   const query = new URLSearchParams();
@@ -10,7 +10,7 @@ export function JoinSessionButton({ studioId }: { studioId: string }) {
   if (t) query.set('t', t);
   query.set('gw', 'on');
 
-  const url = `/studio/${studioId}?${query.toString()}`;
+  const url = `/studio/${studioSlug}?${query.toString()}`;
 
   return (
     <a

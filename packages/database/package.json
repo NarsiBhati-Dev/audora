@@ -9,7 +9,8 @@
   "exports": {
     "./userServices": "./src/services/user-services.ts",
     "./studioServices": "./src/services/studio-services.ts",
-    "./projectServices": "./src/services/project-services.ts"
+    "./projectServices": "./src/services/project-services.ts",
+    "./meetingServices": "./src/services/meeting-services.ts"
   },
   "scripts": {
     "generate": "bunx prisma generate",

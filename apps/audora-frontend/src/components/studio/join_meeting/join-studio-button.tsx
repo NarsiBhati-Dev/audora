@@ -1,9 +1,20 @@
 'use client';
 
+import { useMeetingStartStore } from '@/store/meeting-start-store';
+// import { useMeetingStore } from '@/store/meeting-store';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useSignalStore } from '@/store/signal-store';
 
-export function JoinStudioButton() {
+interface JoinStudioButtonProps {
+  // isHost: boolean;
+  name: string;
+}
+
+export function JoinStudioButton({ name }: JoinStudioButtonProps) {
+  const { setIsMeetingStarted } = useMeetingStartStore();
+  const { sendMessage } = useSignalStore();
+
   const [permissionState, setPermissionState] = useState<
     'loading' | 'granted' | 'prompt' | 'denied'
   >('loading');
@@ -71,9 +82,15 @@ export function JoinStudioButton() {
     }
   };
 
-  const handleJoin = () => {
-    console.log('Joining studio...');
-    // trigger WebSocket + WebRTC logic
+  const handleJoinStudio = async () => {
+    setIsMeetingStarted(true);
+    console.log('name', name);
+    sendMessage({
+      type: 'user:join',
+      data: {
+        name: name,
+      },
+    });
   };
 
   return (
@@ -81,7 +98,7 @@ export function JoinStudioButton() {
       className={
         'bg-primary-400 hover:bg-primary-500 w-full rounded-lg px-4 py-2.5 text-sm font-medium text-white transition'
       }
-      onClick={permissionState === 'granted' ? handleJoin : requestAccess}
+      onClick={permissionState === 'granted' ? handleJoinStudio : requestAccess}
     >
       {permissionState === 'granted' ? 'Join Studio' : 'Allow Access'}
     </button>

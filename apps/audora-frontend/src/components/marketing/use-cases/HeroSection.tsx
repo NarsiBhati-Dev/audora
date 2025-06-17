@@ -34,13 +34,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         <div className='mb-12 flex flex-col justify-center gap-4 sm:flex-row'>
           <Link
             href={buttonHref}
-            className='bg-primary hover:bg-primary-darker rounded-lg px-8 py-3 text-lg font-semibold text-white shadow transition'
+            className='bg-primary-500 hover:bg-primary-400 rounded-lg px-8 py-3 text-lg font-semibold text-white shadow transition'
           >
             {buttonLabel}
           </Link>
           <a
             href={learnMoreHref}
-            className='text-primary hover:text-primary-darker flex items-center justify-center font-medium hover:underline'
+            className='text-primary-500 hover:text-primary-400 flex items-center justify-center font-medium hover:underline'
           >
             Learn more <span className='ml-1'>→</span>
           </a>

@@ -62,7 +62,7 @@ const AccountMobileSidebar = () => {
   return (
     <>
       {/* Trigger Button */}
-      <div className='sticky top-0 z-50 py-3 lg:hidden'>
+      <div className='sticky top-0 z-50 py-3 xl:hidden'>
         <button
           onClick={() => setIsOpen(prev => !prev)}
           className='flex items-center gap-2 rounded-full text-white'
@@ -85,9 +85,8 @@ const AccountMobileSidebar = () => {
       {/* Bottom Sheet Sidebar */}
       {isOpen && (
         <div
-          className={`fixed inset-x-4 bottom-4 z-51 rounded-2xl border border-[#292929] bg-[#161515] text-white shadow-2xl transition-transform duration-300 ${
-            isOpen ? 'translate-y-0' : 'translate-y-full'
-          }`}
+          className={`fixed inset-x-4 bottom-4 z-51 rounded-2xl border border-[#292929] bg-[#161515] text-white shadow-2xl transition-transform duration-300 ${isOpen ? 'translate-y-0' : 'translate-y-full'
+            }`}
           style={{ minHeight: '40vh' }}
           role='dialog'
           aria-modal='true'
@@ -105,9 +104,8 @@ const AccountMobileSidebar = () => {
                       key={item.href}
                       href={item.href}
                       onClick={() => setIsOpen(false)}
-                      className={`flex items-center gap-3 rounded-lg px-4 py-3 text-base font-medium transition-colors hover:bg-[rgb(41,41,41)] ${
-                        pathname === item.href ? 'bg-[#292929]' : ''
-                      }`}
+                      className={`flex items-center gap-3 rounded-lg px-4 py-3 text-base font-medium transition-colors hover:bg-[rgb(41,41,41)] ${pathname === item.href ? 'bg-[#292929]' : ''
+                        }`}
                       aria-current={pathname === item.href ? 'page' : undefined}
                     >
                       {item.icon}

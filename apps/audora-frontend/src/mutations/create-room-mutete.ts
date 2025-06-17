@@ -18,8 +18,8 @@ export const useCreateStudioMutation = () => {
         // Update all studio settings with the new studio data
         setAllSettings({
           studioSetting: {
-            studioId: data.studio.id,
-            name: data.studio.studioName,
+            studioSlug: data.studio.studioSlug,
+            studioName: data.studio.studioName,
             enableLobby: data.studio.enableLobby,
             language: data.studio.language,
           },

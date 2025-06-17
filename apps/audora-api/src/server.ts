@@ -7,6 +7,7 @@ import authRouter from "./routes/auth.routes";
 import profileRouter from "./routes/profile.routes";
 import studioRouter from "./routes/studio.routes";
 import projectRouter from "./routes/project.routes";
+import meetingRouter from "./routes/meeting.routes";
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use("/auth", authRouter);
 app.use("/profile", profileRouter);
 app.use("/studio", studioRouter);
 app.use("/project", projectRouter);
+app.use("/meeting", meetingRouter);
 
 app.listen(PORT, () => {
   console.log(`[ server ] is listening on : http://localhost:${PORT}`);

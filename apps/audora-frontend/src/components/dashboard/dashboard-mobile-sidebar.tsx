@@ -13,25 +13,24 @@ import {
 } from 'react-icons/fi';
 import Logo from '../logo';
 import AvatarDropdown from './avatar-dropdown';
+import { Studio } from '@audora/types';
 
 const navItems = [
   { href: '/dashboard/home', icon: <FiHome size={22} />, label: 'Home' },
 ];
 
 interface DashboardMobileSidebarProps {
-  studioId?: string;
+  studio: Studio;
 }
 
-const DashboardMobileSidebar = ({ studioId }: DashboardMobileSidebarProps) => {
+const DashboardMobileSidebar = ({ studio }: DashboardMobileSidebarProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  // Close sidebar on route change
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
 
-  // Prevent body scroll when sidebar is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -45,7 +44,6 @@ const DashboardMobileSidebar = ({ studioId }: DashboardMobileSidebarProps) => {
 
   return (
     <>
-      {/* Hamburger Toggle Button */}
       <button
         onClick={() => setIsOpen(true)}
         className='fixed top-3 left-3 z-50 rounded-full bg-[#1e1e1e] p-2.5 text-white shadow-lg transition-transform hover:scale-105 active:scale-95 lg:hidden'
@@ -54,7 +52,6 @@ const DashboardMobileSidebar = ({ studioId }: DashboardMobileSidebarProps) => {
         <FiMenu size={20} />
       </button>
 
-      {/* Backdrop */}
       {isOpen && (
         <div
           onClick={() => setIsOpen(false)}
@@ -63,17 +60,14 @@ const DashboardMobileSidebar = ({ studioId }: DashboardMobileSidebarProps) => {
         />
       )}
 
-      {/* Sidebar */}
       <div
-        className={`bg-dashboard-bg fixed top-0 left-0 z-51 h-screen w-72 transform p-4 text-white transition-all duration-300 ease-in-out ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`bg-dashboard-bg fixed top-0 left-0 z-51 h-screen w-72 transform p-4 text-white transition-all duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
         role='dialog'
         aria-modal='true'
         aria-label='Navigation menu'
       >
         <div className='flex h-full flex-col justify-between'>
-          {/* Header */}
           <div>
             <div className='mb-8 flex items-center justify-between'>
               <Logo scrolled={false} href='/dashboard/home' />
@@ -87,14 +81,13 @@ const DashboardMobileSidebar = ({ studioId }: DashboardMobileSidebarProps) => {
             </div>
 
             <nav className='flex flex-col gap-4' aria-label='Main navigation'>
-              {!studioId ? (
+              {!studio.studioSlug ? (
                 <Link
                   href='/dashboard/account/studio-settings'
-                  className={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium transition hover:bg-[#292929] ${
-                    pathname === '/dashboard/account/studio-settings'
-                      ? 'bg-[#292929]'
-                      : ''
-                  }`}
+                  className={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium transition hover:bg-[#292929] ${pathname === '/dashboard/account/studio-settings'
+                    ? 'bg-[#292929]'
+                    : ''
+                    }`}
                 >
                   <FiSettings size={20} />
                   Settings
@@ -104,9 +97,8 @@ const DashboardMobileSidebar = ({ studioId }: DashboardMobileSidebarProps) => {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`flex items-center gap-4 rounded-xl px-3 py-2 text-base font-medium transition-colors hover:bg-[#292929] ${
-                      pathname === item.href ? 'bg-[#292929]' : ''
-                    }`}
+                    className={`flex items-center gap-4 rounded-xl px-3 py-2 text-base font-medium transition-colors hover:bg-[#292929] ${pathname === item.href ? 'bg-[#292929]' : ''
+                      }`}
                     aria-current={pathname === item.href ? 'page' : undefined}
                   >
                     {item.icon}
@@ -117,12 +109,11 @@ const DashboardMobileSidebar = ({ studioId }: DashboardMobileSidebarProps) => {
             </nav>
           </div>
 
-          {/* Footer */}
           <div className='flex flex-col gap-6'>
-            {studioId && (
+            {studio.studioSlug && (
               <div className='flex flex-col gap-3 border-b border-[#292929] pb-4'>
                 <Link
-                  href={`/studio/${studioId}`}
+                  href={`/studio/${studio.studioSlug}`}
                   className='flex items-center gap-2 rounded-3xl bg-[#232323] px-4 py-3 text-sm font-semibold transition hover:bg-[#292929] active:scale-[0.98]'
                 >
                   <FiVideo size={20} />
@@ -140,9 +131,8 @@ const DashboardMobileSidebar = ({ studioId }: DashboardMobileSidebarProps) => {
 
             <Link
               href='/dashboard/account/settings'
-              className={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium transition hover:bg-[#292929] ${
-                pathname === '/dashboard/account/settings' ? 'bg-[#292929]' : ''
-              }`}
+              className={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium transition hover:bg-[#292929] ${pathname === '/dashboard/account/settings' ? 'bg-[#292929]' : ''
+                }`}
               aria-current={
                 pathname === '/dashboard/account/settings' ? 'page' : undefined
               }

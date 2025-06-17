@@ -41,7 +41,7 @@ const StudioSettingPage = () => {
           scrollbarWidth: 'none',
         }}
       >
-        <div className='mx-auto max-w-6xl'>
+        <div className='mx-auto max-w-5xl'>
           {activeTab === 'General' && <GeneralTab />}
           {activeTab === 'Recording' && <RecordingTab />}
           {activeTab === 'Live stream' && <LiveStreamTab />}
