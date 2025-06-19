@@ -1,5 +1,5 @@
 import type { WebSocket } from "ws";
-import { broadcastToRoom } from "../rooms/room-manager";
+import { broadcastToRoom, removeRoom } from "../rooms/room-manager";
 import type { InboundMessage } from "@audora/types";
 
 export const meetingHandler = ({
@@ -13,6 +13,7 @@ export const meetingHandler = ({
 
   switch (type) {
     case "meeting:end": {
+      removeRoom(data.studioSlug);
       broadcastToRoom(data.studioSlug, {
         type: "meeting:end",
         data: { studioSlug: data.studioSlug },

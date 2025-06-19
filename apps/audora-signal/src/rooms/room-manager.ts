@@ -4,7 +4,7 @@ import { logger } from "../utils/logger";
 
 export type Role = "host" | "guest";
 
-interface Participant {
+export interface Participant {
   userId: string;
   name: string;
   role: Role;
@@ -12,10 +12,9 @@ interface Participant {
   socket: WebSocket;
 }
 
-interface Room {
+export interface Room {
   roomId: string;
-  host?: Participant;
-  guest?: Participant;
+  participants: Participant[];
 }
 
 const rooms = new Map<string, Room>();
@@ -26,8 +25,23 @@ export const addToRoom = (
   userId: string,
   name: string,
   role: Role
-): Participant => {
-  const room = rooms.get(roomId) ?? { roomId };
+): Participant | null => {
+  const room = rooms.get(roomId) ?? { roomId, participants: [] };
+
+  const hostExists = room.participants.some((p) => p.role === "host");
+  const guestCount = room.participants.filter((p) => p.role === "guest").length;
+
+  // Enforce role limits
+  if (role === "host" && hostExists) {
+    logger.warn(`[${roomId}] Host already exists. Cannot add another host.`);
+    return null;
+  }
+
+  if (role === "guest" && guestCount >= 3) {
+    logger.warn(`[${roomId}] Max guests reached. Cannot add ${name}.`);
+    return null;
+  }
+
   const socketId = crypto.randomUUID();
 
   const participant: Participant = {
@@ -38,20 +52,18 @@ export const addToRoom = (
     socket,
   };
 
-  if (role === "host") {
-    room.host = participant;
-  } else {
-    room.guest = participant;
-  }
-
+  room.participants.push(participant);
   rooms.set(roomId, room);
+
+  logger.info(`[${roomId}] ${role} ${name} joined.`);
+
   return participant;
 };
 
 export const getRoomParticipants = (roomId: string): Participant[] => {
   const room = rooms.get(roomId);
   if (!room) return [];
-  return [room.host, room.guest].filter(Boolean) as Participant[];
+  return room.participants;
 };
 
 export const removeParticipantBySocket = (
@@ -61,19 +73,18 @@ export const removeParticipantBySocket = (
   const room = rooms.get(roomId);
   if (!room) return;
 
-  if (room.host?.socket === socket) room.host = undefined;
-  if (room.guest?.socket === socket) room.guest = undefined;
+  room.participants = room.participants.filter((p) => p.socket !== socket);
 
-  if (room.host === undefined && room.guest === undefined) {
+  if (room.participants.length === 0) {
     rooms.delete(roomId);
-    logger.info(`[${roomId}] Room deleted`);
+    logger.info(`no participants in [${roomId}] room deleted`);
   }
 };
 
 export const isUserInRoom = (roomId: string, userId: string): boolean => {
   const room = rooms.get(roomId);
   if (!room) return false;
-  return room.host?.userId === userId || room.guest?.userId === userId;
+  return room.participants.some((p) => p.userId === userId);
 };
 
 export const sendToSocket = (socket: WebSocket, message: any) => {
@@ -91,10 +102,15 @@ export const broadcastToRoom = (
 ) => {
   const room = rooms.get(roomId);
   if (!room) return;
-  const sockets = [room.host?.socket, room.guest?.socket].filter(Boolean);
+  const sockets = room.participants.map((p) => p.socket);
   for (const sock of sockets) {
     if (sock !== excludeSocket && sock?.readyState === WebSocket.OPEN) {
       sock.send(JSON.stringify(message));
     }
   }
+};
+
+export const removeRoom = (roomId: string) => {
+  rooms.delete(roomId);
+  logger.info(`[${roomId}] room deleted`);
 };

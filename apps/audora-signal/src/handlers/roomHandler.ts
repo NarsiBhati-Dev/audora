@@ -1,6 +1,5 @@
-import { WebSocket } from "ws";
 import { logger } from "../utils/logger";
-import type { InboundMessage } from "@audora/types";
+import { sendAndClose } from "../utils/sendAndClose";
 import {
   addToRoom,
   removeParticipantBySocket,
@@ -8,13 +7,12 @@ import {
   sendToSocket,
   getRoomParticipants,
   isUserInRoom,
+  type Participant,
 } from "../rooms/room-manager";
-import { sendAndClose } from "../utils/sendAndClose";
-import type { MeetingTokenPayload } from "../services/verifyToken";
 
-interface SocketWithMeta extends WebSocket {
-  meta?: MeetingTokenPayload & { socketId: string };
-}
+import type { InboundMessage } from "@audora/types";
+import type { SocketWithMeta } from "../types/socket";
+import type { MeetingTokenPayload } from "../services/verifyToken";
 
 interface RoomEvent {
   socket: SocketWithMeta;
@@ -22,11 +20,23 @@ interface RoomEvent {
   meetingToken: MeetingTokenPayload;
 }
 
+const toClientUser = (p: {
+  userId: string;
+  name: string;
+  role: string;
+  socketId: string;
+}) => ({
+  userId: p.userId,
+  name: p.name,
+  role: p.role,
+  socketId: p.socketId,
+});
+
 export const roomEventHandler = async ({
   socket,
   message,
   meetingToken,
-}: RoomEvent) => {
+}: RoomEvent): Promise<void> => {
   const { type, data } = message;
   const { studioSlug, userId, participantRole } = meetingToken;
 
@@ -54,71 +64,66 @@ export const roomEventHandler = async ({
 
       socket.meta = {
         ...meetingToken,
-        socketId: participant.socketId,
+        socketId: participant?.socketId ?? "",
       };
 
-      // Notify existing user
+      // Notify others about new join
       broadcastToRoom(
         studioSlug,
         {
           type: "user:joined",
-          data: {
-            user: {
-              userId,
-              name,
-              role: participantRole,
-              socketId: participant.socketId,
-            },
-          },
+          data: { user: toClientUser(participant as Participant) },
         },
         socket
       );
 
+      // Notify the newly joined user
       sendToSocket(socket, {
         type: "room:ready",
-        data: {
-          studioSlug,
-        },
+        data: { selfSocketId: socket.meta?.socketId },
       });
 
+      // Send the list of existing participants
       const participants = getRoomParticipants(studioSlug);
       if (participants.length > 1) {
         sendToSocket(socket, {
           type: "participants:list",
           data: {
-            participants: participants.map((p) => ({
-              user: {
-                userId: p.userId,
-                name: p.name,
-                role: p.role,
-                socketId: p.socketId,
-              },
-            })),
+            participants: participants
+              .filter((p) => p.userId !== userId)
+              .map((p) => ({
+                user: toClientUser(p),
+              })),
           },
         });
       }
 
-      logger.info(`[${studioSlug}] ${participantRole} (${name}) joined room.`);
+      logger.info(
+        `[${studioSlug}] ${participantRole} (${name}) joined the room.`
+      );
       break;
     }
 
     case "user:leave": {
+      const socketId = socket.meta?.socketId ?? "";
+
       removeParticipantBySocket(studioSlug, socket);
 
-      // broadcastToRoom(
-      //   studioSlug,
-      //   {
-      //     type: "user:left",
-      //     data: {
-      //       user: {
-      //         userId,
-      //         role: participantRole,
-      //         socketId: socket.meta?.socketId,
-      //       },
-      //     },
-      //   },
-      //   socket
-      // );
+      broadcastToRoom(
+        studioSlug,
+        {
+          type: "user:left",
+          data: {
+            user: {
+              userId,
+              role: participantRole,
+              socketId,
+              name: "",
+            },
+          },
+        },
+        socket
+      );
 
       logger.info(`[${studioSlug}] ${userId} left the room.`);
       break;
@@ -140,7 +145,7 @@ export const roomEventHandler = async ({
     }
 
     default: {
-      logger.warn(`Unhandled message type: ${type}`);
+      logger.warn(`[${studioSlug}] Unhandled message type: ${type}`);
       sendAndClose(socket, "error", `Unknown message type: ${type}`);
       break;
     }

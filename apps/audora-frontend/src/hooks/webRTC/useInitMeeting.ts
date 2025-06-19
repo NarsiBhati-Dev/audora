@@ -4,7 +4,7 @@ import { useSystemStreamStore } from '@/store/system-stream';
 import { useMeetingStartStore } from '@/store/meeting-start-store';
 import { useSignaling } from '@/hooks/webRTC/useSignaling';
 import { useSignalStore } from '@/store/signal-store';
-import { useOneToOneStore } from '@/store/one-to-one-store';
+import { useMeetingParticipantStore } from '@/store/meeting-participant-store';
 import onMessage from '@/utils/onMessage';
 import { Message } from '@audora/types';
 
@@ -71,11 +71,8 @@ export const useInitMeeting = ({
     });
 
     // Self participant setup
-    useOneToOneStore.getState().updateSelf({
-      stream,
-      isMicOn: micOn,
-      isCameraOn: cameraOn,
-    });
+    useMeetingParticipantStore.getState().updateSelfStream(stream);
+    useMeetingParticipantStore.getState().updateSelfStatus(micOn, cameraOn);
   }, [
     stream,
     micOn,

@@ -1,7 +1,11 @@
 import { Message } from '@audora/types';
+import {
+  MeetingParticipant,
+  useMeetingParticipantStore,
+} from '@/store/meeting-participant-store';
+
+import { createOffer, createAnswer, getPeer } from './peerConnections';
 import { useSystemStreamStore } from '@/store/system-stream';
-import { MeetingParticipant, useOneToOneStore } from '@/store/one-to-one-store';
-import { peerConnections, createPeer } from './peerConnections';
 
 const onMessage = async (
   message: Message,
@@ -9,9 +13,10 @@ const onMessage = async (
   selfSocketId: string,
 ) => {
   const { type, data } = message;
+  // const stream = useMeetingParticipantStore.getState().self?.stream;
   const stream = useSystemStreamStore.getState().stream;
 
-  // Wait for local stream to be ready
+  // Retry until local stream is available
   if (
     (type.startsWith('webrtc:') ||
       type === 'participants:list' ||
@@ -27,114 +32,75 @@ const onMessage = async (
     case 'webrtc:offer': {
       const { sdp, from } = data;
       if (!sdp) return;
+      console.log('[WebRTC] Received offer from', from);
 
-      const alreadyExists = peerConnections.has(from);
-      const peer = alreadyExists
-        ? peerConnections.get(from)!.peer
-        : createPeer(from, selfSocketId, stream!, sendMessage, false);
-
-      const state = peerConnections.get(from);
-      if (!state) return;
-
-      await peer.setRemoteDescription(new RTCSessionDescription(sdp));
-      state.remoteDescriptionSet = true;
-
-      const answer = await peer.createAnswer();
-      await peer.setLocalDescription(answer);
-
-      sendMessage({
-        type: 'webrtc:answer',
-        data: {
-          sdp: {
-            type: answer.type as 'answer',
-            sdp: answer.sdp!,
-          },
-          from: selfSocketId,
-          to: from,
-        },
-      });
-
-      for (const c of state.pendingCandidates) {
-        await peer.addIceCandidate(new RTCIceCandidate(c));
-      }
-      state.pendingCandidates = [];
+      await createAnswer(from, selfSocketId, sdp, stream!, sendMessage);
       break;
     }
 
     case 'webrtc:answer': {
-      const { sdp, to } = data;
-      const state = peerConnections.get(to);
-      if (!state || !sdp) return;
+      const { sdp, from } = data;
+      if (!sdp) return;
+      console.log('[WebRTC] Received answer from', from);
 
-      if (!state.peer.remoteDescription) {
-        await state.peer.setRemoteDescription(new RTCSessionDescription(sdp));
-        state.remoteDescriptionSet = true;
-
-        for (const c of state.pendingCandidates) {
-          await state.peer.addIceCandidate(new RTCIceCandidate(c));
-        }
-        state.pendingCandidates = [];
-      } else {
-        console.warn('[WebRTC] Remote description already set for answer');
+      const peer = getPeer(from);
+      if (!peer) {
+        console.warn(`[WebRTC] No peer found for ${from}`);
+        return;
       }
 
+      await peer.setRemoteDescription(new RTCSessionDescription(sdp));
       break;
     }
 
     case 'webrtc:ice-candidate': {
-      const { candidate, to } = data;
-      const state = peerConnections.get(to);
-      if (!state || !candidate) return;
+      const { candidate, from } = data;
+      if (!candidate) return;
 
-      if (state.remoteDescriptionSet) {
-        try {
-          await state.peer.addIceCandidate(new RTCIceCandidate(candidate));
-        } catch (err) {
-          console.error('[WebRTC] ICE error:', err);
-        }
-      } else {
-        state.pendingCandidates.push(candidate);
+      const peer = getPeer(from);
+      if (!peer) {
+        console.warn(`[WebRTC] No peer found for ${from}`);
+        return;
       }
+
+      try {
+        await peer.addIceCandidate(new RTCIceCandidate(candidate));
+        console.log('[WebRTC] Added ICE candidate from', from);
+      } catch (err) {
+        console.error('[WebRTC] Error adding ICE candidate:', err);
+      }
+
       break;
     }
 
     case 'participants:list': {
-      const [peerUser] = data.participants.map(p => ({
-        id: p.user.userId,
-        socketId: p.user.socketId,
-        name: p.user.name,
-        stream: null,
-        isSpeaker: false,
-        isMuted: false,
-        isDeafened: false,
-        isCameraOn: true,
-        isMicOn: true,
-        isScreenShareOn: false,
-        isScreenShareMuted: false,
-      }));
+      for (const p of data.participants) {
+        const user = p.user;
+        if (user.socketId === selfSocketId) continue;
 
-      useOneToOneStore.getState().setPeer(peerUser as MeetingParticipant);
+        const participant: MeetingParticipant = {
+          id: user.userId,
+          socketId: user.socketId,
+          name: user.name,
+          stream: null,
+          isSpeaker: false,
+          isMuted: false,
+          isDeafened: false,
+          isCameraOn: true,
+          isMicOn: true,
+        };
 
-      if (
-        peerUser?.socketId !== selfSocketId &&
-        !peerConnections.has(peerUser?.socketId || '')
-      ) {
-        createPeer(
-          peerUser?.socketId || '',
-          selfSocketId,
-          stream!,
-          sendMessage,
-          true,
-        );
-        // `onnegotiationneeded` will handle offer
+        useMeetingParticipantStore.getState().addParticipant(participant);
+        await createOffer(user.socketId, selfSocketId, stream!, sendMessage);
       }
-
       break;
     }
 
     case 'user:joined': {
       const { user } = data;
-      const newPeer = {
+      if (user.socketId === selfSocketId) break;
+
+      const newPeer: MeetingParticipant = {
         id: user.userId,
         socketId: user.socketId,
         name: user.name,
@@ -144,43 +110,26 @@ const onMessage = async (
         isDeafened: false,
         isCameraOn: true,
         isMicOn: true,
-        isScreenShareOn: false,
-        isScreenShareMuted: false,
       };
 
-      useOneToOneStore.getState().setPeer(newPeer);
-
-      if (
-        user.socketId !== selfSocketId &&
-        !peerConnections.has(user.socketId)
-      ) {
-        createPeer(user.socketId, selfSocketId, stream!, sendMessage, true);
-        // `onnegotiationneeded` will handle offer
-      }
-
+      useMeetingParticipantStore.getState().addParticipant(newPeer);
+      await createOffer(user.socketId, selfSocketId, stream!, sendMessage);
       break;
     }
 
     case 'user:left': {
       const { user } = data;
-      useOneToOneStore.getState().updatePeer({ stream: null });
-
-      const state = peerConnections.get(user.socketId);
-      if (state) {
-        state.peer.close();
-        peerConnections.delete(user.socketId);
-      }
-
+      useMeetingParticipantStore.getState().removeParticipant(user.socketId);
       break;
     }
 
     case 'meeting:end': {
-      useOneToOneStore.getState().updatePeer({ stream: null });
-      useOneToOneStore.getState().updateSelf({ stream: null });
+      useMeetingParticipantStore.getState().setParticipants([]);
+      break;
+    }
 
-      peerConnections.forEach(state => state.peer.close());
-      peerConnections.clear();
-
+    case 'room:ready': {
+      useMeetingParticipantStore.getState().setSelfSocketId(data.selfSocketId);
       break;
     }
 
