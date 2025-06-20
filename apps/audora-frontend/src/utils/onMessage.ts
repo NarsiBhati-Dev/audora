@@ -4,7 +4,12 @@ import {
   useMeetingParticipantStore,
 } from '@/store/meeting-participant-store';
 
-import { createOffer, createAnswer, getPeer } from './peerConnections';
+import {
+  createOffer,
+  createAnswer,
+  setRemoteDescription,
+  addIceCandidate,
+} from './peerConnections';
 import { useSystemStreamStore } from '@/store/system-stream';
 
 const onMessage = async (
@@ -13,7 +18,6 @@ const onMessage = async (
   selfSocketId: string,
 ) => {
   const { type, data } = message;
-  // const stream = useMeetingParticipantStore.getState().self?.stream;
   const stream = useSystemStreamStore.getState().stream;
 
   // Retry until local stream is available
@@ -23,7 +27,7 @@ const onMessage = async (
       type === 'user:joined') &&
     !stream
   ) {
-    console.warn(`[WebRTC] Stream not ready. Retrying type: ${type}`);
+    // console.warn(`[WebRTC] Stream not ready. Retrying type: ${type}`);
     setTimeout(() => onMessage(message, sendMessage, selfSocketId), 500);
     return;
   }
@@ -32,7 +36,7 @@ const onMessage = async (
     case 'webrtc:offer': {
       const { sdp, from } = data;
       if (!sdp) return;
-      console.log('[WebRTC] Received offer from', from);
+      // console.log('[WebRTC] Received offer from', from);
 
       await createAnswer(from, selfSocketId, sdp, stream!, sendMessage);
       break;
@@ -41,15 +45,9 @@ const onMessage = async (
     case 'webrtc:answer': {
       const { sdp, from } = data;
       if (!sdp) return;
-      console.log('[WebRTC] Received answer from', from);
+      // console.log('[WebRTC] Received answer from', from);
 
-      const peer = getPeer(from);
-      if (!peer) {
-        console.warn(`[WebRTC] No peer found for ${from}`);
-        return;
-      }
-
-      await peer.setRemoteDescription(new RTCSessionDescription(sdp));
+      await setRemoteDescription(from, sdp);
       break;
     }
 
@@ -57,23 +55,16 @@ const onMessage = async (
       const { candidate, from } = data;
       if (!candidate) return;
 
-      const peer = getPeer(from);
-      if (!peer) {
-        console.warn(`[WebRTC] No peer found for ${from}`);
-        return;
-      }
-
-      try {
-        await peer.addIceCandidate(new RTCIceCandidate(candidate));
-        console.log('[WebRTC] Added ICE candidate from', from);
-      } catch (err) {
-        console.error('[WebRTC] Error adding ICE candidate:', err);
-      }
-
+      await addIceCandidate(from, candidate);
       break;
     }
 
     case 'participants:list': {
+      // console.log(
+      //   '[WebRTC] Received participants list:',
+      //   data.participants.length,
+      // );
+
       for (const p of data.participants) {
         const user = p.user;
         if (user.socketId === selfSocketId) continue;
@@ -91,7 +82,11 @@ const onMessage = async (
         };
 
         useMeetingParticipantStore.getState().addParticipant(participant);
-        await createOffer(user.socketId, selfSocketId, stream!, sendMessage);
+
+        // Add a small delay to prevent overwhelming the connection
+        setTimeout(() => {
+          createOffer(user.socketId, selfSocketId, stream!, sendMessage);
+        }, Math.random() * 1000); // Random delay up to 1 second
       }
       break;
     }
@@ -99,6 +94,8 @@ const onMessage = async (
     case 'user:joined': {
       const { user } = data;
       if (user.socketId === selfSocketId) break;
+
+      // console.log('[WebRTC] User joined:', user.name);
 
       const newPeer: MeetingParticipant = {
         id: user.userId,
@@ -113,28 +110,36 @@ const onMessage = async (
       };
 
       useMeetingParticipantStore.getState().addParticipant(newPeer);
-      await createOffer(user.socketId, selfSocketId, stream!, sendMessage);
+
+      // Add a small delay to ensure the participant is added before creating offer
+      setTimeout(() => {
+        createOffer(user.socketId, selfSocketId, stream!, sendMessage);
+      }, 100);
       break;
     }
 
     case 'user:left': {
       const { user } = data;
+      // console.log('[WebRTC] User left:', user.name);
       useMeetingParticipantStore.getState().removeParticipant(user.socketId);
       break;
     }
 
     case 'meeting:end': {
+      // console.log('[WebRTC] Meeting ended');
       useMeetingParticipantStore.getState().setParticipants([]);
       break;
     }
 
     case 'room:ready': {
+      // console.log('[WebRTC] Room ready, self socket ID:', data.selfSocketId);
       useMeetingParticipantStore.getState().setSelfSocketId(data.selfSocketId);
       break;
     }
 
     default:
-      console.warn(`[WebRTC] Unknown message type: ${type}`);
+      // console.warn(`[WebRTC] Unknown message type: ${type}`);
+      break;
   }
 };
 
