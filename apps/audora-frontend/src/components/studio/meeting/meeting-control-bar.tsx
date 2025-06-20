@@ -8,6 +8,8 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import MeetingControllerButton from './meeting-controller-button';
+import { useSignalStore } from '@/store/signal-store';
+
 import {
     CameraIcon,
     MicrophoneIcon,
@@ -18,6 +20,7 @@ import LayoutControlPanel from './layout-control-panel';
 import { useRouter } from 'next/navigation';
 import { useSystemStreamStore } from '@/store/system-stream';
 import LeaveConfirmModal from './leave-confirm-modal';
+import { useMeetingParticipantStore } from '@/store/meeting-participant-store';
 
 const MeetingControlBar = ({ isGuest = false }) => {
     const router = useRouter();
@@ -50,8 +53,40 @@ const MeetingControlBar = ({ isGuest = false }) => {
             }
         });
 
-        router.push('/');
+        useSignalStore.getState().sendMessage({
+            type: 'meeting:end',
+            data: {
+                socketId: useMeetingParticipantStore.getState().self?.socketId || '',
+            },
+        });
+
+        router.push('/dashboard');
     };
+
+
+    const handleMicToggle = () => {
+        const selfSocketId = useMeetingParticipantStore.getState().self?.socketId || ''
+
+        if (selfSocketId !== '') {
+            useSignalStore.getState().sendMessage({
+                type: 'mic:toggle',
+                data: { micOn: !micOn, socketId: selfSocketId },
+            });
+            setMicToggle(!micOn)
+        }
+    }
+
+    const handleCamToggle = () => {
+        const selfSocketId = useMeetingParticipantStore.getState().self?.socketId || ''
+
+        if (selfSocketId !== '') {
+            useSignalStore.getState().sendMessage({
+                type: 'cam:toggle',
+                data: { camOn: !camOn, socketId: selfSocketId },
+            });
+            setCamToggle(!camOn)
+        }
+    }
 
     return (
         <div className="fixed bottom-1.5 left-0 right-0 mx-auto w-full max-w-4xl flex justify-between items-center">
@@ -67,7 +102,7 @@ const MeetingControlBar = ({ isGuest = false }) => {
                 />
                 <MeetingControllerButton
                     label="Mic"
-                    onToggle={() => setMicToggle(!micOn)}
+                    onToggle={handleMicToggle}
                     icon={
                         micOn
                             ? <MicrophoneIcon className="w-5 h-5" />
@@ -78,7 +113,7 @@ const MeetingControlBar = ({ isGuest = false }) => {
                 />
                 <MeetingControllerButton
                     label="Cam"
-                    onToggle={() => setCamToggle(!camOn)}
+                    onToggle={handleCamToggle}
                     icon={
                         camOn
                             ? <CameraIcon className="w-5 h-5" />

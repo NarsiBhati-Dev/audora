@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { SIGNALING_URL } from '@/config';
 import { Message } from '@audora/types';
-import { useSystemStreamStore } from '@/store/system-stream';
 
 export type EventCallback = (message: Message) => void;
 
@@ -39,7 +38,6 @@ export const useSignaling = ({
   const closedByClient = useRef(false);
   const MAX_RETRIES = 1;
   const componentMountedRef = useRef(true);
-  const { micOn, camOn } = useSystemStreamStore.getState();
 
   const [status, setStatus] = useState<
     'idle' | 'connecting' | 'connected' | 'disconnected'

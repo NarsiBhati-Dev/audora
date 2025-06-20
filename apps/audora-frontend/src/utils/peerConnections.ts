@@ -97,7 +97,7 @@ export const removePeer = (socketId: string) => {
 };
 
 export const clearAllPeers = () => {
-  peerConnections.forEach(({ peer }, socketId) => {
+  peerConnections.forEach(({ peer }) => {
     peer.close();
     // console.log(`[WebRTC] Closed connection with ${socketId}`);
   });
@@ -129,7 +129,7 @@ const addIceCandidateSafely = async (
   try {
     await state.peer.addIceCandidate(new RTCIceCandidate(candidate));
     // console.log(`[WebRTC] Added ICE candidate from ${socketId}`);
-  } catch (err) {
+  } catch {
     // console.error(`[WebRTC] Error adding ICE candidate for ${socketId}:`, err);
   }
 };
@@ -146,7 +146,7 @@ const flushIceCandidates = async (socketId: string) => {
     try {
       await state.peer.addIceCandidate(new RTCIceCandidate(candidate));
       // console.log(`[WebRTC] Added queued ICE candidate from ${socketId}`);
-    } catch (err) {
+    } catch {
       // console.error(
       //   `[WebRTC] Error adding queued ICE candidate for ${socketId}:`,
       //   err,
@@ -217,7 +217,7 @@ export const createOffer = async (
 
       // Try to reconnect if possible
       if (canRetry(socketId)) {
-        const currentRetryCount = getPeerState(socketId)?.retryCount || 0;
+        // const currentRetryCount = getPeerState(socketId)?.retryCount || 0;
         // console.log(
         //   `[WebRTC] Attempting to reconnect with ${socketId} (attempt ${currentRetryCount + 1})`,
         // );
@@ -290,7 +290,7 @@ export const createOffer = async (
     // console.log(
     //   `[WebRTC] Created offer for ${socketId}${isRetry ? ' (retry)' : ''}`,
     // );
-  } catch (err) {
+  } catch {
     // console.error(`[WebRTC] Error creating offer for ${socketId}:`, err);
     peer.close();
 
@@ -396,7 +396,7 @@ export const createAnswer = async (
     await flushIceCandidates(socketId);
 
     // console.log(`[WebRTC] Created answer for ${socketId}`);
-  } catch (err) {
+  } catch {
     // console.error(`[WebRTC] Error creating answer for ${socketId}:`, err);
     peer.close();
   }
@@ -430,7 +430,7 @@ export const setRemoteDescription = async (
 
     // Flush any queued ICE candidates
     await flushIceCandidates(socketId);
-  } catch (err) {
+  } catch {
     // console.error(
     //   `[WebRTC] Error setting remote description for ${socketId}:`,
     //   err,

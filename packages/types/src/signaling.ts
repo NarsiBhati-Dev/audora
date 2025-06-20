@@ -88,7 +88,7 @@ export const InboundMessageSchema = z.discriminatedUnion("type", [
   }),
   z.object({
     type: z.literal("meeting:end"),
-    data: z.object({ studioSlug: z.string() }),
+    data: z.object({ socketId: z.string() }),
   }),
 ]);
 
@@ -129,8 +129,16 @@ export const OutboundMessageSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("webrtc:answer"), data: WebRTCDataSchema }),
   z.object({ type: z.literal("webrtc:ice-candidate"), data: WebRTCDataSchema }),
   z.object({
+    type: z.literal("mic:toggle"),
+    data: z.object({ micOn: z.boolean(), socketId: z.string() }),
+  }),
+  z.object({
+    type: z.literal("cam:toggle"),
+    data: z.object({ camOn: z.boolean(), socketId: z.string() }),
+  }),
+  z.object({
     type: z.literal("meeting:end"),
-    data: z.object({ studioSlug: z.string() }),
+    data: z.object({ socketId: z.string() }),
   }),
 ]);
 

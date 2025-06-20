@@ -138,6 +138,7 @@ const onMessage = async (
 
     case 'mic:toggle': {
       const { micOn, socketId } = data;
+      console.log('micOn', micOn);
       useMeetingParticipantStore
         .getState()
         .updateParticipantStatus(
@@ -153,6 +154,7 @@ const onMessage = async (
 
     case 'cam:toggle': {
       const { camOn, socketId } = data;
+      console.log('camOn', camOn);
       useMeetingParticipantStore
         .getState()
         .updateParticipantStatus(

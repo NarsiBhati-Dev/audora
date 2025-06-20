@@ -26,11 +26,8 @@ export const useInitMeeting = ({
     speakers,
     stream,
     videoDeviceId,
-    // setVideoDeviceId,
     audioInputId,
-    // setAudioInputId,
     audioOutputId,
-    // setAudioOutputId,
     cameraOn,
     micOn,
     loading,
@@ -54,7 +51,7 @@ export const useInitMeeting = ({
   useEffect(() => {
     if (!stream) return;
 
-    // Local device settings (no functions)
+    // Local device settings
     useSystemStreamStore.setState({
       stream,
       micOn,
@@ -70,7 +67,20 @@ export const useInitMeeting = ({
       selfId,
     });
 
-    // Self participant setup
+    // ✅ Setup self participant
+    useMeetingParticipantStore.getState().setSelf({
+      id: selfId,
+      socketId: '', // Will be set on 'room:ready'
+      name: 'You',
+      stream,
+      isSpeaker: false,
+      isMuted: false,
+      isDeafened: false,
+      isCameraOn: cameraOn,
+      isMicOn: micOn,
+    });
+
+    // Optional — keep syncing if needed
     useMeetingParticipantStore.getState().updateSelfStream(stream);
     useMeetingParticipantStore.getState().updateSelfStatus(micOn, cameraOn);
   }, [
