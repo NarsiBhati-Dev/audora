@@ -161,7 +161,7 @@ export default function ScreenLayoutWrapper({ isGuest }: { isGuest: boolean }) {
   };
 
   return (
-    <div className="relative h-[calc(100vh-150px)] w-full bg-black text-white transition-all duration-300">
+    <div className="relative h-full w-full bg-black text-white transition-all duration-300">
       {getLayout()}
     </div>
   );

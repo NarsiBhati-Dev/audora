@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { useSignalStore } from './signal-store';
 
 export interface MeetingParticipant {
   id: string; // userId

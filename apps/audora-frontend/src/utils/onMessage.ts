@@ -19,7 +19,6 @@ const onMessage = async (
 ) => {
   const { type, data } = message;
   const stream = useSystemStreamStore.getState().stream;
-
   // Retry until local stream is available
   if (
     (type.startsWith('webrtc:') ||
@@ -134,6 +133,35 @@ const onMessage = async (
     case 'room:ready': {
       // console.log('[WebRTC] Room ready, self socket ID:', data.selfSocketId);
       useMeetingParticipantStore.getState().setSelfSocketId(data.selfSocketId);
+      break;
+    }
+
+    case 'mic:toggle': {
+      const { micOn, socketId } = data;
+      useMeetingParticipantStore
+        .getState()
+        .updateParticipantStatus(
+          socketId,
+          micOn,
+          useMeetingParticipantStore
+            .getState()
+            .participants.find(p => p.socketId === socketId)?.isCameraOn ??
+            false,
+        );
+      break;
+    }
+
+    case 'cam:toggle': {
+      const { camOn, socketId } = data;
+      useMeetingParticipantStore
+        .getState()
+        .updateParticipantStatus(
+          socketId,
+          useMeetingParticipantStore
+            .getState()
+            .participants.find(p => p.socketId === socketId)?.isMicOn ?? false,
+          camOn,
+        );
       break;
     }
 

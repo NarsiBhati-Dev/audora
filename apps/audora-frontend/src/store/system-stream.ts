@@ -1,4 +1,3 @@
-// store/system-stream.ts
 import { create } from 'zustand';
 
 interface DeviceOption {
@@ -56,8 +55,23 @@ export const useSystemStreamStore = create<SystemStreamStore>(set => ({
 
   setSelfId: id => set({ selfId: id }),
   setSystemStream: stream => set({ stream: stream }),
-  setMicToggle: micOn => set({ micOn }),
-  setCamToggle: camOn => set({ camOn }),
+  setMicToggle: () =>
+    set(state => {
+      const newMicState = !state.micOn;
+      state.stream?.getAudioTracks().forEach(track => {
+        track.enabled = newMicState;
+      });
+
+      return { micOn: newMicState };
+    }),
+  setCamToggle: () =>
+    set(state => {
+      const newCamState = !state.camOn;
+      state.stream?.getVideoTracks().forEach(track => {
+        track.enabled = newCamState;
+      });
+      return { camOn: newCamState };
+    }),
   setCameras: cameras => set({ cameras }),
   setMicrophones: microphones => set({ microphones }),
   setSpeakers: speakers => set({ speakers }),

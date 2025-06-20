@@ -79,6 +79,14 @@ export const InboundMessageSchema = z.discriminatedUnion("type", [
     data: z.object({ timestamp: z.number() }),
   }),
   z.object({
+    type: z.literal("mic:toggle"),
+    data: z.object({ micOn: z.boolean(), socketId: z.string() }),
+  }),
+  z.object({
+    type: z.literal("cam:toggle"),
+    data: z.object({ camOn: z.boolean(), socketId: z.string() }),
+  }),
+  z.object({
     type: z.literal("meeting:end"),
     data: z.object({ studioSlug: z.string() }),
   }),
