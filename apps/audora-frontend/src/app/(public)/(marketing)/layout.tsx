@@ -1,5 +1,5 @@
-import Footer from '@/components/footer';
-import Header from '@/components/header';
+import Footer from '@/components/shared/footer';
+import Header from '@/components/shared/header';
 import React from 'react';
 
 const MarketingLayout = ({

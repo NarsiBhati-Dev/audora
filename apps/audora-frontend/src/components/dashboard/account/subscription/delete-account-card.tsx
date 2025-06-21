@@ -1,6 +1,6 @@
 'use client';
 
-import PopupWrapper from '@/components/ui/popup-wrapper';
+import PopupWrapper from '@/components/shared/ui/popup-wrapper';
 import { useState } from 'react';
 
 const DeleteAccountCard = () => {

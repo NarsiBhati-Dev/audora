@@ -4,7 +4,7 @@ import { useMeetingStartStore } from '@/store/meeting-start-store';
 // import { useMeetingStore } from '@/store/meeting-store';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useSignalStore } from '@/store/signal-store';
+import { useSignalStore } from '@/modules/webrtc/store/signal-store';
 
 interface JoinStudioButtonProps {
   // isHost: boolean;
@@ -83,14 +83,17 @@ export function JoinStudioButton({ name }: JoinStudioButtonProps) {
   };
 
   const handleJoinStudio = async () => {
-    setIsMeetingStarted(true);
-    console.log('name', name);
-    sendMessage({
-      type: 'user:join',
-      data: {
-        name: name,
-      },
-    });
+    if (useSignalStore.getState().socket) {
+      setIsMeetingStarted(true);
+      sendMessage({
+        type: 'user:join',
+        data: {
+          name: name,
+        },
+      });
+    } else {
+      toast.error('Please wait for the connection to be established.');
+    }
   };
 
   return (

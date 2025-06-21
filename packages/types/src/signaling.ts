@@ -26,7 +26,7 @@ export const RTCSessionDescriptionInitSchema = z.object({
 });
 
 export const RTCIceCandidateInitSchema = z.object({
-  candidate: z.string(),
+  candidate: z.string().optional(),
   sdpMid: z.string().optional().nullable(),
   sdpMLineIndex: z.number().optional().nullable(),
 });
@@ -79,8 +79,16 @@ export const InboundMessageSchema = z.discriminatedUnion("type", [
     data: z.object({ timestamp: z.number() }),
   }),
   z.object({
+    type: z.literal("mic:toggle"),
+    data: z.object({ micOn: z.boolean(), socketId: z.string() }),
+  }),
+  z.object({
+    type: z.literal("cam:toggle"),
+    data: z.object({ camOn: z.boolean(), socketId: z.string() }),
+  }),
+  z.object({
     type: z.literal("meeting:end"),
-    data: z.object({ studioSlug: z.string() }),
+    data: z.object({ socketId: z.string() }),
   }),
 ]);
 
@@ -110,19 +118,27 @@ export const OutboundMessageSchema = z.discriminatedUnion("type", [
     type: z.literal("participants:list"),
     data: z.object({
       participants: z.array(z.object({ user: UserSchema })),
-      selfId: z.string().optional(),
+      selfSocketId: z.string().optional(),
     }),
   }),
   z.object({
     type: z.literal("room:ready"),
-    data: z.object({ studioSlug: z.string() }),
+    data: z.object({ selfSocketId: z.string() }),
   }),
   z.object({ type: z.literal("webrtc:offer"), data: WebRTCDataSchema }),
   z.object({ type: z.literal("webrtc:answer"), data: WebRTCDataSchema }),
   z.object({ type: z.literal("webrtc:ice-candidate"), data: WebRTCDataSchema }),
   z.object({
+    type: z.literal("mic:toggle"),
+    data: z.object({ micOn: z.boolean(), socketId: z.string() }),
+  }),
+  z.object({
+    type: z.literal("cam:toggle"),
+    data: z.object({ camOn: z.boolean(), socketId: z.string() }),
+  }),
+  z.object({
     type: z.literal("meeting:end"),
-    data: z.object({ studioSlug: z.string() }),
+    data: z.object({ socketId: z.string() }),
   }),
 ]);
 

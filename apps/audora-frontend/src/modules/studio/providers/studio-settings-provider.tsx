@@ -1,6 +1,6 @@
 'use client';
 
-import { useStudioSettingsStore } from '@/store/studio-setting-store';
+import { useStudioSettingsStore } from '@/modules/studio/store/studio-setting-store';
 import { Studio } from '@audora/types';
 import React, { useEffect } from 'react';
 

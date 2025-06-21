@@ -1,5 +1,5 @@
 import React from 'react';
-import TableOfContents from '@/components/Legal/table-of-contents';
+import TableOfContents from '@/components/marketing/Legal/table-of-contents';
 import getPageMetadata from '@/lib/seo/getPageMetadata';
 
 export const metadata = getPageMetadata({

@@ -4,13 +4,13 @@ import React from 'react';
 import Logo from '@/components/logo';
 import Link from 'next/link';
 import { FiChevronLeft, FiSettings } from 'react-icons/fi';
-import { useStudioSettingsStore } from '@/store/studio-setting-store';
+import { useStudioSettingsStore } from '@/modules/studio/store/studio-setting-store';
 
 const MeetingHeader = () => {
   const { studioSetting } = useStudioSettingsStore();
 
   return (
-    <header className='fixed top-0 left-0 z-50 flex w-full items-center justify-between border-b border-gray-800/50 bg-black/50 px-6 py-4 backdrop-blur-md'>
+    <header className='fixed top-0 left-0 z-50 flex w-full h-16 items-center justify-between border-b border-gray-800/50 bg-black/50 px-6 py-4 backdrop-blur-md'>
       <div className='flex w-full items-center gap-4'>
         <Link
           href='/dashboard'

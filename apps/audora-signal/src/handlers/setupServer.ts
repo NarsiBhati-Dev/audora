@@ -8,6 +8,7 @@ import { sendAndClose } from "../utils/sendAndClose";
 import { removeParticipantBySocket } from "../rooms/room-manager";
 import { authenticateWebSocket } from "../services/auth";
 import { getToken } from "../services/getToken";
+import { meetingHandler } from "./meetingHandler";
 
 export const setupSignalingServer = (wss: WebSocketServer) => {
   wss.on("connection", (socket: WebSocket, request) => {
@@ -57,6 +58,11 @@ export const setupSignalingServer = (wss: WebSocketServer) => {
           case "webrtc:answer":
           case "webrtc:ice-candidate":
             signalingEventHandler({ socket, message, meetingToken });
+            break;
+
+          case "mic:toggle":
+          case "cam:toggle":
+            meetingHandler({ socket, message, meetingToken });
             break;
 
           default:

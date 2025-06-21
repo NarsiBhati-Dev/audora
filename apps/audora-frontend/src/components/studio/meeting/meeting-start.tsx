@@ -1,3 +1,5 @@
+'use client';
+
 import ScreenLayoutWrapper from './screen-layout-wrapper';
 import MeetingHeader from './meeting-header';
 import MeetingControlBar from './meeting-control-bar';
@@ -8,21 +10,14 @@ interface MeetingStartProps {
 
 const MeetingStart = ({ isGuest }: MeetingStartProps) => {
   return (
-    <div className='mt-16 flex h-[calc(100vh-4rem)] flex-col bg-black text-white'>
-      {/* Header */}
-      <div className='shrink-0'>
-        <MeetingHeader />
-      </div>
+    <div className="flex h-screen w-full flex-col bg-black text-white">
+      <MeetingHeader />
 
-      {/* Middle content */}
-      <div className='flex-1 overflow-hidden'>
+      <div className="flex-1 pt-16 pb-24">
         <ScreenLayoutWrapper isGuest={isGuest} />
       </div>
 
-      {/* Footer */}
-      <div className='shrink-0'>
-        <MeetingControlBar isGuest={isGuest} />
-      </div>
+      <MeetingControlBar isGuest={isGuest} />
     </div>
   );
 };

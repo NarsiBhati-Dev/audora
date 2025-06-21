@@ -17,7 +17,7 @@ import Tooltip from './tooltip';
 import AvatarDropdown from './avatar-dropdown';
 import { DashboardSidebarIcon } from '@/data/icons';
 import { Plus } from 'lucide-react';
-import PopupWrapper from '../ui/popup-wrapper';
+import PopupWrapper from '../shared/ui/popup-wrapper';
 import CreateStudioPopup from './account/create-studio-popup';
 import { Studio } from '@audora/types';
 
@@ -126,7 +126,7 @@ const DashboardSidebar = ({ studio }: DashboardSidebarProps) => {
             <div
               className={`flex items-center gap-3 ${open ? '' : 'flex-col gap-2 border-b border-[#292929] pb-4'}`}
             >
-              <Link
+              <a
                 href={`/studio/${studio.studioSlug}`}
                 className={`flex items-center gap-2 bg-[#232323] text-sm font-semibold transition hover:bg-[#292929] ${open
                   ? 'rounded-3xl px-4 py-3'
@@ -135,7 +135,7 @@ const DashboardSidebar = ({ studio }: DashboardSidebarProps) => {
               >
                 <FiVideo size={20} />
                 {open && 'Open Studio'}
-              </Link>
+              </a>
 
               <Link
                 href='/dashboard/invite'

@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { socialLinks, footerSections, bottomLinks } from '@/data/FooterData';
-import Logo from './logo';
+import Logo from '../logo';
 
 const Footer = () => {
   return (

@@ -1,8 +1,8 @@
 'use client';
 
 import { deleteStudio } from '@/actions/studio';
-import PopupWrapper from '@/components/ui/popup-wrapper';
-import { useStudioSettingsStore } from '@/store/studio-setting-store';
+import PopupWrapper from '@/components/shared/ui/popup-wrapper';
+import { useStudioSettingsStore } from '@/modules/studio/store/studio-setting-store';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';

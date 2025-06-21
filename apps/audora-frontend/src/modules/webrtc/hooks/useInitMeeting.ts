@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { useMediaDevices } from '@/hooks/useMediaDevices';
-import { useSystemStreamStore } from '@/store/system-stream';
+import { useSystemStreamStore } from '@/modules/webrtc/store/system-stream';
 import { useMeetingStartStore } from '@/store/meeting-start-store';
-import { useSignaling } from '@/hooks/webRTC/useSignaling';
-import { useSignalStore } from '@/store/signal-store';
-import { useOneToOneStore } from '@/store/one-to-one-store';
-import onMessage from '@/utils/onMessage';
+import { useSignaling } from '@/modules/webrtc/hooks/useSignaling';
+import { useSignalStore } from '@/modules/webrtc/store/signal-store';
+import { useMeetingParticipantStore } from '@/modules/webrtc/store/meeting-participant-store';
+import onMessage from '@/modules/webrtc/utils/onMessage';
 import { Message } from '@audora/types';
+import { useRouter } from 'next/navigation';
 
 interface InitMeetingArgs {
   studioSlug: string;
@@ -26,22 +27,22 @@ export const useInitMeeting = ({
     speakers,
     stream,
     videoDeviceId,
-    // setVideoDeviceId,
     audioInputId,
-    // setAudioInputId,
     audioOutputId,
-    // setAudioOutputId,
     cameraOn,
     micOn,
     loading,
     error,
   } = useMediaDevices();
 
-  // Setup signaling only if token exists
+  const router = useRouter();
+
+  // Setup signalling only if the token exists
   const { socket, sendMessage } = useSignaling({
     studioSlug,
     token: token || '',
-    onMessage: (message: Message) => onMessage(message, sendMessage, selfId),
+    onMessage: (message: Message) =>
+      onMessage(message, sendMessage, selfId, router.push),
     onClose: () => setIsMeetingStarted(false),
   });
 
@@ -54,7 +55,7 @@ export const useInitMeeting = ({
   useEffect(() => {
     if (!stream) return;
 
-    // Local device settings (no functions)
+    // Local device settings
     useSystemStreamStore.setState({
       stream,
       micOn,
@@ -70,12 +71,22 @@ export const useInitMeeting = ({
       selfId,
     });
 
-    // Self participant setup
-    useOneToOneStore.getState().updateSelf({
+    // Setup self participant
+    useMeetingParticipantStore.getState().setSelf({
+      id: selfId,
+      socketId: '',
+      name: 'You',
       stream,
-      isMicOn: micOn,
+      isSpeaker: false,
+      isMuted: false,
+      isDeafened: false,
       isCameraOn: cameraOn,
+      isMicOn: micOn,
     });
+
+    // Keep syncing if needed
+    // useMeetingParticipantStore.getState().updateSelfStream(stream);
+    // useMeetingParticipantStore.getState().updateSelfStatus(micOn, cameraOn);
   }, [
     stream,
     micOn,
