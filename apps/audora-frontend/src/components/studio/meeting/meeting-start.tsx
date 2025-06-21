@@ -13,7 +13,7 @@ const MeetingStart = ({ isGuest }: MeetingStartProps) => {
     <div className="flex h-screen w-full flex-col bg-black text-white">
       <MeetingHeader />
 
-      <div className="max-h-[calc(100vh-6rem)] my-auto">
+      <div className="flex-1 pt-16 pb-24">
         <ScreenLayoutWrapper isGuest={isGuest} />
       </div>
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useMeetingStore } from '@/store/meeting-store';
+import { useLayoutStore } from '@/store/layout-store';
 import { CameraOffIcon, MicrophoneOffIcon } from '@/data/icons';
 import { motion } from 'framer-motion';
 
@@ -23,7 +23,7 @@ export default function VideoTile({
   micOn,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const { fitMode } = useMeetingStore();
+  const { fitMode } = useLayoutStore();
   const isFillMode = fitMode === 'fill';
 
   useEffect(() => {
@@ -39,31 +39,20 @@ export default function VideoTile({
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.3 }}
-      className={`relative flex items-center justify-center overflow-hidden rounded-xl border-2 ${borderColor} bg-dashboard-bg w-full transition-all duration-300`}
-      style={{
-        height: isFillMode ? '100%' : 'auto',
-        aspectRatio: isFillMode ? undefined : '16 / 9',
-        minHeight: isFillMode ? undefined : '180px',
-      }}
+      className={`relative flex items-center justify-center overflow-hidden rounded-lg border-2 ${borderColor} bg-dashboard-bg w-full h-full transition-all duration-300`}
     >
-      {/* Always mounted video for layout stability */}
       <video
         ref={videoRef}
         autoPlay
         muted={isSelf}
         playsInline
-        className={`bg-dashboard-bg-darkest rounded-xl transition-all duration-300
+        className={`bg-dashboard-bg-darkest transition-all duration-300
           ${isSelf ? 'scale-x-[-1]' : ''}
-          ${isFillMode ? 'h-full w-full object-cover' : 'max-h-full max-w-full object-contain'}
+          ${isFillMode ? 'h-full w-full object-cover' : 'h-full w-full object-contain'}
           ${camOn ? 'opacity-100' : 'opacity-0'}
         `}
-        style={{
-          display: 'block',
-          margin: isFillMode ? undefined : 'auto',
-        }}
       />
 
-      {/* Overlay when camera is off */}
       {!camOn && (
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -73,10 +62,8 @@ export default function VideoTile({
           className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/80 text-white"
         >
           <div className="flex flex-col items-center space-y-4">
-            {/* Icon */}
             <CameraOffIcon className="h-10 w-10 text-red-500 drop-shadow-md" />
 
-            {/* Camera Off Badge */}
             <div className=' flex items-center space-x-1.5 rounded-full bg-red-500/20 px-3 py-1.5 backdrop-blur-sm'>
               <div className='h-2 w-2 rounded-full bg-red-500 animate-pulse'></div>
               <span className='text-xs font-medium text-red-400'>Camera Off</span>
@@ -85,12 +72,10 @@ export default function VideoTile({
         </motion.div>
       )}
 
-      {/* Label */}
       <div className='absolute bottom-2 left-3 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm'>
         {label}
       </div>
 
-      {/* Mic icon */}
       {!micOn && (
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}

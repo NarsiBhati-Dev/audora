@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { useInitMeeting } from '@/hooks/webRTC/useInitMeeting';
+import { useInitMeeting } from '@/modules/webrtc/hooks/useInitMeeting';
 
 interface StudioProviderProps {
     studioSlug: string;

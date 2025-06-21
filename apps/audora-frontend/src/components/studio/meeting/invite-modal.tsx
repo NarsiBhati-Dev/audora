@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { SITE_URL } from '@/config';
-import { useStudioSettingsStore } from '@/store/studio-setting-store';
+import { useStudioSettingsStore } from '@/modules/studio/store/studio-setting-store';
 import { FiCopy, FiCheck, FiShare2 } from 'react-icons/fi';
 
 const InviteModal = () => {

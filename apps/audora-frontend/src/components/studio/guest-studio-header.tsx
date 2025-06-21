@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Logo from '../logo';
-import { useStudioSettingsStore } from '@/store/studio-setting-store';
+import { useStudioSettingsStore } from '@/modules/studio/store/studio-setting-store';
 
 const GuestStudioHeader = () => {
   const { studioSetting } = useStudioSettingsStore();

@@ -6,7 +6,7 @@ import {
   PiChatsCircleDuotone,
 } from 'react-icons/pi';
 // import { useUserProfileStore } from '@/store/user-profile';
-import { useStudioSettingsStore } from '@/store/studio-setting-store';
+import { useStudioSettingsStore } from '@/modules/studio/store/studio-setting-store';
 import RemoveStudio from './remove-studio';
 import { ToggleSwitch } from '../toggle-switch';
 import { HiOutlineChevronDown } from 'react-icons/hi';
@@ -192,11 +192,10 @@ const GeneralTab = () => {
                     key={language.value}
                     type='button'
                     onClick={() => handleLanguageSelect(language.value)}
-                    className={`m-1 w-full rounded-lg px-4 py-1.5 text-left text-white first:rounded-t-lg last:rounded-b-lg hover:bg-zinc-700 ${
-                      studioSetting.language === language.value
+                    className={`m-1 w-full rounded-lg px-4 py-1.5 text-left text-white first:rounded-t-lg last:rounded-b-lg hover:bg-zinc-700 ${studioSetting.language === language.value
                         ? 'bg-zinc-700'
                         : ''
-                    }`}
+                      }`}
                   >
                     {language.value}
                   </button>

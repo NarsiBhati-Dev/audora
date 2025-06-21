@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import MeetingControllerButton from './meeting-controller-button';
-import { useSignalStore } from '@/store/signal-store';
+import { useSignalStore } from '@/modules/webrtc/store/signal-store';
 
 import {
     CameraIcon,
@@ -18,9 +18,9 @@ import {
 } from '@/data/icons';
 import LayoutControlPanel from './layout-control-panel';
 import { useRouter } from 'next/navigation';
-import { useSystemStreamStore } from '@/store/system-stream';
+import { useSystemStreamStore } from '@/modules/webrtc/store/system-stream';
 import LeaveConfirmModal from './leave-confirm-modal';
-import { useMeetingParticipantStore } from '@/store/meeting-participant-store';
+import { useMeetingParticipantStore } from '@/modules/webrtc/store/meeting-participant-store';
 
 const MeetingControlBar = ({ isGuest = false }) => {
     const router = useRouter();

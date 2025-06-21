@@ -2,7 +2,7 @@
 
 This directory contains the frontend application code for Audora. The structure is organized as follows:
 
-```
+```bash
 src/
 ├── app/                    # Next.js app directory (pages and layouts)
 ├── components/            # Reusable UI components
@@ -18,14 +18,6 @@ src/
 ├── types/              # TypeScript type definitions
 ├── styles/             # Global styles and theme
 └── config/             # Application configuration
-
-## Best Practices
-
-1. Keep components small and focused on a single responsibility
-2. Use feature-based organization for larger components
-3. Share common utilities through the lib directory
-4. Maintain type safety with proper TypeScript definitions
-5. Follow the atomic design pattern for component organization
 ```
 
 ## Component Organization
