@@ -7,6 +7,7 @@ import { useSignalStore } from '@/store/signal-store';
 import { useMeetingParticipantStore } from '@/store/meeting-participant-store';
 import onMessage from '@/utils/onMessage';
 import { Message } from '@audora/types';
+import { useRouter } from 'next/navigation';
 
 interface InitMeetingArgs {
   studioSlug: string;
@@ -34,11 +35,14 @@ export const useInitMeeting = ({
     error,
   } = useMediaDevices();
 
-  // Setup signaling only if token exists
+  const router = useRouter();
+
+  // Setup signalling only if the token exists
   const { socket, sendMessage } = useSignaling({
     studioSlug,
     token: token || '',
-    onMessage: (message: Message) => onMessage(message, sendMessage, selfId),
+    onMessage: (message: Message) =>
+      onMessage(message, sendMessage, selfId, router.push),
     onClose: () => setIsMeetingStarted(false),
   });
 
@@ -67,10 +71,10 @@ export const useInitMeeting = ({
       selfId,
     });
 
-    // ✅ Setup self participant
+    // Setup self participant
     useMeetingParticipantStore.getState().setSelf({
       id: selfId,
-      socketId: '', // Will be set on 'room:ready'
+      socketId: '',
       name: 'You',
       stream,
       isSpeaker: false,
@@ -80,9 +84,9 @@ export const useInitMeeting = ({
       isMicOn: micOn,
     });
 
-    // Optional — keep syncing if needed
-    useMeetingParticipantStore.getState().updateSelfStream(stream);
-    useMeetingParticipantStore.getState().updateSelfStatus(micOn, cameraOn);
+    // Keep syncing if needed
+    // useMeetingParticipantStore.getState().updateSelfStream(stream);
+    // useMeetingParticipantStore.getState().updateSelfStatus(micOn, cameraOn);
   }, [
     stream,
     micOn,

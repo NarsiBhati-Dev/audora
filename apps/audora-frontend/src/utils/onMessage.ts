@@ -16,6 +16,7 @@ const onMessage = async (
   message: Message,
   sendMessage: (message: Message) => void,
   selfSocketId: string,
+  navigate: (url: string) => void,
 ) => {
   const { type, data } = message;
   const stream = useSystemStreamStore.getState().stream;
@@ -27,7 +28,10 @@ const onMessage = async (
     !stream
   ) {
     // console.warn(`[WebRTC] Stream not ready. Retrying type: ${type}`);
-    setTimeout(() => onMessage(message, sendMessage, selfSocketId), 500);
+    setTimeout(
+      () => onMessage(message, sendMessage, selfSocketId, navigate),
+      500,
+    );
     return;
   }
 
@@ -85,7 +89,7 @@ const onMessage = async (
         // Add a small delay to prevent overwhelming the connection
         setTimeout(() => {
           createOffer(user.socketId, selfSocketId, stream!, sendMessage);
-        }, Math.random() * 1000); // Random delay up to 1 second
+        }, Math.random() * 1000);
       }
       break;
     }
@@ -127,6 +131,7 @@ const onMessage = async (
     case 'meeting:end': {
       // console.log('[WebRTC] Meeting ended');
       useMeetingParticipantStore.getState().setParticipants([]);
+      navigate('/dashboard');
       break;
     }
 
@@ -138,7 +143,6 @@ const onMessage = async (
 
     case 'mic:toggle': {
       const { micOn, socketId } = data;
-      console.log('micOn', micOn);
       useMeetingParticipantStore
         .getState()
         .updateParticipantStatus(
@@ -154,7 +158,6 @@ const onMessage = async (
 
     case 'cam:toggle': {
       const { camOn, socketId } = data;
-      console.log('camOn', camOn);
       useMeetingParticipantStore
         .getState()
         .updateParticipantStatus(
