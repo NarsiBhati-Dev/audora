@@ -1,6 +1,6 @@
 'use client';
 
-import Header from './header';
+import Header from './shared/header';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FaHome } from 'react-icons/fa';

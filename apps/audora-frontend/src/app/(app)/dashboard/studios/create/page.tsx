@@ -1,7 +1,7 @@
 'use client';
 
 import CreateStudioPopup from '@/components/dashboard/account/create-studio-popup';
-import PopupWrapper from '@/components/ui/popup-wrapper';
+import PopupWrapper from '@/components/shared/ui/popup-wrapper';
 import { Plus } from 'lucide-react';
 import Image from 'next/image';
 import React, { useState } from 'react';

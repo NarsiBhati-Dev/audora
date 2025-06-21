@@ -1,4 +1,4 @@
-import GridBackground from '@/components/ui/GridBackground';
+import GridBackground from '@/components/shared/ui/grid-background';
 import AuthCard from '@/components/auth/auth-card';
 import AuthSwitcher from '@/components/auth/register/auth-switcher';
 import Image from 'next/image';

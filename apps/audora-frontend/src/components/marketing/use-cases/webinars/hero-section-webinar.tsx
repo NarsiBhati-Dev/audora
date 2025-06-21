@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import GridBackground from '@/components/ui/GridBackground';
+import GridBackground from '@/components/shared/ui/grid-background';
 import Link from 'next/link';
 
 const HeroSectionWebinar = () => {

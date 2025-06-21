@@ -17,7 +17,7 @@ import Tooltip from './tooltip';
 import AvatarDropdown from './avatar-dropdown';
 import { DashboardSidebarIcon } from '@/data/icons';
 import { Plus } from 'lucide-react';
-import PopupWrapper from '../ui/popup-wrapper';
+import PopupWrapper from '../shared/ui/popup-wrapper';
 import CreateStudioPopup from './account/create-studio-popup';
 import { Studio } from '@audora/types';
 

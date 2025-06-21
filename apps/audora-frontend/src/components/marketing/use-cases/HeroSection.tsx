@@ -2,7 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import GridBackground from '@/components/ui/GridBackground';
+import GridBackground from '@/components/shared/ui/grid-background';
 
 interface HeroSectionProps {
   title: string;

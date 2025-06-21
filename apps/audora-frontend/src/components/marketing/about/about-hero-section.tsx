@@ -1,5 +1,5 @@
 import React from 'react';
-import GridBackground from '../shared/ui/grid-background';
+import GridBackground from '@/components/shared/ui/grid-background';
 
 const AboutHeroSection = () => {
   return (
