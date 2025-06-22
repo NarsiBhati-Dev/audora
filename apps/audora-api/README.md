@@ -129,7 +129,7 @@ Production mode:
 bun run start:api
 ```
 
-The server will start at `http://localhost:4000`.
+The server will start at `http://localhost:8000`.
 
 ---
 
