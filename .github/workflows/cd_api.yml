@@ -2,7 +2,7 @@ name: Audora API
 
 on: 
   push: 
-    branches: [ production ]
+    branches: [ master ]
     paths: 
       - 'apps/audora-api/**'
       - 'packages/**'
