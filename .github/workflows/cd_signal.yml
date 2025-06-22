@@ -2,7 +2,7 @@ name: Audora Signal
 
 on: 
   push: 
-    branches: [ production ]
+    branches: [ master ]
     paths: 
       - 'apps/audora-signal/**'
       - 'packages/**'
@@ -49,7 +49,7 @@ jobs:
             sudo docker run -d \
               --name audora-signal \
               -e NODE_ENV=production \
-              -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
+              -e NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}" \
               -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
               -p 8000:8000 \
               --restart always \

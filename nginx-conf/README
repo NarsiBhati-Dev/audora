@@ -166,7 +166,7 @@ sudo apt install certbot python3-certbot-nginx
 Step 2: Generate SSL Certificates
 
 ```bash
-sudo certbot --nginx -d server.audora.xyz -d signal.audora.xyz
+sudo certbot --nginx -d api.audora.xyz -d signal.audora.xyz
 ```
 
 If you later add the frontend:
