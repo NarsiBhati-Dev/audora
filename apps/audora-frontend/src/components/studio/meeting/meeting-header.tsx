@@ -24,12 +24,12 @@ const MeetingHeader = () => {
           href={`/dashboard`}
         />
       </div>
-      <div className='flex items-center gap-4'>
+      {/* <div className='flex items-center gap-4'>
         <button className='flex items-center gap-2 rounded-xl bg-white/10 px-4 py-2 text-white transition-all duration-200 hover:bg-white/20'>
           <FiSettings className='text-zinc-200' size={18} />
           <span className='text-sm'>Settings</span>
         </button>
-      </div>
+      </div> */}
     </header>
   );
 };
