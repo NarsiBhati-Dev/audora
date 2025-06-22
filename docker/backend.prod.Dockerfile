@@ -23,4 +23,4 @@ RUN bun install
 EXPOSE 9000
 
 # Run the server with database deployment
-CMD ["bun", "run", "start:backend"]
+CMD ["bun", "run", "start:api"]
