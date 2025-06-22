@@ -1,5 +1,5 @@
 {
-  "name": "audora-signal-server",
+  "name": "audora-signal",
   "module": "index.ts",
   "type": "module",
   "private": true,

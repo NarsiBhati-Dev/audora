@@ -32,7 +32,7 @@
     },
 
     "start": {
-      "dependsOn": ["start:frontend", "start:backend", "start:signal"],
+      "dependsOn": ["start:frontend", "start:api", "start:signal"],
       "cache": false
     },
 
@@ -52,7 +52,7 @@
       "outputs": [".next/**", "!.next/cache/**"]
     },
 
-    "start:backend": {
+    "start:api": {
       "dependsOn": ["^db:deploy"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "env": [
@@ -61,13 +61,17 @@
         "PORT",
         "NEXTAUTH_SECRET",
         "NODE_ENV"
-      ]
+      ],
+      "cache": false,
+      "persistent": true
     },
 
     "start:signal": {
       "dependsOn": ["^db:deploy"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "env": ["DATABASE_URL", "PORT", "NODE_ENV"]
+      "env": ["DATABASE_URL", "PORT", "NODE_ENV"],
+      "cache": false,
+      "persistent": true
     },
 
     "generate": {
