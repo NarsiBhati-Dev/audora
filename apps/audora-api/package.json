@@ -10,7 +10,7 @@
     "typescript": "^5"
   },
   "scripts": {
-    "start:backend": "bun run src/server.ts",
+    "start:api": "bun run src/server.ts",
     "dev": "bun run src/server.ts"
   },
   "dependencies": {

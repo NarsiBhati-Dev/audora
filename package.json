@@ -5,7 +5,7 @@
     "dev": "turbo run dev",
     "start": "turbo run start",
     "start:frontend": "turbo run start:frontend --filter=audora-frontend",
-    "start:backend": "turbo run start:backend --filter=audora-api",
+    "start:api": "turbo run start:api --filter=audora-api",
     "start:signal": "turbo run start:signal --filter=audora-signal",
     "build": "turbo run build",
     "build:frontend": "docker build -f docker/frontend.prod.Dockerfile -t audora-frontend .",

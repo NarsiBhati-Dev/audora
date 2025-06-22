@@ -126,7 +126,7 @@ bun run dev
 Production mode:
 
 ```sh
-bun run start
+bun run start:api
 ```
 
 The server will start at `http://localhost:4000`.
