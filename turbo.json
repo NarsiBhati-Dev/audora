@@ -69,7 +69,7 @@
     "start:signal": {
       "dependsOn": ["^db:deploy"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "env": ["DATABASE_URL", "PORT", "NODE_ENV"],
+      "env": ["DATABASE_URL", "PORT", "NODE_ENV", "NEXTAUTH_SECRET"],
       "cache": false,
       "persistent": true
     },
