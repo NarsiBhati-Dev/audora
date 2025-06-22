@@ -204,7 +204,7 @@ The server will start at `http://localhost:8000`.
 
 ## 🌟 Contributing
 
-Contributions are welcome! Please follow these steps:
+Contributions are welcome Please follow these steps:
 
 1. **Fork** the repository
 2. **Create a feature branch** (`git checkout -b feature-name`)
