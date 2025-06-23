@@ -1,12 +1,19 @@
 import React from 'react';
+import { cn } from '@/lib/utils';
 
 interface AuthCardProps {
   children: React.ReactNode;
+  className?: string;
 }
 
-const AuthCard = ({ children }: AuthCardProps) => {
+const AuthCard = ({ children, className }: AuthCardProps) => {
   return (
-    <section className='relative z-10 flex h-[80vh] w-full max-w-4xl flex-col items-center justify-center bg-black md:h-[600px] md:flex-row md:rounded-2xl md:border md:border-[#232329] md:bg-[#121212] md:shadow-2xl'>
+    <section
+      className={cn(
+        'relative z-10 flex w-full max-w-4xl h-auto md:h-[85vh] flex-col md:flex-row items-center justify-center rounded-none md:rounded-2xl border border-[#232329] bg-[#121212] shadow-2xl',
+        className
+      )}
+    >
       {children}
     </section>
   );
