@@ -7,7 +7,7 @@ import HostView from '@/components/studio/meeting/host-view';
 import { useSystemStreamStore } from '@/modules/webrtc/store/system-stream';
 import { DisplayParticipant } from './layouts/types';
 import GridView from './layouts/GridView';
-import SpeakerSplitView from './layouts/SpeakerSplitView';
+// import SpeakerSplitView from './layouts/SpeakerSplitView';
 
 export default function ScreenLayoutWrapper({ isGuest }: { isGuest: boolean }) {
   const { layout } = useLayoutStore();
@@ -45,33 +45,29 @@ export default function ScreenLayoutWrapper({ isGuest }: { isGuest: boolean }) {
   const getLayout = () => {
     switch (layout) {
       case 'grid':
-        const allParticipants: DisplayParticipant[] = [
-          selfParticipant,
-          ...participants,
-        ];
-        return <GridView participants={allParticipants} />;
+        return <GridView participants={[selfParticipant, ...participants]} />;
 
       // case 'speaker-full':
       //   const speaker = (participants.length > 0 ? participants[0] : selfParticipant) as DisplayParticipant;
       //   return <SpeakerFullView speaker={speaker} />;
 
-      case 'speaker-split':
-        const mainSpeaker = (
-          participants.length > 0 ? participants[0] : selfParticipant
-        ) as DisplayParticipant;
-        const otherParticipants =
-          mainSpeaker.id === 'self'
-            ? participants
-            : [
-                selfParticipant,
-                ...participants.filter(p => p.id !== mainSpeaker.id),
-              ];
-        return (
-          <SpeakerSplitView
-            mainSpeaker={mainSpeaker}
-            otherParticipants={otherParticipants}
-          />
-        );
+      // case 'speaker-split':
+      //   const mainSpeaker = (
+      //     participants.length > 0 ? participants[0] : selfParticipant
+      //   ) as DisplayParticipant;
+      //   const otherParticipants =
+      //     mainSpeaker.id === 'self'
+      //       ? participants
+      //       : [
+      //         selfParticipant,
+      //         ...participants.filter(p => p.id !== mainSpeaker.id),
+      //       ];
+      //   return (
+      //     <SpeakerSplitView
+      //       mainSpeaker={mainSpeaker}
+      //       otherParticipants={otherParticipants}
+      //     />
+      //   );
       default:
         return null;
     }

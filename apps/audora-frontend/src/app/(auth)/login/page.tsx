@@ -18,7 +18,7 @@ const LoginPage = () => {
       <GridBackground />
       <AuthCard>
         {/* Left: Login options */}
-        <div className='flex w-full flex-col items-center justify-center px-6 md:max-w-[40vh]'>
+        <div className='flex md:w-[45%] w-full flex-col items-center justify-center px-3 md:px-6 md:max-w-md'>
           <h2 className='mb-2 text-center text-2xl font-bold text-white'>
             Log in to Audora
           </h2>
@@ -51,14 +51,14 @@ const LoginPage = () => {
           </Link>
         </div>
         {/* Right: Image */}
-        <div className='hidden h-full w-[60vh] items-center justify-center bg-[#0d0d0d] md:flex'>
+        <div className='hidden h-full w-[55%] items-center justify-center bg-[#0d0d0d] md:flex md:w-1/2'>
           <Image
             src='/images/editor-mockup.png'
             alt='Login Image'
             priority
             width={350}
             height={500}
-            className='h-full w-full rounded-l-2xl object-cover py-10 pl-10'
+            className='h-full w-full overflow-hidden rounded-l-2xl object-cover py-10 pl-10'
           />
         </div>
       </AuthCard>

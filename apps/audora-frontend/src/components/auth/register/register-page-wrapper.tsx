@@ -9,14 +9,15 @@ export default function RegisterPageWrapper() {
       <GridBackground />
       <AuthCard>
         <AuthSwitcher />
-        <div className='hidden h-full w-[60vh] items-center justify-center rounded-r-2xl bg-[#0d0d0d] py-10 pl-10 md:flex'>
+        {/* Right: Image */}
+        <div className='hidden h-full w-[55%] items-center justify-center bg-[#0d0d0d] md:flex md:w-1/2'>
           <Image
             src='/images/editor-mockup.png'
-            alt='Register Image'
+            alt='Login Image'
             priority
             width={350}
             height={500}
-            className='h-full w-full rounded-l-2xl object-cover'
+            className='h-full w-full overflow-hidden rounded-l-2xl object-cover py-10 pl-10'
           />
         </div>
       </AuthCard>
