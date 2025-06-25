@@ -12,14 +12,14 @@ import {
   // FiChevronLeft,
   // FiChevronRight,
 } from 'react-icons/fi';
-import Logo from '../logo';
-import Tooltip from './tooltip';
-import AvatarDropdown from './avatar-dropdown';
+import Logo from '../../logo';
+import Tooltip from '../tooltip';
+import AvatarDropdown from '../avatar/avatar-dropdown';
 import { DashboardSidebarIcon } from '@/data/icons';
 import { Plus } from 'lucide-react';
-import PopupWrapper from '../shared/ui/popup-wrapper';
-import CreateStudioPopup from './account/create-studio-popup';
-import { Studio } from '@audora/types';
+import PopupWrapper from '../../shared/ui/popup-wrapper';
+import CreateStudioPopup from '../account/create-studio-popup';
+import { useStudioSettingsStore } from '@/modules/studio/store/studio-settings-store';
 
 const navItems = [
   { href: '/dashboard/home', icon: <FiHome size={22} />, label: 'Home' },
@@ -40,13 +40,10 @@ const navItems = [
   // },
 ];
 
-interface DashboardSidebarProps {
-  studio: Studio;
-}
-
-const DashboardSidebar = ({ studio }: DashboardSidebarProps) => {
+const DashboardDesktopSidebar = () => {
   const [open, setOpen] = useState(true);
   const [isCreateStudioOpen, setIsCreateStudioOpen] = useState(false);
+  const { studioSetting } = useStudioSettingsStore();
 
   return (
     <aside
@@ -73,7 +70,7 @@ const DashboardSidebar = ({ studio }: DashboardSidebarProps) => {
           </Tooltip>
         </div>
         <nav className='flex flex-col gap-4 px-2'>
-          {!studio.studioSlug ? (
+          {!studioSetting.studioSlug ? (
             <>
               <button
                 onClick={() => setIsCreateStudioOpen(true)}
@@ -103,7 +100,11 @@ const DashboardSidebar = ({ studio }: DashboardSidebarProps) => {
                 delay={100}
               >
                 <Link
-                  href={item.label === 'Projects' ? `/studio/${studio.studioSlug}${item.href}` : item.href}
+                  href={
+                    item.label === 'Projects'
+                      ? `/studio/${studioSetting.studioSlug}${item.href}`
+                      : item.href
+                  }
                   className={`flex items-center gap-4 rounded-xl px-3 py-2 text-base font-medium transition-colors hover:bg-[#292929] ${open ? '' : 'justify-center'
                     }`}
                 >
@@ -120,14 +121,14 @@ const DashboardSidebar = ({ studio }: DashboardSidebarProps) => {
       <div
         className={`flex flex-col gap-4 px-2 pb-8 ${open ? '' : 'items-center'}`}
       >
-        {studio.studioSlug && (
+        {studioSetting.studioSlug && (
           <>
             {/* Studio and Invite */}
             <div
               className={`flex items-center gap-3 ${open ? '' : 'flex-col gap-2 border-b border-[#292929] pb-4'}`}
             >
               <a
-                href={`/studio/${studio.studioSlug}`}
+                href={`/studio/${studioSetting.studioSlug}`}
                 className={`flex items-center gap-2 bg-[#232323] text-sm font-semibold transition hover:bg-[#292929] ${open
                   ? 'rounded-3xl px-4 py-3'
                   : 'justify-center rounded-full p-3'
@@ -168,4 +169,4 @@ const DashboardSidebar = ({ studio }: DashboardSidebarProps) => {
   );
 };
 
-export default DashboardSidebar;
+export default DashboardDesktopSidebar;

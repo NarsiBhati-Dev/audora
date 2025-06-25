@@ -2,7 +2,7 @@ name: Audora Signal
 
 on: 
   push: 
-    branches: [ master ]
+    branches: [ production ]
     paths: 
       - 'apps/audora-signal/**'
       - 'packages/**'

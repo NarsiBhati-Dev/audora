@@ -23,7 +23,7 @@ const navItems = [
   },
 ];
 
-const AccountSidebar = () => {
+const AccountDesktopSidebar = () => {
   const pathname = usePathname();
   return (
     <>
@@ -78,4 +78,4 @@ const AccountSidebar = () => {
   );
 };
 
-export default AccountSidebar;
+export default AccountDesktopSidebar;

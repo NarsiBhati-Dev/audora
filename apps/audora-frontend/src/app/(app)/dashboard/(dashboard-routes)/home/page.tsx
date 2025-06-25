@@ -1,5 +1,5 @@
 import getPageMetadata from '@/lib/seo/getPageMetadata';
-import DashboardActions from '@/components/dashboard/home/dashboard-actions';
+// import DashboardActions from '@/components/dashboard/home/dashboard-actions';
 import authOptions from '@/lib/auth/auth-options';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
@@ -26,7 +26,7 @@ const HomePage = async () => {
   return (
     <div className='space-y-8 p-6 sm:p-8'>
       {/* Dashboard quick actions */}
-      <DashboardActions />
+      {/* <DashboardActions /> */}
 
       {/* Page heading */}
       <div className='space-y-1'>

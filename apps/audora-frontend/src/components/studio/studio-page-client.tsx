@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useStudioSettingsStore } from '@/modules/studio/store/studio-setting-store';
+import { useStudioSettingsStore } from '@/modules/studio/store/studio-settings-store';
 import { getStudioNameFromSlug } from '@/lib/studio/getStudioNameFromSlug';
 import { useIsDesktop } from '@/hooks/useIsDesktop';
 import { useMeetingStartStore } from '@/store/meeting-start-store';

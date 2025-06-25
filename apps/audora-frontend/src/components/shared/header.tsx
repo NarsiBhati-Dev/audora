@@ -4,12 +4,13 @@ import React, { useEffect, useState } from 'react';
 import Logo from '@/components/logo';
 import Navbar from '../navbar/navbar';
 import MobileNavbar from '../navbar/mobile-navbar';
+import { useIsDesktop } from '@/hooks/useIsDesktop';
 
 const SCROLL_THRESHOLD = 60;
 
 const Header = ({ isMarketing = false }: { isMarketing?: boolean }) => {
   const [scrolled, setScrolled] = useState(isMarketing);
-
+  const isDesktop = useIsDesktop();
   useEffect(() => {
     if (isMarketing) {
       return;
@@ -32,8 +33,7 @@ const Header = ({ isMarketing = false }: { isMarketing?: boolean }) => {
     >
       <div className='mx-auto flex max-w-[1480px] items-center justify-between py-3'>
         <Logo scrolled={scrolled} />
-        <Navbar scrolled={scrolled} />
-        <MobileNavbar scrolled={scrolled} />
+        {isDesktop ? <Navbar scrolled={scrolled} /> : <MobileNavbar scrolled={scrolled} />}
       </div>
     </header>
   );

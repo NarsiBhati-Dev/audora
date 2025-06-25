@@ -4,7 +4,7 @@ export type RecordingType = 'AUDIO' | 'VIDEO_AUDIO';
 export type AudioSampleRate = 'KHZ_44_1' | 'KHZ_48_0';
 export type VideoQuality = 'STANDARD' | 'HIGH';
 
-export interface StudioSetting {
+export interface StudioSettings {
   studioSlug: string;
   studioName: string;
   enableLobby: boolean;
@@ -23,12 +23,12 @@ export interface StudioRecordingSetting {
 }
 
 interface StudioSettingsStore {
-  studioSetting: StudioSetting;
+  studioSetting: StudioSettings;
   studioRecordingSetting: StudioRecordingSetting;
-  setStudioSetting: (setting: Partial<StudioSetting>) => void;
+  setStudioSetting: (setting: Partial<StudioSettings>) => void;
   setStudioRecordingSetting: (setting: Partial<StudioRecordingSetting>) => void;
   setAllSettings: (data: {
-    studioSetting: StudioSetting;
+    studioSetting: StudioSettings;
     studioRecordingSetting: StudioRecordingSetting;
   }) => void;
 }

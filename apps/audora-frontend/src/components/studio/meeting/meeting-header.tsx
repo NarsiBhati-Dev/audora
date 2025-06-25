@@ -4,7 +4,7 @@ import React from 'react';
 import Logo from '@/components/logo';
 import Link from 'next/link';
 import { FiChevronLeft } from 'react-icons/fi';
-import { useStudioSettingsStore } from '@/modules/studio/store/studio-setting-store';
+import { useStudioSettingsStore } from '@/modules/studio/store/studio-settings-store';
 
 const MeetingHeader = () => {
   const { studioSetting } = useStudioSettingsStore();
