@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useState } from 'react';
 
 export function useIsDesktop(breakpoint = 768) {

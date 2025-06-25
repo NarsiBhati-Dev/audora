@@ -128,7 +128,7 @@ const LiveStreamTab = () => {
             />
           </div>
           <div className='text-xs text-zinc-400 md:max-w-sm'>
-            Remove the Audura watermark when streaming to other destinations.
+            Remove the Audora watermark when streaming to other destinations.
           </div>
         </div>
         {/* Live stream chat */}
@@ -137,7 +137,7 @@ const LiveStreamTab = () => {
             <div className='mb-2 font-bold'>Live stream chat</div>
             <ToggleSwitch
               checked={false}
-              onChange={() => {}}
+              onChange={() => { }}
               id='live-stream-chat'
             />
           </div>
@@ -165,7 +165,7 @@ const LiveStreamTab = () => {
             <div className='font-bold text-white'>Audience count</div>
             <ToggleSwitch
               checked={false}
-              onChange={() => {}}
+              onChange={() => { }}
               id='audience-count'
             />
           </div>

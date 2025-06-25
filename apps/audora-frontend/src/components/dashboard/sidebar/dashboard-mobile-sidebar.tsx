@@ -11,21 +11,18 @@ import {
   FiX,
   FiMenu,
 } from 'react-icons/fi';
-import Logo from '../logo';
-import AvatarDropdown from './avatar-dropdown';
-import { Studio } from '@audora/types';
+import Logo from '../../logo';
+import AvatarDropdown from '../avatar/avatar-dropdown';
+import { useStudioSettingsStore } from '@/modules/studio/store/studio-settings-store';
 
 const navItems = [
   { href: '/dashboard/home', icon: <FiHome size={22} />, label: 'Home' },
 ];
 
-interface DashboardMobileSidebarProps {
-  studio: Studio;
-}
-
-const DashboardMobileSidebar = ({ studio }: DashboardMobileSidebarProps) => {
+const DashboardMobileSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const { studioSetting } = useStudioSettingsStore();
 
   useEffect(() => {
     setIsOpen(false);
@@ -81,7 +78,7 @@ const DashboardMobileSidebar = ({ studio }: DashboardMobileSidebarProps) => {
             </div>
 
             <nav className='flex flex-col gap-4' aria-label='Main navigation'>
-              {!studio.studioSlug ? (
+              {!studioSetting.studioSlug ? (
                 <Link
                   href='/dashboard/account/studio-settings'
                   className={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium transition hover:bg-[#292929] ${pathname === '/dashboard/account/studio-settings'
@@ -110,10 +107,10 @@ const DashboardMobileSidebar = ({ studio }: DashboardMobileSidebarProps) => {
           </div>
 
           <div className='flex flex-col gap-6'>
-            {studio.studioSlug && (
+            {studioSetting.studioSlug && (
               <div className='flex flex-col gap-3 border-b border-[#292929] pb-4'>
                 <Link
-                  href={`/studio/${studio.studioSlug}`}
+                  href={`/studio/${studioSetting.studioSlug}`}
                   className='flex items-center gap-2 rounded-3xl bg-[#232323] px-4 py-3 text-sm font-semibold transition hover:bg-[#292929] active:scale-[0.98]'
                 >
                   <FiVideo size={20} />

@@ -9,7 +9,7 @@ import {
   PiSlidersDuotone,
 } from 'react-icons/pi';
 import { ToggleSwitch } from '../toggle-switch';
-import { useStudioSettingsStore } from '@/modules/studio/store/studio-setting-store';
+import { useStudioSettingsStore } from '@/modules/studio/store/studio-settings-store';
 
 const RecordingTab = () => {
   const { studioRecordingSetting, setStudioRecordingSetting } =
@@ -138,8 +138,8 @@ const RecordingTab = () => {
           {/* Standard resolution */}
           <div
             className={`flex-1 rounded-xl border ${studioRecordingSetting.videoQuality === 'STANDARD'
-                ? 'border-primary-500'
-                : 'border-zinc-600'
+              ? 'border-primary-500'
+              : 'border-zinc-600'
               } relative flex cursor-pointer flex-col gap-3 bg-zinc-900 p-5 shadow-sm transition`}
             onClick={() =>
               setStudioRecordingSetting({
@@ -172,8 +172,8 @@ const RecordingTab = () => {
           {/* Advanced resolution */}
           <div
             className={`flex-1 rounded-xl border ${studioRecordingSetting.videoQuality === 'HIGH'
-                ? 'border-primary-500'
-                : 'border-zinc-600'
+              ? 'border-primary-500'
+              : 'border-zinc-600'
               } relative flex cursor-pointer flex-col gap-3 bg-zinc-900 p-5 shadow-sm transition`}
           // onClick={() => setVideoResolution('Advanced')}
           >

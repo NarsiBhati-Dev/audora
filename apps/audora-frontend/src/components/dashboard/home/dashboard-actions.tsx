@@ -44,10 +44,11 @@ const ActionButton = ({
 }) => (
   <div className='flex flex-col items-center'>
     <button
-      className={`group flex h-14 w-14 items-center justify-center rounded-full text-white shadow transition focus:outline-none sm:h-18 sm:w-18 ${isPrimary
-        ? 'bg-[#e74d3cb4]/10 hover:bg-[#e74c3c]'
-        : 'bg-[#18181b] hover:bg-[#232323]'
-        } duration-300 ease-in-out hover:scale-105`}
+      className={`group flex h-14 w-14 items-center justify-center rounded-full text-white shadow transition focus:outline-none sm:h-18 sm:w-18 ${
+        isPrimary
+          ? 'bg-[#e74d3cb4]/10 hover:bg-[#e74c3c]'
+          : 'bg-[#18181b] hover:bg-[#232323]'
+      } duration-300 ease-in-out hover:scale-105`}
       aria-label={label}
     >
       {icon}
@@ -82,12 +83,6 @@ export default function DashboardActions() {
             >
               {action.icon} {action.label}{' '}
             </button>
-            // <ActionButton
-            //   key={action.label}
-            //   icon={action.icon}
-            //   label={action.label}
-            //   isPrimary={action.label === 'Record'}
-            // />
           ))}
       </div>
     </>
