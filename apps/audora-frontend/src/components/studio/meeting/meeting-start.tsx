@@ -10,10 +10,10 @@ interface MeetingStartProps {
 
 const MeetingStart = ({ isGuest }: MeetingStartProps) => {
   return (
-    <div className="flex h-screen w-full flex-col bg-black text-white">
+    <div className='flex h-screen w-full flex-col bg-black text-white'>
       <MeetingHeader />
 
-      <div className="flex-1 pt-16 pb-24">
+      <div className='flex-1 pt-16 pb-24'>
         <ScreenLayoutWrapper isGuest={isGuest} />
       </div>
 

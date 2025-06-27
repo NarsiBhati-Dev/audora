@@ -24,7 +24,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   studio    Studio?  @relation("UserStudio")
-
+  
   @@index([id])
 }
 
@@ -48,15 +48,10 @@ model Studio {
   createdAt                  DateTime @default(now())
   updatedAt                  DateTime @updatedAt
 
-  // projects 
-  projects                   Project[]
-
   // user
   user       User     @relation("UserStudio", fields: [userId], references: [id], onDelete: Cascade)
   userId     String   @unique
-
-  // meetings
-  meetings                   Meeting[]
+  projects  Project[] @relation("StudioProject")
 
   @@index([id, userId ,studioSlug])
 }
@@ -77,37 +72,49 @@ enum VideoQuality {
 }
 
 model Project {
-  id          String     @id @default(uuid())
-  name        String
-  studioId    String
-  studio      Studio     @relation(fields: [studioId], references: [id], onDelete: Cascade)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  id         String   @id @default(uuid())
+  title      String
+  studioId   String
+  createdAt  DateTime @default(now())
+
+  studio     Studio   @relation("StudioProject", fields: [studioId], references: [id], onDelete: Cascade)
+  tracks     Track[] @relation("ProjectTrack")
 
   @@index([id, studioId])
 }
 
+model Track {
+  id             String   @id @default(uuid())
+  name           String?
+  projectId      String
+  mergedVideoUrl String?
+  createdAt      DateTime @default(now())
 
-//  meeting 
-model Meeting {
-  id              String   @id @default(uuid())
+  project        Project  @relation("ProjectTrack", fields: [projectId], references: [id])
+  recordings     Recording[] @relation("RecordingTrack")
 
-  title           String?
-  startedAt       DateTime @default(now())
-  endedAt         DateTime?
-
-  studioToken     String?  @unique @default(cuid())
-  tokenExpiresAt  DateTime?
-
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  // relations
-  studioId        String
-  studio          Studio   @relation(fields: [studioId], references: [id], onDelete: Cascade)
-  hostId          String
-  
-  @@index([id, studioId, studioToken])
+  @@index([id, projectId])
 }
 
+model Recording {
+  id           String   @id @default(uuid())
+  trackId      String
+  displayName  String
+  videoUrl     String?
+  duration     Int? 
+  resolution   String? @default("1280x720")
+  thumbnailUrl String? @default("https://via.placeholder.com/150")
+  status       RecordingStatus   @default(RECORDING)
+  createdAt    DateTime @default(now())
 
+  track        Track    @relation("RecordingTrack", fields: [trackId], references: [id])
+
+  @@index([id, trackId])
+}
+
+enum RecordingStatus {
+  RECORDING
+  MERGING
+  COMPLETED
+  FAILED
+}

@@ -5,25 +5,27 @@ import { getStudioByStudioSlugService } from "@audora/database/studioServices";
 
 export const generateMeetingTokenController = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   try {
     const { studioSlug, userId, studioToken } = req.body;
 
     if (!studioSlug) {
-      return res.status(HttpStatus.BAD_REQUEST).json({
+      res.status(HttpStatus.BAD_REQUEST).json({
         success: false,
         message: "Missing required field: studioSlug",
       });
+      return;
     }
 
     const studio = await getStudioByStudioSlugService(studioSlug);
 
     if (!studio) {
-      return res.status(HttpStatus.NOT_FOUND).json({
+      res.status(HttpStatus.NOT_FOUND).json({
         success: false,
         message: "Studio not found",
       });
+      return;
     }
 
     const isHost = studio.userId === userId;
@@ -32,10 +34,11 @@ export const generateMeetingTokenController = async (
 
     // If not host, validate studioToken for guest access
     if (!isHost && studio.token !== studioToken) {
-      return res.status(HttpStatus.UNAUTHORIZED).json({
+      res.status(HttpStatus.UNAUTHORIZED).json({
         success: false,
         message: "Invalid studio token for guest",
       });
+      return;
     }
 
     const token = generateMeetingToken({
@@ -48,7 +51,7 @@ export const generateMeetingTokenController = async (
       roomId: `${studio.studioSlug}-${Date.now()}`,
     });
 
-    return res.status(HttpStatus.OK).json({
+    res.status(HttpStatus.OK).json({
       success: true,
       message: "Meeting token generated successfully",
       data: {
@@ -58,11 +61,13 @@ export const generateMeetingTokenController = async (
         studioFixedToken: studio.token,
       },
     });
+    return;
   } catch (error) {
     console.error("Error generating meeting token:", error);
-    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       success: false,
       message: "Failed to generate meeting token",
     });
+    return;
   }
 };

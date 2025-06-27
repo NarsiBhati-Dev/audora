@@ -14,6 +14,9 @@ export interface Participant {
 
 export interface Room {
   roomId: string;
+  projectId?: string | null;
+  trackId?: string | null;
+  recordingStatus?: boolean;
   participants: Participant[];
 }
 
@@ -24,7 +27,7 @@ export const addToRoom = (
   socket: WebSocket,
   userId: string,
   name: string,
-  role: Role
+  role: Role,
 ): Participant | null => {
   const room = rooms.get(roomId) ?? { roomId, participants: [] };
 
@@ -37,7 +40,8 @@ export const addToRoom = (
     return null;
   }
 
-  if (role === "guest" && guestCount >= 3) {
+  // only 2 guests allowed and 1 host allowed
+  if (role === "guest" && guestCount >= 2) {
     logger.warn(`[${roomId}] Max guests reached. Cannot add ${name}.`);
     return null;
   }
@@ -68,7 +72,7 @@ export const getRoomParticipants = (roomId: string): Participant[] => {
 
 export const removeParticipantBySocket = (
   roomId: string,
-  socket: WebSocket
+  socket: WebSocket,
 ) => {
   const room = rooms.get(roomId);
   if (!room) return;
@@ -79,6 +83,10 @@ export const removeParticipantBySocket = (
     rooms.delete(roomId);
     logger.info(`no participants in [${roomId}] room deleted`);
   }
+};
+
+export const getRoom = (roomId: string): Room | undefined => {
+  return rooms.get(roomId);
 };
 
 export const isUserInRoom = (roomId: string, userId: string): boolean => {
@@ -98,7 +106,7 @@ export const sendToSocket = (socket: WebSocket, message: any) => {
 export const broadcastToRoom = (
   roomId: string,
   message: any,
-  excludeSocket?: WebSocket
+  excludeSocket?: WebSocket,
 ) => {
   const room = rooms.get(roomId);
   if (!room) return;
@@ -113,4 +121,55 @@ export const broadcastToRoom = (
 export const removeRoom = (roomId: string) => {
   rooms.delete(roomId);
   logger.info(`[${roomId}] room deleted`);
+};
+
+export const addProjectId = (
+  roomId: string,
+  socket: WebSocket,
+  projectId: string,
+) => {
+  const room = rooms.get(roomId);
+  if (!room) return;
+  room.projectId = projectId;
+  rooms.set(roomId, room);
+  logger.info(`[${roomId}] project id added to room`);
+  broadcastToRoom(roomId, {
+    type: "project-id",
+    data: { projectId },
+    excludeSocket: socket,
+  });
+};
+
+export const addTrackId = (
+  roomId: string,
+  socket: WebSocket,
+  trackId: string,
+) => {
+  const room = rooms.get(roomId);
+  if (!room) return;
+  room.trackId = trackId;
+  rooms.set(roomId, room);
+  logger.info(`[${roomId}] track id added to room`);
+  broadcastToRoom(roomId, {
+    type: "track-id",
+    data: { trackId },
+    excludeSocket: socket,
+  });
+};
+
+export const updateRecordingStatus = (
+  roomId: string,
+  socket: WebSocket,
+  recordingStatus: boolean,
+) => {
+  const room = rooms.get(roomId);
+  if (!room) return;
+  room.recordingStatus = recordingStatus;
+  rooms.set(roomId, room);
+  logger.info(`[${roomId}] recording status updated to ${recordingStatus}`);
+  broadcastToRoom(roomId, {
+    type: "recording-status",
+    data: { recordingStatus },
+    excludeSocket: socket,
+  });
 };

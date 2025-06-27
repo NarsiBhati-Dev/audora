@@ -138,11 +138,10 @@ export default async function BlogsPage({
               href={
                 category === 'All' ? '/blogs' : `/blogs?category=${category}`
               }
-              className={`rounded-full border px-5 py-2.5 text-sm font-medium transition-all duration-200 ${
-                selectedCategory === category
-                  ? 'border-primary-500 bg-primary-500/10 shadow-primary-500/20 text-white shadow-lg'
-                  : 'hover:border-primary-500 hover:bg-primary-500/5 border-gray-700 bg-black/30 text-gray-300 hover:text-white'
-              }`}
+              className={`rounded-full border px-5 py-2.5 text-sm font-medium transition-all duration-200 ${selectedCategory === category
+                ? 'border-primary-500 bg-primary-500/10 shadow-primary-500/20 text-white shadow-lg'
+                : 'hover:border-primary-500 hover:bg-primary-500/5 border-gray-700 bg-black/30 text-gray-300 hover:text-white'
+                }`}
             >
               {category}
             </Link>
@@ -162,7 +161,11 @@ export default async function BlogsPage({
                 <Image
                   src={post.image}
                   alt={post.title}
+                  loading='lazy'
                   fill
+                  style={{ objectFit: 'cover' }}
+                  sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                  quality={100}
                   className='object-cover transition-transform duration-500 group-hover:scale-105'
                 />
                 <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent' />

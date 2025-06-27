@@ -9,7 +9,10 @@ interface StudioSettingsProviderProps {
   children: React.ReactNode;
 }
 
-const StudioSettingsProvider = ({ studio, children }: StudioSettingsProviderProps) => {
+const StudioSettingsProvider = ({
+  studio,
+  children,
+}: StudioSettingsProviderProps) => {
   const { setAllSettings } = useStudioSettingsStore();
 
   useEffect(() => {
@@ -17,9 +20,9 @@ const StudioSettingsProvider = ({ studio, children }: StudioSettingsProviderProp
       studioSetting: {
         studioSlug: studio.studioSlug,
         studioName: studio.studioName,
-
         enableLobby: studio.enableLobby,
         language: studio.language,
+        enableCaptions: studio.enableCaptions,
       },
       studioRecordingSetting: {
         recordingType: studio.recordingType,

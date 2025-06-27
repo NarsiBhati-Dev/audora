@@ -19,21 +19,18 @@ We value:
 As a member of the Audora.xyz community, you should:
 
 1. **Be Respectful**
-
    - Use welcoming and inclusive language
    - Be empathetic towards others
    - Accept constructive criticism gracefully
    - Focus on what is best for the community
 
 2. **Be Professional**
-
    - Communicate clearly and professionally
    - Respect others' time and boundaries
    - Follow project guidelines and best practices
    - Maintain appropriate boundaries
 
 3. **Be Collaborative**
-
    - Share knowledge and resources
    - Help others learn and grow
    - Give credit where credit is due
@@ -50,7 +47,6 @@ As a member of the Audora.xyz community, you should:
 The following behaviors are considered unacceptable:
 
 1. **Harassment and Discrimination**
-
    - Offensive comments related to gender, gender identity, sexual orientation, disability, mental illness, neurotype, physical appearance, body, age, race, ethnicity, nationality, language, or religion
    - Unwelcome sexual attention or advances
    - Threats of violence or incitement of violence
@@ -58,7 +54,6 @@ The following behaviors are considered unacceptable:
    - Sustained disruption of discussion
 
 2. **Unprofessional Conduct**
-
    - Trolling, insulting, or derogatory comments
    - Public or private harassment
    - Publishing others' private information without permission

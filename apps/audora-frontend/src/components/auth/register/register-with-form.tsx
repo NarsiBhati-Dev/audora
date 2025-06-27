@@ -95,7 +95,7 @@ const RegisterWithForm = ({ onBack }: { onBack?: () => void }) => {
   });
 
   return (
-    <div className='relative flex h-full w-full flex-col items-center justify-center md:max-w-[45%] px-2'>
+    <div className='relative flex h-full w-full flex-col items-center justify-center px-2 md:max-w-[45%]'>
       <button
         className='absolute top-2 left-2 flex items-center gap-2 rounded-md px-2 py-1 text-sm font-medium text-gray-300 hover:bg-zinc-800 hover:text-white'
         onClick={onBack}
@@ -105,13 +105,13 @@ const RegisterWithForm = ({ onBack }: { onBack?: () => void }) => {
       </button>
       <div className='flex w-full flex-col items-start justify-start px-2'>
         <section className='md:-translate'>
-          <h2 className='mb-2 mt-10 text-center text-2xl font-bold text-white'>
+          <h2 className='mt-10 mb-2 text-center text-2xl font-bold text-white'>
             Create your account
           </h2>
           <p className='mb-6 text-center text-xs text-gray-400'>
             {`Sign up to join Audora, it's free`}
           </p>
-          <div className='flex w-full max-w-md flex-col justify-center px-2 md:px-10 py-4'>
+          <div className='flex w-full max-w-md flex-col justify-center px-2 py-4 md:px-10'>
             <form className='space-y-2' onSubmit={handleSubmit}>
               <input
                 type='text'
@@ -197,10 +197,11 @@ const RegisterWithForm = ({ onBack }: { onBack?: () => void }) => {
               <button
                 type='submit'
                 disabled={registerMutation.isPending}
-                className={`mt-2 w-full cursor-pointer rounded-lg bg-[#a78bfa] px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-[#8b5cf6] focus:ring-1 focus:ring-indigo-500 focus:outline-none ${registerMutation.isPending
-                  ? 'cursor-not-allowed opacity-50'
-                  : ''
-                  }`}
+                className={`mt-2 w-full cursor-pointer rounded-lg bg-[#a78bfa] px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-[#8b5cf6] focus:ring-1 focus:ring-indigo-500 focus:outline-none ${
+                  registerMutation.isPending
+                    ? 'cursor-not-allowed opacity-50'
+                    : ''
+                }`}
               >
                 {registerMutation.isPending ? (
                   <div className='flex justify-center'>

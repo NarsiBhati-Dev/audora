@@ -5,7 +5,7 @@ import type { InboundMessage } from "@audora/types";
 import type { MeetingTokenPayload } from "../services/verifyToken";
 import type { SocketWithMeta } from "../types/socket";
 
-export const signalingEventHandler = ({
+export const webRTCHandler = ({
   socket,
   message,
   meetingToken,

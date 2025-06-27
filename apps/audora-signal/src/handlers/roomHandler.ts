@@ -8,6 +8,7 @@ import {
   getRoomParticipants,
   isUserInRoom,
   type Participant,
+  getRoom,
 } from "../rooms/room-manager";
 
 import type { InboundMessage } from "@audora/types";
@@ -59,7 +60,7 @@ export const roomEventHandler = async ({
         socket,
         userId,
         name,
-        participantRole
+        participantRole,
       );
 
       socket.meta = {
@@ -74,13 +75,19 @@ export const roomEventHandler = async ({
           type: "user:joined",
           data: { user: toClientUser(participant as Participant) },
         },
-        socket
+        socket,
       );
+
+      const room = getRoom(studioSlug);
 
       // Notify the newly joined user
       sendToSocket(socket, {
         type: "room:ready",
-        data: { selfSocketId: socket.meta?.socketId },
+        data: {
+          selfSocketId: socket.meta?.socketId,
+          projectId: room?.projectId ?? null,
+          trackId: room?.trackId ?? null,
+        },
       });
 
       // Send the list of existing participants
@@ -99,7 +106,7 @@ export const roomEventHandler = async ({
       }
 
       logger.info(
-        `[${studioSlug}] ${participantRole} (${name}) joined the room.`
+        `[${studioSlug}] ${participantRole} (${name}) joined the room.`,
       );
       break;
     }
@@ -122,7 +129,7 @@ export const roomEventHandler = async ({
             },
           },
         },
-        socket
+        socket,
       );
 
       logger.info(`[${studioSlug}] ${userId} left the room.`);

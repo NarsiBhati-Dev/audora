@@ -26,7 +26,6 @@ Here’s a step-by-step implementation plan for adding SFU-based composite recor
 ## **Step 1: SFU Stream Routing Enhancements**
 
 1. **Review/Refactor SFU Core**
-
    - Go to `apps/audora-signal/src/handlers/` (likely `meetingHandler.ts` or `roomHandler.ts`).
    - Ensure the SFU can:
      - Accept incoming WebRTC streams from all clients.
@@ -42,7 +41,6 @@ Here’s a step-by-step implementation plan for adding SFU-based composite recor
 ## **Step 2: Recording Bot Implementation**
 
 1. **Create a Recording Bot Service**
-
    - In `apps/audora-worker/` or as a new service, implement a bot that:
      - Connects to the SFU as a participant (using the same signaling protocol as clients).
      - Subscribes to all media streams in the room.
@@ -56,13 +54,11 @@ Here’s a step-by-step implementation plan for adding SFU-based composite recor
 ## **Step 3: Composite Recording Pipeline**
 
 1. **Video Composition**
-
    - Use ffmpeg, GStreamer, or a similar tool to:
      - Render all video streams into a single canvas (grid, speaker view, etc.).
      - Dynamically update the layout as participants join/leave.
 
 2. **Audio Mixing**
-
    - Mix all incoming audio streams into a single track.
 
 3. **Encoding & Storage**
@@ -74,7 +70,6 @@ Here’s a step-by-step implementation plan for adding SFU-based composite recor
 ## **Step 4: Frontend Adjustments**
 
 1. **WebRTC Publishing**
-
    - In `apps/audora-frontend/src/modules/webrtc/`, ensure each client:
      - Publishes their media stream to the SFU.
      - Can handle multiple incoming streams (one per participant).
@@ -87,7 +82,6 @@ Here’s a step-by-step implementation plan for adding SFU-based composite recor
 ## **Step 5: Signaling Protocol Updates**
 
 1. **Bot Signaling**
-
    - Update your signaling protocol (in both SFU and frontend) to support bot participants.
    - Ensure the bot can join/leave rooms and receive all streams.
 
@@ -99,12 +93,10 @@ Here’s a step-by-step implementation plan for adding SFU-based composite recor
 ## **Step 6: Testing & Optimization**
 
 1. **Simulate Multi-User Sessions**
-
    - Test with multiple clients and the bot joining a room.
    - Verify all streams are routed correctly and the bot receives them.
 
 2. **Composite Output Validation**
-
    - Check the final recording for:
      - Correct video layout.
      - Synchronized and mixed audio.
@@ -119,12 +111,10 @@ Here’s a step-by-step implementation plan for adding SFU-based composite recor
 ## **Step 7: Productionization**
 
 1. **Error Handling & Monitoring**
-
    - Add robust error handling in the SFU and bot.
    - Integrate logging and monitoring (e.g., Prometheus, Grafana).
 
 2. **Security**
-
    - Ensure only authorized bots can join rooms.
    - Use secure signaling and media transport (WSS, DTLS/SRTP).
 
@@ -148,3 +138,5 @@ Here’s a step-by-step implementation plan for adding SFU-based composite recor
 ---
 
 **If you want a detailed breakdown or code samples for any step, let me know which one to start with!**
+
+Merge while chunks are still coming (sliding window), so final merge is fast.

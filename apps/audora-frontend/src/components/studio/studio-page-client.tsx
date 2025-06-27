@@ -40,6 +40,9 @@ const StudioPageClient = ({
         studioSlug: studioSlug,
         studioName: getStudioNameFromSlug(studioSlug),
         studioFixedToken: studioFixedToken,
+        enableLobby: false,
+        language: 'English',
+        enableCaptions: false,
       });
     }
 
@@ -53,14 +56,23 @@ const StudioPageClient = ({
         studioSlug: '',
         studioName: '',
         studioFixedToken: '',
+        enableLobby: false,
+        language: 'English',
+        enableCaptions: false,
       });
     };
-  }, [studioSlug, setStudioSetting, setIsMeetingStarted, token, studioFixedToken]);
+  }, [
+    studioSlug,
+    setStudioSetting,
+    setIsMeetingStarted,
+    token,
+    studioFixedToken,
+  ]);
 
   if (isGuestLanding) return <GuestLandingScreen />;
 
   return (
-    <StudioProvider studioSlug={studioSlug} token={token} selfId={userId || ''} >
+    <StudioProvider studioSlug={studioSlug} token={token} selfId={userId || ''}>
       <StudioRoleView
         isGuestJoining={isGuestJoining}
         isHost={isHost}
@@ -68,7 +80,7 @@ const StudioPageClient = ({
         isDesktop={isDesktop}
         isMeetingStarted={isMeetingStarted}
       />
-    </StudioProvider >
+    </StudioProvider>
   );
 };
 

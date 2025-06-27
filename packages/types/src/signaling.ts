@@ -64,11 +64,19 @@ export const InboundMessageSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("webrtc:ice-candidate"), data: WebRTCDataSchema }),
   z.object({
     type: z.literal("recording:start"),
-    data: z.object({ timestamp: z.number() }),
+    data: z.object({ recordingStatus: z.boolean() }),
   }),
   z.object({
     type: z.literal("recording:stop"),
-    data: z.object({ timestamp: z.number() }),
+    data: z.object({ recordingStatus: z.boolean() }),
+  }),
+  z.object({
+    type: z.literal("project-id"),
+    data: z.object({ projectId: z.string() }),
+  }),
+  z.object({
+    type: z.literal("track-id"),
+    data: z.object({ trackId: z.string() }),
   }),
   z.object({
     type: z.literal("user:start-speaking"),

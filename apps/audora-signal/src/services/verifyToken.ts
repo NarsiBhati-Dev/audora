@@ -18,12 +18,12 @@ export interface MeetingTokenPayload {
  */
 
 export const verifyMeetingToken = (
-  token: string
+  token: string,
 ): MeetingTokenPayload | null => {
   try {
     const decoded = jwt.verify(
       token,
-      NEXTAUTH_SECRET as string
+      NEXTAUTH_SECRET as string,
     ) as MeetingTokenPayload;
     return decoded;
   } catch (error) {

@@ -11,9 +11,9 @@ interface HostViewProps {
 
 const HostView = ({ localStream, cameraOn, micOn }: HostViewProps) => {
   return (
-    <div className='flex h-[calc(100vh-160px)] w-full flex-col md:flex-row bg-black text-white'>
+    <div className='flex h-[calc(100vh-160px)] w-full flex-col bg-black text-white md:flex-row'>
       {/* Left: Video */}
-      <div className='w-full md:w-1/2 flex aspect-video items-center justify-center p-6'>
+      <div className='flex aspect-video w-full items-center justify-center p-6 md:w-1/2'>
         <VideoTile
           label='You (Host)'
           stream={localStream}
@@ -25,12 +25,12 @@ const HostView = ({ localStream, cameraOn, micOn }: HostViewProps) => {
       </div>
 
       {/* Right: Invite Modal */}
-      <div className='w-full md:w-1/2 flex items-center justify-center p-6'>
+      <div className='flex w-full items-center justify-center p-6 md:w-1/2'>
         <div className='w-full max-w-2xl'>
           <InviteModal />
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 

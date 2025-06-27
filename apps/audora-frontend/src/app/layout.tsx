@@ -4,6 +4,7 @@ import '@audora/tailwind-css';
 import siteMetadata from '@/lib/seo/siteMetadata';
 import { Toaster } from 'react-hot-toast';
 import ReactQueryProvider from '@/lib/react-query';
+import { LoadingProvider } from '@/components/providers/loading-provider';
 
 const open_sans = Open_Sans({
   variable: '--font-open-sans',
@@ -75,24 +76,26 @@ export default function RootLayout({
         className={`${open_sans.className} scroll-pt-17 scroll-smooth bg-black antialiased`}
       >
         <ReactQueryProvider>
-          {children}
-          <Toaster
-            position='top-right'
-            reverseOrder={false}
-            toastOptions={{
-              style: {
-                background: '#1a1a1a',
-                color: '#fff',
-                border: '1px solid #222',
-                borderRadius: '10px',
-                padding: '10px',
-                fontSize: '14px',
-                fontWeight: 'bold',
-                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                zIndex: 1000,
-              },
-            }}
-          />
+          <LoadingProvider>
+            {children}
+            <Toaster
+              position='top-right'
+              reverseOrder={false}
+              toastOptions={{
+                style: {
+                  background: '#1a1a1a',
+                  color: '#fff',
+                  border: '1px solid #222',
+                  borderRadius: '10px',
+                  padding: '10px',
+                  fontSize: '14px',
+                  fontWeight: 'bold',
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                  zIndex: 1000,
+                },
+              }}
+            />
+          </LoadingProvider>
         </ReactQueryProvider>
       </body>
     </html>

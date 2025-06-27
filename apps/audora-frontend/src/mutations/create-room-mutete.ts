@@ -22,6 +22,7 @@ export const useCreateStudioMutation = () => {
             studioName: data.studio.studioName,
             enableLobby: data.studio.enableLobby,
             language: data.studio.language,
+            enableCaptions: data.studio.enableCaptions,
           },
           studioRecordingSetting: {
             recordingType: data.studio.recordingType,

@@ -7,7 +7,7 @@ export function generateStitchPlan(userTracks: Map<string, MediaChunk[]>) {
       userId,
       start: chunk.start,
       end: chunk.end,
-    }))
+    })),
   );
 
   return {

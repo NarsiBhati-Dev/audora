@@ -1,0 +1,21 @@
+{
+  "name": "audora-recorder-pipeline",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "producer": "bun run src/producer.ts",
+    "consumer": "bun run src/consumer.ts"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@types/kafkajs": "^1.9.0",
+    "kafkajs": "^2.2.4"
+  }
+}

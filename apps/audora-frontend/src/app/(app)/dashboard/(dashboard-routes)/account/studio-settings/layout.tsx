@@ -1,10 +1,10 @@
-'use client'
+'use client';
 import AccountMobileSidebar from '@/components/dashboard/account/sidebar/account-mobile-sidebar';
 import AccountDesktopSidebar from '@/components/dashboard/account/sidebar/account-desktop-sidebar';
 import { useIsDesktop } from '@/hooks/useIsDesktop';
 
 const StudioSettingsLayout = ({ children }: { children: React.ReactNode }) => {
-  const isDesktop = useIsDesktop()
+  const isDesktop = useIsDesktop();
 
   return (
     <div className='mx-auto flex h-[calc(82vh-4rem)] max-w-5xl text-white md:h-[calc(90vh-4rem)]'>

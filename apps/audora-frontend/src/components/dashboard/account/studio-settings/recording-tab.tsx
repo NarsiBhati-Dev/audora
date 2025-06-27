@@ -137,10 +137,11 @@ const RecordingTab = () => {
         <div className='mb-4 flex flex-col gap-8 md:flex-row md:gap-4'>
           {/* Standard resolution */}
           <div
-            className={`flex-1 rounded-xl border ${studioRecordingSetting.videoQuality === 'STANDARD'
-              ? 'border-primary-500'
-              : 'border-zinc-600'
-              } relative flex cursor-pointer flex-col gap-3 bg-zinc-900 p-5 shadow-sm transition`}
+            className={`flex-1 rounded-xl border ${
+              studioRecordingSetting.videoQuality === 'STANDARD'
+                ? 'border-primary-500'
+                : 'border-zinc-600'
+            } relative flex cursor-pointer flex-col gap-3 bg-zinc-900 p-5 shadow-sm transition`}
             onClick={() =>
               setStudioRecordingSetting({
                 ...studioRecordingSetting,
@@ -171,11 +172,12 @@ const RecordingTab = () => {
 
           {/* Advanced resolution */}
           <div
-            className={`flex-1 rounded-xl border ${studioRecordingSetting.videoQuality === 'HIGH'
-              ? 'border-primary-500'
-              : 'border-zinc-600'
-              } relative flex cursor-pointer flex-col gap-3 bg-zinc-900 p-5 shadow-sm transition`}
-          // onClick={() => setVideoResolution('Advanced')}
+            className={`flex-1 rounded-xl border ${
+              studioRecordingSetting.videoQuality === 'HIGH'
+                ? 'border-primary-500'
+                : 'border-zinc-600'
+            } relative flex cursor-pointer flex-col gap-3 bg-zinc-900 p-5 shadow-sm transition`}
+            // onClick={() => setVideoResolution('Advanced')}
           >
             <PiLightningDuotone
               className='absolute -top-3 left-3 rounded-full bg-zinc-900 text-yellow-500'

@@ -18,7 +18,7 @@ const LoginPage = () => {
       <GridBackground />
       <AuthCard>
         {/* Left: Login options */}
-        <div className='flex md:w-[45%] w-full flex-col items-center justify-center px-3 md:px-6 md:max-w-md'>
+        <div className='flex w-full flex-col items-center justify-center px-3 md:w-[45%] md:max-w-md md:px-6'>
           <h2 className='mb-2 text-center text-2xl font-bold text-white'>
             Log in to Audora
           </h2>
