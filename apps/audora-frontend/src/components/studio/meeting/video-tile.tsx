@@ -39,18 +39,14 @@ export default function VideoTile({
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.3 }}
-      className={`relative flex items-center justify-center overflow-hidden rounded-lg border-2 ${borderColor} bg-dashboard-bg w-full h-full transition-all duration-300`}
+      className={`relative flex items-center justify-center overflow-hidden rounded-lg border-2 ${borderColor} bg-dashboard-bg h-full w-full transition-all duration-300`}
     >
       <video
         ref={videoRef}
         autoPlay
         muted={isSelf}
         playsInline
-        className={`bg-dashboard-bg-darkest transition-all duration-300
-          ${isSelf ? 'scale-x-[-1]' : ''}
-          ${isFillMode ? 'h-full w-full object-cover' : 'h-full w-full object-contain'}
-          ${camOn ? 'opacity-100' : 'opacity-0'}
-        `}
+        className={`bg-dashboard-bg-darkest transition-all duration-300 ${isSelf ? 'scale-x-[-1]' : ''} ${isFillMode ? 'h-full w-full object-cover' : 'h-full w-full object-contain'} ${camOn ? 'opacity-100' : 'opacity-0'} `}
       />
 
       {!camOn && (
@@ -59,14 +55,16 @@ export default function VideoTile({
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.3 }}
-          className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/80 text-white"
+          className='absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/80 text-white'
         >
-          <div className="flex flex-col items-center space-y-4">
-            <CameraOffIcon className="h-10 w-10 text-red-500 drop-shadow-md" />
+          <div className='flex flex-col items-center space-y-4'>
+            <CameraOffIcon className='h-10 w-10 text-red-500 drop-shadow-md' />
 
-            <div className=' flex items-center space-x-1.5 rounded-full bg-red-500/20 px-3 py-1.5 backdrop-blur-sm'>
-              <div className='h-2 w-2 rounded-full bg-red-500 animate-pulse'></div>
-              <span className='text-xs font-medium text-red-400'>Camera Off</span>
+            <div className='flex items-center space-x-1.5 rounded-full bg-red-500/20 px-3 py-1.5 backdrop-blur-sm'>
+              <div className='h-2 w-2 animate-pulse rounded-full bg-red-500'></div>
+              <span className='text-xs font-medium text-red-400'>
+                Camera Off
+              </span>
             </div>
           </div>
         </motion.div>

@@ -65,8 +65,9 @@ export default function DropdownSelect({
       <button
         type='button'
         disabled={disabled}
-        className={`flex w-full items-center justify-between rounded-lg bg-zinc-800 px-4 py-3 text-left transition-all duration-150 ${disabled ? 'cursor-not-allowed text-red-500' : 'hover:border-zinc-600'
-          }`}
+        className={`flex w-full items-center justify-between rounded-lg bg-zinc-800 px-4 py-3 text-left transition-all duration-150 ${
+          disabled ? 'cursor-not-allowed text-red-500' : 'hover:border-zinc-600'
+        }`}
         onClick={() => {
           if (!disabled) setOpen(prev => !prev);
         }}
@@ -80,8 +81,9 @@ export default function DropdownSelect({
           </span>
         </span>
         <HiOutlineChevronDown
-          className={`ml-2 h-5 w-5 transform transition-transform duration-200 ${open ? 'rotate-180' : ''
-            }`}
+          className={`ml-2 h-5 w-5 transform transition-transform duration-200 ${
+            open ? 'rotate-180' : ''
+          }`}
         />
       </button>
 
@@ -103,8 +105,9 @@ export default function DropdownSelect({
                   onChange(option.value);
                   setOpen(false);
                 }}
-                className={`flex w-full items-center justify-between gap-2 rounded-lg px-3 py-3 text-left hover:bg-zinc-700 ${isSelected ? 'bg-zinc-800' : ''
-                  }`}
+                className={`flex w-full items-center justify-between gap-2 rounded-lg px-3 py-3 text-left hover:bg-zinc-700 ${
+                  isSelected ? 'bg-zinc-800' : ''
+                }`}
               >
                 <span className='flex w-62 items-center gap-2'>
                   <span className='shrink-0'>{getIcon()}</span>

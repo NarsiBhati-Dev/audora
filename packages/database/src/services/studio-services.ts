@@ -64,7 +64,7 @@ export const createStudioService = async ({
 
 export const updateStudioService = async (
   studioId: string,
-  data: Partial<Studio>
+  data: Partial<Studio>,
 ) => {
   const studio = await client.studio.update({
     where: { id: studioId },

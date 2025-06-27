@@ -50,4 +50,4 @@ const GuestLandingScreen = () => {
   );
 };
 
-export default GuestLandingScreen; 
+export default GuestLandingScreen;

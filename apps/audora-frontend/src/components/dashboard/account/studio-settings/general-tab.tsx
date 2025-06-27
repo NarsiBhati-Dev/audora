@@ -192,10 +192,11 @@ const GeneralTab = () => {
                     key={language.value}
                     type='button'
                     onClick={() => handleLanguageSelect(language.value)}
-                    className={`m-1 w-full rounded-lg px-4 py-1.5 text-left text-white first:rounded-t-lg last:rounded-b-lg hover:bg-zinc-700 ${studioSetting.language === language.value
-                      ? 'bg-zinc-700'
-                      : ''
-                      }`}
+                    className={`m-1 w-full rounded-lg px-4 py-1.5 text-left text-white first:rounded-t-lg last:rounded-b-lg hover:bg-zinc-700 ${
+                      studioSetting.language === language.value
+                        ? 'bg-zinc-700'
+                        : ''
+                    }`}
                   >
                     {language.value}
                   </button>

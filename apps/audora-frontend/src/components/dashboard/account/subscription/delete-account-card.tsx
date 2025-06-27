@@ -19,7 +19,7 @@ const DeleteAccountCard = () => {
         </p>
 
         <button
-          className='rounded-md w-full md:w-auto bg-red-500 px-4 py-2 text-sm font-semibold text-white hover:bg-red-400'
+          className='w-full rounded-md bg-red-500 px-4 py-2 text-sm font-semibold text-white hover:bg-red-400 md:w-auto'
           onClick={() => setIsOpen(true)}
         >
           Delete account

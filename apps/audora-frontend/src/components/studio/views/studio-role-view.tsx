@@ -19,16 +19,10 @@ const StudioRoleView = ({
   isDesktop,
   isMeetingStarted,
 }: StudioRoleViewProps) => {
-
-
   if (!isDesktop) return <MobileFallback />;
 
   if (isGuestJoining)
-    return (
-      <GuestJoinView
-        isMeetingStarted={isMeetingStarted}
-      />
-    );
+    return <GuestJoinView isMeetingStarted={isMeetingStarted} />;
 
   if (isHost)
     return (

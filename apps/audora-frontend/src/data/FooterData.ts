@@ -5,7 +5,7 @@ export const footerSections = [
       { name: 'Recording', href: '/recording' },
       { name: 'Live Streaming', href: '/live-streaming' },
       { name: 'Video Editor', href: '/video-editor' },
-      { name: 'Webinars', href: '/use-cases/webinar' },
+      { name: 'Webinars', href: '/use-cases/webinars' },
     ],
   },
   {

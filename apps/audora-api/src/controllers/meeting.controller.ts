@@ -5,7 +5,7 @@ import { getStudioByStudioSlugService } from "@audora/database/studioServices";
 
 export const generateMeetingTokenController = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   try {
     const { studioSlug, userId, studioToken } = req.body;

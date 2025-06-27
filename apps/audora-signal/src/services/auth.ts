@@ -3,7 +3,7 @@ import { verifyMeetingToken } from "./verifyToken";
 import type { MeetingTokenPayload } from "./verifyToken";
 
 export const authenticateWebSocket = (
-  token: string
+  token: string,
 ): MeetingTokenPayload | null => {
   try {
     if (!token) {
@@ -19,7 +19,7 @@ export const authenticateWebSocket = (
     }
 
     logger.info(
-      `[authenticateWebSocket] ${decoded.studioSlug} ${decoded.participantRole} User authenticated`
+      `[authenticateWebSocket] ${decoded.studioSlug} ${decoded.participantRole} User authenticated`,
     );
     return decoded;
   } catch (error) {

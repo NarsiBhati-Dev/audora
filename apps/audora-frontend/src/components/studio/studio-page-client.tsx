@@ -61,12 +61,18 @@ const StudioPageClient = ({
         enableCaptions: false,
       });
     };
-  }, [studioSlug, setStudioSetting, setIsMeetingStarted, token, studioFixedToken]);
+  }, [
+    studioSlug,
+    setStudioSetting,
+    setIsMeetingStarted,
+    token,
+    studioFixedToken,
+  ]);
 
   if (isGuestLanding) return <GuestLandingScreen />;
 
   return (
-    <StudioProvider studioSlug={studioSlug} token={token} selfId={userId || ''} >
+    <StudioProvider studioSlug={studioSlug} token={token} selfId={userId || ''}>
       <StudioRoleView
         isGuestJoining={isGuestJoining}
         isHost={isHost}
@@ -74,7 +80,7 @@ const StudioPageClient = ({
         isDesktop={isDesktop}
         isMeetingStarted={isMeetingStarted}
       />
-    </StudioProvider >
+    </StudioProvider>
   );
 };
 

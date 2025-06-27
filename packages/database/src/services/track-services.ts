@@ -48,7 +48,7 @@ export const getTracksByProjectIdService = async (projectId: string) => {
 
 export const updateTrackService = async (
   trackId: string,
-  data: Partial<Track>
+  data: Partial<Track>,
 ) => {
   const track = await client.track.update({
     where: { id: trackId },

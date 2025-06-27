@@ -9,7 +9,10 @@ interface StudioSettingsProviderProps {
   children: React.ReactNode;
 }
 
-const StudioSettingsProvider = ({ studio, children }: StudioSettingsProviderProps) => {
+const StudioSettingsProvider = ({
+  studio,
+  children,
+}: StudioSettingsProviderProps) => {
   const { setAllSettings } = useStudioSettingsStore();
 
   useEffect(() => {

@@ -30,7 +30,7 @@ export const meetingHandler = ({
           type: "mic:toggle",
           data: { micOn, socketId },
         },
-        socket
+        socket,
       );
       break;
     }
@@ -42,7 +42,7 @@ export const meetingHandler = ({
           type: "cam:toggle",
           data: { camOn, socketId },
         },
-        socket
+        socket,
       );
       break;
     }

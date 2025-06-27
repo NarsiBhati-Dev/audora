@@ -41,7 +41,7 @@ export function handleWebSocket(ws: WebSocket) {
               message.userId,
               message.chunkUrl,
               message.start,
-              message.end
+              message.end,
             );
           }
           break;
@@ -51,12 +51,12 @@ export function handleWebSocket(ws: WebSocket) {
             new Map(
               sessionMap
                 .getUserTracks()
-                .map(([userId, chunks]) => [userId, chunks])
-            )
+                .map(([userId, chunks]) => [userId, chunks]),
+            ),
           );
           console.log(
             "Generated Stitch Plan:",
-            JSON.stringify(stitchPlan, null, 2)
+            JSON.stringify(stitchPlan, null, 2),
           );
           break;
       }

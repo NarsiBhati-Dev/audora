@@ -22,10 +22,11 @@ const StudioSettingPage = () => {
           {tabs.map(tab => (
             <button
               key={tab.name}
-              className={`border-b-2 px-4 pb-2 text-sm font-medium transition-colors md:px-8 md:text-base ${activeTab === tab.name
-                ? 'border-primary-300 text-primary-300'
-                : 'border-transparent'
-                }`}
+              className={`border-b-2 px-4 pb-2 text-sm font-medium transition-colors md:px-8 md:text-base ${
+                activeTab === tab.name
+                  ? 'border-primary-300 text-primary-300'
+                  : 'border-transparent'
+              }`}
               onClick={() => setActiveTab(tab.name)}
             >
               {tab.name}

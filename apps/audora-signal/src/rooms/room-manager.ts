@@ -27,7 +27,7 @@ export const addToRoom = (
   socket: WebSocket,
   userId: string,
   name: string,
-  role: Role
+  role: Role,
 ): Participant | null => {
   const room = rooms.get(roomId) ?? { roomId, participants: [] };
 
@@ -72,7 +72,7 @@ export const getRoomParticipants = (roomId: string): Participant[] => {
 
 export const removeParticipantBySocket = (
   roomId: string,
-  socket: WebSocket
+  socket: WebSocket,
 ) => {
   const room = rooms.get(roomId);
   if (!room) return;
@@ -106,7 +106,7 @@ export const sendToSocket = (socket: WebSocket, message: any) => {
 export const broadcastToRoom = (
   roomId: string,
   message: any,
-  excludeSocket?: WebSocket
+  excludeSocket?: WebSocket,
 ) => {
   const room = rooms.get(roomId);
   if (!room) return;
@@ -126,7 +126,7 @@ export const removeRoom = (roomId: string) => {
 export const addProjectId = (
   roomId: string,
   socket: WebSocket,
-  projectId: string
+  projectId: string,
 ) => {
   const room = rooms.get(roomId);
   if (!room) return;
@@ -143,7 +143,7 @@ export const addProjectId = (
 export const addTrackId = (
   roomId: string,
   socket: WebSocket,
-  trackId: string
+  trackId: string,
 ) => {
   const room = rooms.get(roomId);
   if (!room) return;
@@ -160,7 +160,7 @@ export const addTrackId = (
 export const updateRecordingStatus = (
   roomId: string,
   socket: WebSocket,
-  recordingStatus: boolean
+  recordingStatus: boolean,
 ) => {
   const room = rooms.get(roomId);
   if (!room) return;

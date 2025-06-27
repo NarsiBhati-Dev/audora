@@ -42,7 +42,8 @@ const StudioPage = async ({ params, searchParams }: Params) => {
     notFound();
   }
 
-  const { token, userId, participantRole, studioFixedToken } = meetingTokenResponse.data;
+  const { token, userId, participantRole, studioFixedToken } =
+    meetingTokenResponse.data;
 
   const isHost = participantRole === 'host';
   const isGuestLanding =
@@ -55,7 +56,7 @@ const StudioPage = async ({ params, searchParams }: Params) => {
   }
 
   return (
-    <main className="bg-studio-bg-light">
+    <main className='bg-studio-bg-light'>
       <StudioPageClient
         studioSlug={studio}
         userId={userId}

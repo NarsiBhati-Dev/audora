@@ -6,13 +6,11 @@ import DashboardDesktopSidebar from './dashboard-desktop-sidebar';
 import DashboardMobileSidebar from './dashboard-mobile-sidebar';
 
 const DashboardSidebar = () => {
-    const isDesktop = useIsDesktop();
+  const isDesktop = useIsDesktop(1024);
 
-    return (
-        <>
-            {isDesktop ? <DashboardDesktopSidebar /> : <DashboardMobileSidebar />}
-        </>
-    );
+  return (
+    <>{isDesktop ? <DashboardDesktopSidebar /> : <DashboardMobileSidebar />}</>
+  );
 };
 
 export default DashboardSidebar;

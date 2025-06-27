@@ -60,7 +60,7 @@ export const roomEventHandler = async ({
         socket,
         userId,
         name,
-        participantRole
+        participantRole,
       );
 
       socket.meta = {
@@ -75,7 +75,7 @@ export const roomEventHandler = async ({
           type: "user:joined",
           data: { user: toClientUser(participant as Participant) },
         },
-        socket
+        socket,
       );
 
       const room = getRoom(studioSlug);
@@ -106,7 +106,7 @@ export const roomEventHandler = async ({
       }
 
       logger.info(
-        `[${studioSlug}] ${participantRole} (${name}) joined the room.`
+        `[${studioSlug}] ${participantRole} (${name}) joined the room.`,
       );
       break;
     }
@@ -129,7 +129,7 @@ export const roomEventHandler = async ({
             },
           },
         },
-        socket
+        socket,
       );
 
       logger.info(`[${studioSlug}] ${userId} left the room.`);

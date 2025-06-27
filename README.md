@@ -53,25 +53,21 @@ audora/
 Audora offers a comprehensive set of features for professional podcast recording:
 
 - 🎥 **High-Quality Recording**
-
   - Studio-grade audio and video recording
   - Multiple input device support
   - Customizable recording settings
 
 - 🌐 **Real-Time Communication**
-
   - WebRTC-based peer-to-peer connections
   - Low-latency audio/video streaming
   - Multi-participant support
 
 - 📤 **Reliable Uploads**
-
   - S3 multipart uploads with automatic retry
   - Progress tracking and resume capability
   - Secure file transfer
 
 - 🎬 **Professional Processing**
-
   - Video transcoding pipeline
   - Audio normalization and enhancement
   - Custom overlays and branding

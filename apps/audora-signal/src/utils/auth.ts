@@ -9,7 +9,7 @@ import {
 
 export async function isValidHost(
   userId: string,
-  studioId: string
+  studioId: string,
 ): Promise<boolean> {
   const meeting = await getMeetingByTokenService(studioId, userId);
   return !!meeting && meeting.hostId === userId;
@@ -19,7 +19,7 @@ export async function isValidHost(
 
 export async function isValidGuestToken(
   token: string,
-  studioId: string
+  studioId: string,
 ): Promise<boolean> {
   const meeting = await verifyMeetingTokenService(studioId, token);
   return !!meeting;

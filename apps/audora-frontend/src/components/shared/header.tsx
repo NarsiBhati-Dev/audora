@@ -28,12 +28,17 @@ const Header = ({ isMarketing = false }: { isMarketing?: boolean }) => {
 
   return (
     <header
-      className={`fixed top-0 z-50 w-full px-4 transition-[background-color,box-shadow] duration-500 ease-in-out md:px-8 lg:px-16 xl:px-24 ${scrolled ? 'bg-white shadow-md' : 'bg-transparent shadow-none'
-        }`}
+      className={`fixed top-0 z-50 w-full px-4 transition-[background-color,box-shadow] duration-500 ease-in-out md:px-8 lg:px-16 xl:px-24 ${
+        scrolled ? 'bg-white shadow-md' : 'bg-transparent shadow-none'
+      }`}
     >
       <div className='mx-auto flex max-w-[1480px] items-center justify-between py-3'>
         <Logo scrolled={scrolled} />
-        {isDesktop ? <Navbar scrolled={scrolled} /> : <MobileNavbar scrolled={scrolled} />}
+        {isDesktop ? (
+          <Navbar scrolled={scrolled} />
+        ) : (
+          <MobileNavbar scrolled={scrolled} />
+        )}
       </div>
     </header>
   );

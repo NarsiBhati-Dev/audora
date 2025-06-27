@@ -45,8 +45,9 @@ const AccountDesktopSidebar = () => {
               <Link
                 key={item.label}
                 href={item.href}
-                className={`flex items-center gap-3 rounded-md px-3 py-2 text-base font-medium transition-all hover:text-white ${pathname === item.href ? 'text-white' : 'text-gray-400'
-                  }`}
+                className={`flex items-center gap-3 rounded-md px-3 py-2 text-base font-medium transition-all hover:text-white ${
+                  pathname === item.href ? 'text-white' : 'text-gray-400'
+                }`}
               >
                 <span className='text-lg'>{item.icon}</span>
                 {item.label}
@@ -64,8 +65,9 @@ const AccountDesktopSidebar = () => {
             {navItems[2] && (
               <Link
                 href={navItems[2].href}
-                className={`flex items-center gap-3 rounded-md px-3 py-2 text-base font-medium transition-all hover:text-white ${pathname === navItems[2].href ? 'text-white' : 'text-gray-400'
-                  }`}
+                className={`flex items-center gap-3 rounded-md px-3 py-2 text-base font-medium transition-all hover:text-white ${
+                  pathname === navItems[2].href ? 'text-white' : 'text-gray-400'
+                }`}
               >
                 <span className='text-lg'>{navItems[2].icon}</span>
                 {navItems[2].label}

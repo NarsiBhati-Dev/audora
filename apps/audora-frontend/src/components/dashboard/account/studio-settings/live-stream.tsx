@@ -137,7 +137,7 @@ const LiveStreamTab = () => {
             <div className='mb-2 font-bold'>Live stream chat</div>
             <ToggleSwitch
               checked={false}
-              onChange={() => { }}
+              onChange={() => {}}
               id='live-stream-chat'
             />
           </div>
@@ -165,7 +165,7 @@ const LiveStreamTab = () => {
             <div className='font-bold text-white'>Audience count</div>
             <ToggleSwitch
               checked={false}
-              onChange={() => { }}
+              onChange={() => {}}
               id='audience-count'
             />
           </div>
