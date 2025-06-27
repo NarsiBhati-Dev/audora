@@ -2,7 +2,7 @@
 
 import React from 'react';
 import GuestStudioHeader from '../guest-studio-header';
-import { useStudioSettingsStore } from '@/modules/studio/store/studio-settings-store';
+import { useStudioSettingsStore } from '@/store/studio/studio-settings-store';
 import Link from 'next/link';
 import { JoinSessionButton } from '../join_meeting/join-session-button';
 

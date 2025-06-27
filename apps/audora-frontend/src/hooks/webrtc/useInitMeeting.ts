@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useMediaDevices } from '@/hooks/useMediaDevices';
-import { useSystemStreamStore } from '@/modules/webrtc/store/system-stream';
+import { useSystemStreamStore } from '@/store/webrtc/system-stream';
 import { useMeetingStartStore } from '@/store/meeting-start-store';
-import { useSignaling } from '@/modules/webrtc/hooks/useSignaling';
-import { useSignalStore } from '@/modules/webrtc/store/signal-store';
-import { useMeetingParticipantStore } from '@/modules/webrtc/store/meeting-participant-store';
-import onMessage from '@/modules/webrtc/utils/onMessage';
+import { useSignaling } from '@/hooks/webrtc/useSignaling';
+import { useSignalStore } from '@/store/webrtc/signal-store';
+import { useMeetingParticipantStore } from '@/store/webrtc/meeting-participant-store';
+import onMessage from '@/utils/onMessage';
 import { Message } from '@audora/types';
 import { useRouter } from 'next/navigation';
 

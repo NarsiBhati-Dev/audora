@@ -4,7 +4,7 @@ import { useMeetingStartStore } from '@/store/meeting-start-store';
 // import { useMeetingStore } from '@/store/meeting-store';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useSignalStore } from '@/modules/webrtc/store/signal-store';
+import { useSignalStore } from '@/store/webrtc/signal-store';
 
 interface JoinStudioButtonProps {
   // isHost: boolean;

@@ -13,7 +13,7 @@ import {
 } from 'react-icons/fi';
 import Logo from '../../logo';
 import AvatarDropdown from '../avatar/avatar-dropdown';
-import { useStudioSettingsStore } from '@/modules/studio/store/studio-settings-store';
+import { useStudioSettingsStore } from '@/store/studio/studio-settings-store';
 
 const navItems = [
   { href: '/dashboard/home', icon: <FiHome size={22} />, label: 'Home' },

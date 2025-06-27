@@ -9,7 +9,7 @@ import {
   PiSlidersDuotone,
 } from 'react-icons/pi';
 import { ToggleSwitch } from '../toggle-switch';
-import { useStudioSettingsStore } from '@/modules/studio/store/studio-settings-store';
+import { useStudioSettingsStore } from '@/store/studio/studio-settings-store';
 
 const RecordingTab = () => {
   const { studioRecordingSetting, setStudioRecordingSetting } =

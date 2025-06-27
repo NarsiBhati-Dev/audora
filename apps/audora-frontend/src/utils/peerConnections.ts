@@ -1,7 +1,7 @@
 // @audora/webrtc
 
 import { Message } from '@audora/types';
-import { useMeetingParticipantStore } from '@/modules/webrtc/store/meeting-participant-store';
+import { useMeetingParticipantStore } from '@/store/webrtc/meeting-participant-store';
 
 export const peerConfiguration: RTCConfiguration = {
   iceServers: [

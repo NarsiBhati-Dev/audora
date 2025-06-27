@@ -9,7 +9,7 @@ import {
   MicrophoneIcon,
   MicrophoneOffIcon,
 } from '@/data/icons';
-import { useSystemStreamStore } from '@/modules/webrtc/store/system-stream';
+import { useSystemStreamStore } from '@/store/webrtc/system-stream';
 
 export default function MediaSetupScreen() {
   const {

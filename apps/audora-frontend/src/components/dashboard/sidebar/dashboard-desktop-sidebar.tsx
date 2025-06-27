@@ -19,7 +19,7 @@ import { DashboardSidebarIcon } from '@/data/icons';
 import { Plus } from 'lucide-react';
 import PopupWrapper from '../../shared/ui/popup-wrapper';
 import CreateStudioPopup from '../account/create-studio-popup';
-import { useStudioSettingsStore } from '@/modules/studio/store/studio-settings-store';
+import { useStudioSettingsStore } from '@/store/studio/studio-settings-store';
 
 const navItems = [
   { href: '/dashboard/home', icon: <FiHome size={22} />, label: 'Home' },

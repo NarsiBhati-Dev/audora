@@ -4,7 +4,7 @@ import authOptions from '@/lib/auth/auth-options';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import ProjectCardSkeleton from '@/components/loaders/project-card-skeleton';
+import ProjectsSkeleton from '@/components/loaders/projects-skeleton';
 
 export default async function ProjectsLayout({
   children,
@@ -24,7 +24,7 @@ export default async function ProjectsLayout({
   }
 
   return (
-    <Suspense fallback={<ProjectCardSkeleton />}>
+    <Suspense fallback={<ProjectsSkeleton />}>
       <DashboardLayout studio={studio}>{children}</DashboardLayout>
     </Suspense>
   );

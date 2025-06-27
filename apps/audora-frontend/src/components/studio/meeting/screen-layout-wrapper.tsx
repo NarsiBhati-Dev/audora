@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useLayoutStore } from '@/store/layout-store';
-import { useMeetingParticipantStore } from '@/modules/webrtc/store/meeting-participant-store';
+import { useMeetingParticipantStore } from '@/store/webrtc/meeting-participant-store';
 import HostView from '@/components/studio/meeting/host-view';
-import { useSystemStreamStore } from '@/modules/webrtc/store/system-stream';
+import { useSystemStreamStore } from '@/store/webrtc/system-stream';
 import { DisplayParticipant } from './layouts/types';
 import GridView from './layouts/GridView';
 // import SpeakerSplitView from './layouts/SpeakerSplitView';

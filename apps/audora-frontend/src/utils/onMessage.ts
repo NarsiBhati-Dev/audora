@@ -2,15 +2,15 @@ import { Message } from '@audora/types';
 import {
   MeetingParticipant,
   useMeetingParticipantStore,
-} from '@/modules/webrtc/store/meeting-participant-store';
+} from '@/store/webrtc/meeting-participant-store';
 
 import {
   createOffer,
   createAnswer,
   setRemoteDescription,
   addIceCandidate,
-} from '@/modules/webrtc/utils/peerConnections';
-import { useSystemStreamStore } from '@/modules/webrtc/store/system-stream';
+} from './peerConnections';
+import { useSystemStreamStore } from '@/store/webrtc/system-stream';
 
 const onMessage = async (
   message: Message,
