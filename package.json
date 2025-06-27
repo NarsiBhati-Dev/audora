@@ -19,7 +19,15 @@
     "db:deploy": "turbo run db:deploy",
     "generate": "turbo run generate",
     "infra:up": "docker compose up -d",
-    "infra:down": "docker compose down"
+    "infra:down": "docker compose down",
+    "kafka:start": "docker run -p 9092:9092 -d --name kafka apache/kafka:4.0.0",
+    "kafka:stop": "docker stop kafka",
+    "kafka:logs": "docker logs -f kafka",
+    "kafka:exec": "docker exec -it kafka /bin/bash",
+    "kafka:create-topic": "docker exec -it kafka ./kafka-topics.sh --create --topic recording-chunks --partitions 3 --bootstrap-server localhost:9092",
+    "kafka:delete-topic": "docker exec -it kafka ./kafka-topics.sh --delete --topic recording-chunks --bootstrap-server localhost:9092",
+    "kafka:describe-topic": "docker exec -it kafka ./kafka-topics.sh --describe --topic recording-chunks --bootstrap-server localhost:9092",
+    "kafka:describe-consumer-group": "docker exec -it kafka ./kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group my-app3"
   },
   "devDependencies": {
     "prettier": "^3.5.3",

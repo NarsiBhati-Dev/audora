@@ -40,6 +40,9 @@ const StudioPageClient = ({
         studioSlug: studioSlug,
         studioName: getStudioNameFromSlug(studioSlug),
         studioFixedToken: studioFixedToken,
+        enableLobby: false,
+        language: 'English',
+        enableCaptions: false,
       });
     }
 
@@ -53,6 +56,9 @@ const StudioPageClient = ({
         studioSlug: '',
         studioName: '',
         studioFixedToken: '',
+        enableLobby: false,
+        language: 'English',
+        enableCaptions: false,
       });
     };
   }, [studioSlug, setStudioSetting, setIsMeetingStarted, token, studioFixedToken]);

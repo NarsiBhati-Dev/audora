@@ -3,7 +3,7 @@ import { logger } from "../utils/logger";
 import { PORT } from "../config";
 import type { InboundMessage } from "@audora/types";
 import { roomEventHandler } from "./roomHandler";
-import { signalingEventHandler } from "./signalingHandler";
+import { webRTCHandler } from "./webRTCHandler";
 import { sendAndClose } from "../utils/sendAndClose";
 import { removeParticipantBySocket } from "../rooms/room-manager";
 import { authenticateWebSocket } from "../services/auth";
@@ -57,11 +57,15 @@ export const setupSignalingServer = (wss: WebSocketServer) => {
           case "webrtc:offer":
           case "webrtc:answer":
           case "webrtc:ice-candidate":
-            signalingEventHandler({ socket, message, meetingToken });
+            webRTCHandler({ socket, message, meetingToken });
             break;
 
           case "mic:toggle":
           case "cam:toggle":
+          case "project-id":
+          case "track-id":
+          case "recording:start":
+          case "recording:stop":
             meetingHandler({ socket, message, meetingToken });
             break;
 

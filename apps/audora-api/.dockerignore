@@ -1,0 +1,40 @@
+# Node & package artifacts
+node_modules
+pnpm-lock.yaml (optional if you want to copy it)
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build outputs
+dist
+.next
+out
+build
+
+# Git & local config
+.git
+.gitignore
+.env.**
+.env.local
+.env.development
+.env.test
+.env.production
+.example.env
+
+# Logs & temp
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Turborepo cache
+turbo
+.cache
+
+# Editor settings
+.vscode
+.idea

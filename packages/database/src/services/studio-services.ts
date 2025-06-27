@@ -5,7 +5,7 @@ import type {
   Studio,
 } from "@prisma/client";
 
-import { client } from "../index";
+import { client } from "../client";
 import slugifyStudioName from "../utils/slugifyStudioName";
 
 export const createStudioService = async ({

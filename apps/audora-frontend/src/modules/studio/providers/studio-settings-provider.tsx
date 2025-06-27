@@ -17,9 +17,9 @@ const StudioSettingsProvider = ({ studio, children }: StudioSettingsProviderProp
       studioSetting: {
         studioSlug: studio.studioSlug,
         studioName: studio.studioName,
-
         enableLobby: studio.enableLobby,
         language: studio.language,
+        enableCaptions: studio.enableCaptions,
       },
       studioRecordingSetting: {
         recordingType: studio.recordingType,

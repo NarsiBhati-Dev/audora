@@ -148,3 +148,5 @@ Here’s a step-by-step implementation plan for adding SFU-based composite recor
 ---
 
 **If you want a detailed breakdown or code samples for any step, let me know which one to start with!**
+
+Merge while chunks are still coming (sliding window), so final merge is fast.

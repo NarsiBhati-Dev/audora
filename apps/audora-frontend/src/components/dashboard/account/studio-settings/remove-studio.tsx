@@ -23,6 +23,7 @@ const RemoveStudio = () => {
             studioName: '',
             enableLobby: false,
             language: 'English',
+            enableCaptions: false,
           },
           studioRecordingSetting: {
             recordingType: 'AUDIO',

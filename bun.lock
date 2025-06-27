@@ -72,6 +72,19 @@
         "typescript": "^5",
       },
     },
+    "apps/audora-recorder-pipeline": {
+      "name": "audora-recorder-pipeline",
+      "dependencies": {
+        "@types/kafkajs": "^1.9.0",
+        "kafkajs": "^2.2.4",
+      },
+      "devDependencies": {
+        "@types/bun": "latest",
+      },
+      "peerDependencies": {
+        "typescript": "^5",
+      },
+    },
     "apps/audora-signal": {
       "name": "audora-signal",
       "dependencies": {
@@ -412,6 +425,8 @@
 
     "@types/jsonwebtoken": ["@types/jsonwebtoken@9.0.10", "", { "dependencies": { "@types/ms": "*", "@types/node": "*" } }, "sha512-asx5hIG9Qmf/1oStypjanR7iKTv0gXQ1Ov/jfrX6kS/EO0OFni8orbmGCn0672NHR3kXHwpAwR+B368ZGN/2rA=="],
 
+    "@types/kafkajs": ["@types/kafkajs@1.9.0", "", { "dependencies": { "kafkajs": "*" } }, "sha512-R9VDNbiw+vNfxWjjFHUrLMF/Dfc7asGXzKtYUwI4FaT24Chf5ZNkfvce54p4dkLMxPcsrEsVazAK0Jp2ib4Zxw=="],
+
     "@types/mime": ["@types/mime@1.3.5", "", {}, "sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w=="],
 
     "@types/minimatch": ["@types/minimatch@5.1.2", "", {}, "sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA=="],
@@ -553,6 +568,8 @@
     "audora-api": ["audora-api@workspace:apps/audora-api"],
 
     "audora-frontend": ["audora-frontend@workspace:apps/audora-frontend"],
+
+    "audora-recorder-pipeline": ["audora-recorder-pipeline@workspace:apps/audora-recorder-pipeline"],
 
     "audora-signal": ["audora-signal@workspace:apps/audora-signal"],
 
@@ -1025,6 +1042,8 @@
     "jwa": ["jwa@1.4.2", "", { "dependencies": { "buffer-equal-constant-time": "^1.0.1", "ecdsa-sig-formatter": "1.0.11", "safe-buffer": "^5.0.1" } }, "sha512-eeH5JO+21J78qMvTIDdBXidBd6nG2kZjg5Ohz/1fpa28Z4CcsWUzJ1ZZyFq/3z3N17aZy+ZuBoHljASbL1WfOw=="],
 
     "jws": ["jws@3.2.2", "", { "dependencies": { "jwa": "^1.4.1", "safe-buffer": "^5.0.1" } }, "sha512-YHlZCB6lMTllWDtSPHz/ZXTsi8S00usEV6v1tjq8tOUZzw7DpSDWVXjXDre6ed1w/pd495ODpHZYSdkRTsa0HA=="],
+
+    "kafkajs": ["kafkajs@2.2.4", "", {}, "sha512-j/YeapB1vfPT2iOIUn/vxdyKEuhuY2PxMBvf5JWux6iSaukAccrMtXEY/Lb7OvavDhOWME589bpLrEdnVHjfjA=="],
 
     "keyv": ["keyv@4.5.4", "", { "dependencies": { "json-buffer": "3.0.1" } }, "sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw=="],
 

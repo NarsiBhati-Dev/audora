@@ -8,6 +8,7 @@ import {
   getRoomParticipants,
   isUserInRoom,
   type Participant,
+  getRoom,
 } from "../rooms/room-manager";
 
 import type { InboundMessage } from "@audora/types";
@@ -77,10 +78,16 @@ export const roomEventHandler = async ({
         socket
       );
 
+      const room = getRoom(studioSlug);
+
       // Notify the newly joined user
       sendToSocket(socket, {
         type: "room:ready",
-        data: { selfSocketId: socket.meta?.socketId },
+        data: {
+          selfSocketId: socket.meta?.socketId,
+          projectId: room?.projectId ?? null,
+          trackId: room?.trackId ?? null,
+        },
       });
 
       // Send the list of existing participants

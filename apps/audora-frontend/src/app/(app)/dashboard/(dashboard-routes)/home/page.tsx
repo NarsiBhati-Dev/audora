@@ -22,11 +22,26 @@ const HomePage = async () => {
     redirect('/dashboard/studios/create');
   }
 
+  const studioUrl = `/studio/${studio.studioSlug}`;
+  const projectsUrl = `${studioUrl}/projects`;
+  const settingsUrl = '/dashboard/account/studio-settings';
 
   return (
     <div className='space-y-8 p-6 sm:p-8'>
       {/* Dashboard quick actions */}
       {/* <DashboardActions /> */}
+
+      <div className='grid grid-cols-1 gap-6 sm:grid-cols-2'>
+        <a
+          href={studioUrl}
+          className='bg-dashboard-bg-light rounded-2xl p-6 shadow-md transition-all duration-300 hover:scale-[1.02] hover:bg-[#18181b]'>
+          <h2 className='text-xl font-semibold text-white'>Your Studio</h2>
+          <p className='mt-2 text-sm text-white/90'>
+            Manage your studio settings, view recordings, and customize your workspace.
+          </p>
+        </a>
+      </div>
+
 
       {/* Page heading */}
       <div className='space-y-1'>
@@ -42,7 +57,7 @@ const HomePage = async () => {
       <div className='grid grid-cols-1 gap-6 sm:grid-cols-2'>
         {/* Recordings */}
         <a
-          href={`/studio/${studio.id}/projects`}
+          href={projectsUrl}
           className='bg-dashboard-bg-light rounded-2xl p-6 shadow-md transition-all duration-300 hover:scale-[1.02] hover:bg-[#18181b]'>
           <h2 className='text-xl font-semibold text-white'>Your Recordings</h2>
           <p className='mt-2 text-sm text-white/90'>
@@ -52,7 +67,7 @@ const HomePage = async () => {
 
         {/* Studio Settings */}
         <a
-          href={`/dashboard/account/studio-settings`}
+          href={settingsUrl}
           className='bg-dashboard-bg-light rounded-2xl p-6 shadow-md transition-all duration-300 hover:scale-[1.02] hover:bg-[#18181b]'>
           <h2 className='text-xl font-semibold text-white'>Studio Settings</h2>
           <p className='mt-2 text-sm text-white/90'>
