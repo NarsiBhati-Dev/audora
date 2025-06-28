@@ -7,7 +7,7 @@ import { useState, useEffect, useRef } from 'react';
 interface Props {
   options: { label: string; value: string }[];
   value: string;
-  onChange: (value: string) => void;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   placeholder?: string;
   iconType?: 'mic' | 'camera' | 'speaker';
   disabled?: boolean;
@@ -102,7 +102,11 @@ export default function DropdownSelect({
                 role='option'
                 aria-selected={isSelected}
                 onClick={() => {
-                  onChange(option.value);
+                  onChange({
+                    target: {
+                      value: option.value,
+                    },
+                  } as React.ChangeEvent<HTMLSelectElement>);
                   setOpen(false);
                 }}
                 className={`flex w-full items-center justify-between gap-2 rounded-lg px-3 py-3 text-left hover:bg-zinc-700 ${

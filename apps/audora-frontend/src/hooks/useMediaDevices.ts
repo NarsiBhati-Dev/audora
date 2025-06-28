@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 type DeviceOption = {
   label: string;
@@ -97,7 +98,8 @@ export const useMediaDevices = () => {
 
         setError(null);
       } catch (err) {
-        console.error('Error accessing media devices:', err);
+        // console.error('Error accessing media devices:', err);
+        toast.error('Failed to access media devices');
         setError(
           err instanceof Error ? err.message : 'Failed to access media devices',
         );

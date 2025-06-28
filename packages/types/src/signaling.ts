@@ -53,7 +53,11 @@ export type WebRTCData = z.infer<typeof WebRTCDataSchema>;
 export const InboundMessageSchema = z.discriminatedUnion("type", [
   z.object({
     type: z.literal("user:join"),
-    data: z.object({ name: z.string() }),
+    data: z.object({
+      name: z.string(),
+      micOn: z.boolean(),
+      camOn: z.boolean(),
+    }),
   }),
   z.object({
     type: z.literal("user:leave"),
@@ -111,6 +115,8 @@ const UserSchema = z.object({
   name: z.string(),
   role: ParticipantRoleSchema,
   socketId: z.string(),
+  micOn: z.boolean(),
+  camOn: z.boolean(),
 });
 
 export const OutboundMessageSchema = z.discriminatedUnion("type", [

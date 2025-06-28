@@ -5,6 +5,7 @@ import { useMeetingStartStore } from '@/store/meeting-start-store';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useSignalStore } from '@/store/webrtc/signal-store';
+import { useSystemStreamStore } from '@/store/webrtc/system-stream';
 
 interface JoinStudioButtonProps {
   // isHost: boolean;
@@ -13,11 +14,14 @@ interface JoinStudioButtonProps {
 
 export function JoinStudioButton({ name }: JoinStudioButtonProps) {
   const { setIsMeetingStarted } = useMeetingStartStore();
-  const { sendMessage } = useSignalStore();
+  const { sendMessage, socket, isReady } = useSignalStore();
+  const { micOn, camOn } = useSystemStreamStore();
 
   const [permissionState, setPermissionState] = useState<
     'loading' | 'granted' | 'prompt' | 'denied'
   >('loading');
+
+  const [isConnecting, setIsConnecting] = useState(false);
 
   useEffect(() => {
     let camListener: (() => void) | null = null;
@@ -83,27 +87,61 @@ export function JoinStudioButton({ name }: JoinStudioButtonProps) {
   };
 
   const handleJoinStudio = async () => {
-    if (useSignalStore.getState().socket) {
+    if (!isReady || !socket || socket.readyState !== WebSocket.OPEN) {
+      toast.error('Please wait for the connection to be established.');
+      return;
+    }
+
+    if (isConnecting) {
+      toast.error('Already attempting to join. Please wait.');
+      return;
+    }
+
+    setIsConnecting(true);
+
+    try {
       setIsMeetingStarted(true);
       sendMessage({
         type: 'user:join',
         data: {
           name: name,
+          micOn,
+          camOn,
         },
       });
-    } else {
-      toast.error('Please wait for the connection to be established.');
+
+      // Reset connecting state after a short delay
+      setTimeout(() => setIsConnecting(false), 2000);
+    } catch {
+      setIsConnecting(false);
+      toast.error('Failed to join studio. Please try again.');
     }
   };
+
+  const isReadyToJoin =
+    permissionState === 'granted' &&
+    isReady &&
+    socket &&
+    socket.readyState === WebSocket.OPEN &&
+    !isConnecting;
 
   return (
     <button
       className={
-        'bg-primary-400 hover:bg-primary-500 w-full rounded-lg px-4 py-2.5 text-sm font-medium text-white transition'
+        'bg-primary-400 hover:bg-primary-500 w-full rounded-lg px-4 py-2.5 text-sm font-medium text-white transition disabled:cursor-not-allowed disabled:opacity-50'
       }
-      onClick={permissionState === 'granted' ? handleJoinStudio : requestAccess}
+      onClick={isReadyToJoin ? handleJoinStudio : requestAccess}
+      disabled={
+        isConnecting ||
+        (permissionState === 'granted' &&
+          (!isReady || !socket || socket.readyState !== WebSocket.OPEN))
+      }
     >
-      {permissionState === 'granted' ? 'Join Studio' : 'Allow Access'}
+      {isConnecting
+        ? 'Joining...'
+        : permissionState === 'granted'
+          ? 'Join Studio'
+          : 'Allow Access'}
     </button>
   );
 }

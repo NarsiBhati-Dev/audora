@@ -138,10 +138,11 @@ export default async function BlogsPage({
               href={
                 category === 'All' ? '/blogs' : `/blogs?category=${category}`
               }
-              className={`rounded-full border px-5 py-2.5 text-sm font-medium transition-all duration-200 ${selectedCategory === category
-                ? 'border-primary-500 bg-primary-500/10 shadow-primary-500/20 text-white shadow-lg'
-                : 'hover:border-primary-500 hover:bg-primary-500/5 border-gray-700 bg-black/30 text-gray-300 hover:text-white'
-                }`}
+              className={`rounded-full border px-5 py-2.5 text-sm font-medium transition-all duration-200 ${
+                selectedCategory === category
+                  ? 'border-primary-500 bg-primary-500/10 shadow-primary-500/20 text-white shadow-lg'
+                  : 'hover:border-primary-500 hover:bg-primary-500/5 border-gray-700 bg-black/30 text-gray-300 hover:text-white'
+              }`}
             >
               {category}
             </Link>

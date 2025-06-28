@@ -29,9 +29,44 @@ export default function MediaSetupScreen() {
     setAudioOutputId,
     setMicToggle,
     setCamToggle,
+    setSystemStream,
   } = useSystemStreamStore();
 
   const videoInfo = useVideoInfo(stream);
+
+  // Change camera
+  const handleCameraChange = async (
+    e: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    const deviceId = e.target.value;
+    setVideoDeviceId(deviceId);
+    // Get new stream with selected camera
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { deviceId: { exact: deviceId } },
+      audio: micOn,
+    });
+    setSystemStream(stream);
+  };
+
+  // Change mic
+  const handleMicChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const deviceId = e.target.value;
+    setAudioInputId(deviceId);
+    // Get new stream with selected mic
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: camOn,
+      audio: { deviceId: { exact: deviceId } },
+    });
+    setSystemStream(stream);
+  };
+
+  // Change speaker
+  const handleSpeakerChange = async (
+    e: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    const deviceId = e.target.value;
+    setAudioOutputId(deviceId);
+  };
 
   return (
     <div className='flex w-full items-center justify-center px-4'>
@@ -107,7 +142,7 @@ export default function MediaSetupScreen() {
               }))}
               iconType='camera'
               value={videoDeviceId}
-              onChange={setVideoDeviceId}
+              onChange={handleCameraChange}
               disabled={!camOn}
               placeholder='Select a camera'
             />
@@ -118,7 +153,7 @@ export default function MediaSetupScreen() {
               }))}
               iconType='mic'
               value={audioInputId}
-              onChange={setAudioInputId}
+              onChange={handleMicChange}
               disabled={!micOn}
               placeholder='Select a microphone'
             />
@@ -129,7 +164,7 @@ export default function MediaSetupScreen() {
               }))}
               iconType='speaker'
               value={audioOutputId}
-              onChange={setAudioOutputId}
+              onChange={handleSpeakerChange}
               placeholder='Select a speaker'
             />
           </div>

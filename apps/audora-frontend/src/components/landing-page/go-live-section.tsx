@@ -62,7 +62,7 @@ const rightIcons = [
   },
   {
     icon: <FaVideo />,
-    color: 'bg-primary',
+    color: 'bg-primary-500',
     label: 'Video',
     gradient: 'linear-gradient(270deg, #7357ff 60%, transparent 100%)',
   },

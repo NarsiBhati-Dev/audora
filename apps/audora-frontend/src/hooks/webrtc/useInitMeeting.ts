@@ -38,7 +38,7 @@ export const useInitMeeting = ({
   const router = useRouter();
 
   // Setup signalling only if the token exists
-  const { socket, sendMessage } = useSignaling({
+  const { socket, sendMessage, isReady } = useSignaling({
     studioSlug,
     token: token || '',
     onMessage: (message: Message) =>
@@ -48,9 +48,9 @@ export const useInitMeeting = ({
 
   useEffect(() => {
     if (socket) {
-      useSignalStore.setState({ socket, sendMessage });
+      useSignalStore.setState({ socket, sendMessage, isReady });
     }
-  }, [socket, sendMessage]);
+  }, [socket, sendMessage, isReady]);
 
   useEffect(() => {
     if (!stream) return;

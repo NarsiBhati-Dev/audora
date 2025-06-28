@@ -14,6 +14,7 @@ interface Signaling {
   socket: WebSocket | null;
   reconnect: () => void;
   status: 'idle' | 'connecting' | 'connected' | 'disconnected';
+  isReady: boolean;
 }
 
 interface SignalingProps {
@@ -36,8 +37,9 @@ export const useSignaling = ({
   const retryCount = useRef(0);
   const retryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const closedByClient = useRef(false);
-  const MAX_RETRIES = 1;
+  const MAX_RETRIES = 3; // Increased retry attempts
   const componentMountedRef = useRef(true);
+  const connectionReadyRef = useRef(false);
 
   const [status, setStatus] = useState<
     'idle' | 'connecting' | 'connected' | 'disconnected'
@@ -59,14 +61,14 @@ export const useSignaling = ({
     if (socket?.readyState === WebSocket.OPEN) {
       socket.send(JSON.stringify(message));
     } else {
-      console.warn('Tried to send message when socket is not open:', message);
+      // console.warn('Tried to send message when socket is not open:', message);
     }
   }, []);
 
   const connectWebSocket = useCallback(() => {
     if (!token || connectingRef.current) return;
     if (retryCount.current >= MAX_RETRIES) {
-      console.error(`Failed to connect after ${MAX_RETRIES} attempts.`);
+      // console.error(`Failed to connect after ${MAX_RETRIES} attempts.`);
       return;
     }
 
@@ -75,10 +77,11 @@ export const useSignaling = ({
       globalSocket.readyState === WebSocket.OPEN &&
       activeRoomId === studioSlug
     ) {
-      console.log('Reusing existing WebSocket connection');
+      // console.log('Reusing existing WebSocket connection');
       socketRef.current = globalSocket;
       activeConnections++;
       setStatus('connected');
+      connectionReadyRef.current = true;
       onOpenRef.current?.();
       return;
     }
@@ -97,6 +100,7 @@ export const useSignaling = ({
 
     connectingRef.current = true;
     setStatus('connecting');
+    connectionReadyRef.current = false;
 
     try {
       const wsURL = `${SIGNALING_URL}?token=${encodeURIComponent(token)}`;
@@ -108,19 +112,12 @@ export const useSignaling = ({
       closedByClient.current = false;
 
       socket.onopen = () => {
-        console.log('WebSocket connected successfully');
+        // console.log('WebSocket connected successfully');
         connectingRef.current = false;
         retryCount.current = 0;
         activeRoomId = studioSlug;
         setStatus('connected');
-        // socket.send(
-        //   JSON.stringify({
-        //     type: 'user:join',
-        //     data: {
-        //       name,
-        //     },
-        //   }),
-        // );
+        connectionReadyRef.current = true;
         onOpenRef.current?.();
       };
 
@@ -128,15 +125,16 @@ export const useSignaling = ({
         try {
           const message: Message = JSON.parse(event.data as string);
           onMessageRef.current?.(message);
-        } catch (err) {
-          console.error('Failed to parse WebSocket message:', err);
+        } catch {
+          // console.error('Failed to parse WebSocket message:', err);
         }
       };
 
       socket.onclose = event => {
-        console.log('WebSocket disconnected', event.code, event.reason);
+        // console.log('WebSocket disconnected', event.code, event.reason);
         connectingRef.current = false;
         setStatus('disconnected');
+        connectionReadyRef.current = false;
 
         if (onClose) {
           onClose();
@@ -158,15 +156,16 @@ export const useSignaling = ({
             1000 * Math.pow(2, retryCount.current - 1),
             10000,
           );
-          console.log(`Retrying WebSocket connection in ${delay}ms...`);
+          // console.log(`Retrying WebSocket connection in ${delay}ms...`);
           retryTimeoutRef.current = setTimeout(connectWebSocket, delay);
         }
       };
 
-      socket.onerror = err => {
-        console.error('WebSocket error:', err);
+      socket.onerror = () => {
+        // console.error('WebSocket error:', err);
         connectingRef.current = false;
         setStatus('disconnected');
+        connectionReadyRef.current = false;
         if (onClose) {
           onClose();
         }
@@ -176,6 +175,7 @@ export const useSignaling = ({
       connectingRef.current = false;
       retryCount.current++;
       setStatus('disconnected');
+      connectionReadyRef.current = false;
     }
   }, [token, studioSlug]);
 
@@ -183,7 +183,7 @@ export const useSignaling = ({
     componentMountedRef.current = true;
 
     if (!token) {
-      console.error('No token provided. WebSocket connection aborted.');
+      // console.error('No token provided. WebSocket connection aborted.');
       return;
     }
 
@@ -193,6 +193,7 @@ export const useSignaling = ({
       componentMountedRef.current = false;
       activeConnections--;
       closedByClient.current = true;
+      connectionReadyRef.current = false;
 
       if (retryTimeoutRef.current) {
         clearTimeout(retryTimeoutRef.current);
@@ -220,5 +221,8 @@ export const useSignaling = ({
     socket: socketRef.current,
     reconnect: connectWebSocket,
     status,
+    isReady:
+      connectionReadyRef.current &&
+      socketRef.current?.readyState === WebSocket.OPEN,
   };
 };

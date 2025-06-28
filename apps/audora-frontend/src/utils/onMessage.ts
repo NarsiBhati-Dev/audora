@@ -12,6 +12,39 @@ import {
 } from './peerConnections';
 import { useSystemStreamStore } from '@/store/webrtc/system-stream';
 
+// Track pending connections that need to be retried
+const pendingConnections = new Set<string>();
+let retryTimeout: NodeJS.Timeout | null = null;
+
+const retryPendingConnections = (
+  sendMessage: (message: Message) => void,
+  selfSocketId: string,
+) => {
+  const stream = useSystemStreamStore.getState().stream;
+  if (!stream || pendingConnections.size === 0) return;
+
+  const participants = useMeetingParticipantStore.getState().participants;
+
+  for (const socketId of pendingConnections) {
+    const participant = participants.find(p => p.socketId === socketId);
+    if (participant) {
+      // console.log(
+      //   `[WebRTC] Retrying connection to ${participant.name} (${socketId})`,
+      // );
+      createOffer(socketId, selfSocketId, stream, sendMessage);
+      pendingConnections.delete(socketId);
+    }
+  }
+
+  // Schedule another retry if there are still pending connections
+  if (pendingConnections.size > 0) {
+    retryTimeout = setTimeout(
+      () => retryPendingConnections(sendMessage, selfSocketId),
+      1000,
+    );
+  }
+};
+
 const onMessage = async (
   message: Message,
   sendMessage: (message: Message) => void,
@@ -20,6 +53,7 @@ const onMessage = async (
 ) => {
   const { type, data } = message;
   const stream = useSystemStreamStore.getState().stream;
+
   // Retry until local stream is available
   if (
     (type.startsWith('webrtc:') ||
@@ -80,16 +114,34 @@ const onMessage = async (
           isSpeaker: false,
           isMuted: false,
           isDeafened: false,
-          isCameraOn: true,
-          isMicOn: true,
+          isCameraOn: user.camOn,
+          isMicOn: user.micOn,
         };
 
         useMeetingParticipantStore.getState().addParticipant(participant);
 
-        // Add a small delay to prevent overwhelming the connection
-        setTimeout(() => {
-          createOffer(user.socketId, selfSocketId, stream!, sendMessage);
-        }, Math.random() * 1000);
+        // Try to connect immediately, but add to pending if it fails
+        try {
+          setTimeout(() => {
+            // console.log(
+            //   `[WebRTC] Creating offer for ${user.name} (${user.socketId})`,
+            // );
+            createOffer(user.socketId, selfSocketId, stream!, sendMessage);
+          }, Math.random() * 500);
+        } catch {
+          // console.warn(
+          //   `[WebRTC] Failed to create offer for ${user.name}, adding to pending`,
+          // );
+          pendingConnections.add(user.socketId);
+        }
+      }
+
+      // Start retry mechanism for any pending connections
+      if (pendingConnections.size > 0) {
+        retryTimeout = setTimeout(
+          () => retryPendingConnections(sendMessage, selfSocketId),
+          1000,
+        );
       }
       break;
     }
@@ -108,16 +160,32 @@ const onMessage = async (
         isSpeaker: false,
         isMuted: false,
         isDeafened: false,
-        isCameraOn: true,
-        isMicOn: true,
+        isCameraOn: user.camOn,
+        isMicOn: user.micOn,
       };
 
       useMeetingParticipantStore.getState().addParticipant(newPeer);
 
-      // Add a small delay to ensure the participant is added before creating offer
-      setTimeout(() => {
-        createOffer(user.socketId, selfSocketId, stream!, sendMessage);
-      }, 100);
+      // Try to connect immediately, but add to pending if it fails
+      try {
+        setTimeout(() => {
+          // console.log(
+          //   `[WebRTC] Creating offer for new user ${user.name} (${user.socketId})`,
+          // );
+          createOffer(user.socketId, selfSocketId, stream!, sendMessage);
+        }, 100);
+      } catch {
+        // console.warn(
+        //   `[WebRTC] Failed to create offer for new user ${user.name}, adding to pending`,
+        // );
+        pendingConnections.add(user.socketId);
+        if (!retryTimeout) {
+          retryTimeout = setTimeout(
+            () => retryPendingConnections(sendMessage, selfSocketId),
+            1000,
+          );
+        }
+      }
       break;
     }
 
@@ -125,12 +193,18 @@ const onMessage = async (
       const { user } = data;
       // console.log('[WebRTC] User left:', user.name);
       useMeetingParticipantStore.getState().removeParticipant(user.socketId);
+      pendingConnections.delete(user.socketId);
       break;
     }
 
     case 'meeting:end': {
       // console.log('[WebRTC] Meeting ended');
       useMeetingParticipantStore.getState().setParticipants([]);
+      pendingConnections.clear();
+      if (retryTimeout) {
+        clearTimeout(retryTimeout);
+        retryTimeout = null;
+      }
       navigate('/dashboard');
       break;
     }
@@ -138,6 +212,40 @@ const onMessage = async (
     case 'room:ready': {
       // console.log('[WebRTC] Room ready, self socket ID:', data.selfSocketId);
       useMeetingParticipantStore.getState().setSelfSocketId(data.selfSocketId);
+
+      // Try to establish connections with any existing participants
+      const participants = useMeetingParticipantStore.getState().participants;
+      if (participants.length > 0 && stream) {
+        setTimeout(() => {
+          for (const participant of participants) {
+            if (participant.socketId !== data.selfSocketId) {
+              try {
+                // console.log(
+                //   `[WebRTC] Creating offer for existing participant ${participant.name} (${participant.socketId})`,
+                // );
+                createOffer(
+                  participant.socketId,
+                  data.selfSocketId,
+                  stream,
+                  sendMessage,
+                );
+              } catch {
+                // console.warn(
+                //   `[WebRTC] Failed to create offer for existing participant ${participant.name}, adding to pending`,
+                // );
+                pendingConnections.add(participant.socketId);
+              }
+            }
+          }
+
+          if (pendingConnections.size > 0) {
+            retryTimeout = setTimeout(
+              () => retryPendingConnections(sendMessage, data.selfSocketId),
+              1000,
+            );
+          }
+        }, 500);
+      }
       break;
     }
 

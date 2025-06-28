@@ -1,5 +1,3 @@
-// @audora/webrtc
-
 import { Message } from '@audora/types';
 import { useMeetingParticipantStore } from '@/store/webrtc/meeting-participant-store';
 
@@ -16,149 +14,218 @@ type PeerState = {
   isRemoteDescriptionSet: boolean;
   retryCount: number;
   lastRetryTime: number;
+  connectionAttempts: number;
 };
 
 const peerConnections = new Map<string, PeerState>();
-const retryTimers = new Map<string, NodeJS.Timeout>();
+const MAX_RETRY_COUNT = 3;
+const RETRY_DELAY = 2000;
+const MAX_CONNECTION_ATTEMPTS = 5;
+
+//  Connection Health Check
 const connectionHealthChecks = new Map<string, NodeJS.Timeout>();
 
-const MAX_RETRY_COUNT = 3;
-const RETRY_DELAY = 2000; // ms
+const startHealthCheck = (socketId: string) => {
+  // Clear existing health check
+  stopHealthCheck(socketId);
 
-/* -------------------------------------------------------------------------- */
-/*                             Utility functions                              */
-/* -------------------------------------------------------------------------- */
+  const healthCheck = setInterval(() => {
+    const state = getPeerState(socketId);
+    if (!state) {
+      stopHealthCheck(socketId);
+      return;
+    }
 
-export const getPeerState = (socketId: string): PeerState | null =>
-  peerConnections.get(socketId) ?? null;
+    const { peer } = state;
 
-export const getPeer = (socketId: string): RTCPeerConnection | null =>
-  getPeerState(socketId)?.peer ?? null;
+    // Check connection state
+    if (
+      peer.connectionState === 'failed' ||
+      peer.connectionState === 'disconnected'
+    ) {
+      // console.warn(
+      //   `[WebRTC] Health check: Connection unhealthy for ${socketId}`,
+      // );
+      stopHealthCheck(socketId);
 
-const canRetry = (socketId: string) => {
-  const state = getPeerState(socketId);
-  if (!state) return false;
-  return (
-    state.retryCount < MAX_RETRY_COUNT &&
-    Date.now() - state.lastRetryTime > RETRY_DELAY
-  );
+      // Try to reconnect if possible
+      if (canRetry(socketId)) {
+        // console.log(
+        //   `[WebRTC] Health check: Attempting reconnection for ${socketId}`,
+        // );
+        incrementRetryCount(socketId);
+      }
+    } else if (peer.connectionState === 'connected') {
+      // console.log(`[WebRTC] Health check: Connection healthy for ${socketId}`);
+    }
+  }, 10000); // Check every 10 seconds
+
+  connectionHealthChecks.set(socketId, healthCheck);
 };
 
-const incrementRetryCount = (socketId: string) => {
-  const state = getPeerState(socketId);
-  if (state) {
-    state.retryCount += 1;
-    state.lastRetryTime = Date.now();
+const stopHealthCheck = (socketId: string) => {
+  const healthCheck = connectionHealthChecks.get(socketId);
+  if (healthCheck) {
+    clearInterval(healthCheck);
+    connectionHealthChecks.delete(socketId);
   }
 };
 
-/* -------------------------------------------------------------------------- */
-/*                            Peer cleanup helpers                            */
-/* -------------------------------------------------------------------------- */
+const clearAllHealthChecks = () => {
+  connectionHealthChecks.forEach(healthCheck => {
+    clearInterval(healthCheck);
+  });
+  connectionHealthChecks.clear();
+};
+
+// Getters & Cleaners
+
+export const getPeer = (socketId: string): RTCPeerConnection | null => {
+  return peerConnections.get(socketId)?.peer || null;
+};
+
+export const getPeerState = (socketId: string): PeerState | null => {
+  return peerConnections.get(socketId) || null;
+};
 
 export const removePeer = (socketId: string) => {
   const state = peerConnections.get(socketId);
   if (state) {
-    state.peer.getSenders().forEach(s => s.track?.stop());
     state.peer.close();
     peerConnections.delete(socketId);
+    stopHealthCheck(socketId);
+    // console.log(`[WebRTC] Closed connection with ${socketId}`);
   }
-  const t = retryTimers.get(socketId);
-  if (t) {
-    clearTimeout(t);
-    retryTimers.delete(socketId);
-  }
-  stopHealthCheck(socketId);
 };
 
 export const clearAllPeers = () => {
-  [...peerConnections.keys()].forEach(removePeer);
+  peerConnections.forEach(({ peer }) => {
+    peer.close();
+    // console.log(`[WebRTC] Closed connection with ${socketId}`);
+  });
+  peerConnections.clear();
+  clearAllHealthChecks();
 };
 
-/* -------------------------------------------------------------------------- */
-/*                              ICE management                                */
-/* -------------------------------------------------------------------------- */
+// ICE Candidate Management
 
 const addIceCandidateSafely = async (
   socketId: string,
   candidate: RTCIceCandidateInit,
 ) => {
   const state = getPeerState(socketId);
-  if (!state) return;
-
-  if (!state.isRemoteDescriptionSet) {
-    state.iceCandidates.push(candidate);
+  if (!state) {
+    // console.warn(`[WebRTC] No peer found for ${socketId}`);
     return;
   }
+
+  // If remote description is not set yet, queue the candidate
+  if (!state.isRemoteDescriptionSet) {
+    state.iceCandidates.push(candidate);
+    // console.log(
+    //   `[WebRTC] Queued ICE candidate for ${socketId}, waiting for remote description`,
+    // );
+    return;
+  }
+
   try {
     await state.peer.addIceCandidate(new RTCIceCandidate(candidate));
+    // console.log(`[WebRTC] Added ICE candidate from ${socketId}`);
   } catch {
-    /* swallow */
+    // console.error(`[WebRTC] Error adding ICE candidate for ${socketId}:`, err);
   }
 };
 
 const flushIceCandidates = async (socketId: string) => {
   const state = getPeerState(socketId);
-  if (!state?.iceCandidates.length) return;
+  if (!state || state.iceCandidates.length === 0) return;
 
-  for (const c of state.iceCandidates) {
+  // console.log(
+  //   `[WebRTC] Flushing ${state.iceCandidates.length} queued ICE candidates for ${socketId}`,
+  // );
+
+  for (const candidate of state.iceCandidates) {
     try {
-      await state.peer.addIceCandidate(new RTCIceCandidate(c));
+      await state.peer.addIceCandidate(new RTCIceCandidate(candidate));
+      // console.log(`[WebRTC] Added queued ICE candidate from ${socketId}`);
     } catch {
-      /* swallow */
+      // console.error(
+      //   `[WebRTC] Error adding queued ICE candidate for ${socketId}:`,
+      //   err,
+      // );
     }
   }
+
   state.iceCandidates = [];
 };
 
-/* -------------------------------------------------------------------------- */
-/*                          Connection-health timer                           */
-/* -------------------------------------------------------------------------- */
+// Retry Mechanism
 
-const startHealthCheck = (socketId: string) => {
-  stopHealthCheck(socketId);
-  const t = setInterval(() => {
-    const st = getPeerState(socketId);
-    if (!st) return stopHealthCheck(socketId);
+const canRetry = (socketId: string): boolean => {
+  const state = getPeerState(socketId);
+  if (!state) return false;
 
-    const cs = st.peer.connectionState;
-    if ((cs === 'failed' || cs === 'disconnected') && canRetry(socketId)) {
-      incrementRetryCount(socketId);
-      scheduleRetryOffer(socketId);
-    }
-  }, 10_000);
-  connectionHealthChecks.set(socketId, t);
+  const now = Date.now();
+  return (
+    state.retryCount < MAX_RETRY_COUNT &&
+    state.connectionAttempts < MAX_CONNECTION_ATTEMPTS &&
+    now - state.lastRetryTime > RETRY_DELAY
+  );
 };
 
-const stopHealthCheck = (socketId: string) => {
-  const t = connectionHealthChecks.get(socketId);
-  if (t) clearInterval(t);
-  connectionHealthChecks.delete(socketId);
+const incrementRetryCount = (socketId: string) => {
+  const state = getPeerState(socketId);
+  if (state) {
+    state.retryCount++;
+    state.lastRetryTime = Date.now();
+  }
 };
 
-/* -------------------------------------------------------------------------- */
-/*                              Retry handling                                */
-/* -------------------------------------------------------------------------- */
+const incrementConnectionAttempts = (socketId: string) => {
+  const state = getPeerState(socketId);
+  if (state) {
+    state.connectionAttempts++;
+  }
+};
 
-const scheduleRetryOffer = (
+// Connection failure handler
+const handleConnectionFailure = (
   socketId: string,
-  selfSocketId?: string,
-  stream?: MediaStream,
-  sendMessage?: (m: Message) => void,
+  selfSocketId: string,
+  stream: MediaStream,
+  sendMessage: (message: Message) => void,
+  // error?: any,
 ) => {
-  if (!canRetry(socketId) || retryTimers.has(socketId)) return;
-  const t = setTimeout(() => {
-    retryTimers.delete(socketId);
-    if (selfSocketId && stream && sendMessage) {
+  const state = getPeerState(socketId);
+  if (!state) return;
+
+  // console.warn(`[WebRTC] Connection failed for ${socketId}:`, error);
+
+  // Remove the failed connection
+  removePeer(socketId);
+
+  // Try to reconnect if possible
+  if (canRetry(socketId)) {
+    incrementRetryCount(socketId);
+    incrementConnectionAttempts(socketId);
+
+    const delay = Math.min(
+      RETRY_DELAY * Math.pow(2, state.retryCount - 1),
+      10000,
+    );
+    // console.log(`[WebRTC] Retrying connection to ${socketId} in ${delay}ms (attempt ${state.retryCount})`);
+
+    setTimeout(() => {
       createOffer(socketId, selfSocketId, stream, sendMessage, true);
-    }
-  }, RETRY_DELAY);
-  retryTimers.set(socketId, t);
+    }, delay);
+  } else {
+    // console.warn(`[WebRTC] Max retry attempts reached for ${socketId}`);
+    // Remove participant if connection fails completely
+    useMeetingParticipantStore.getState().removeParticipant(socketId);
+  }
 };
 
-/* -------------------------------------------------------------------------- */
-/*                                Offer flow                                  */
-/* -------------------------------------------------------------------------- */
+// WebRTC Offer
 
 export const createOffer = async (
   socketId: string,
@@ -167,48 +234,64 @@ export const createOffer = async (
   sendMessage: (message: Message) => void,
   isRetry = false,
 ) => {
-  if (!isRetry && peerConnections.has(socketId)) return; // duplicate guard
+  // Clean up existing connection if any
   removePeer(socketId);
 
   const peer = new RTCPeerConnection(peerConfiguration);
 
-  // Attach local media
-  stream.getTracks().forEach(t => peer.addTrack(t, stream));
+  // Attach local tracks
+  stream.getTracks().forEach(track => peer.addTrack(track, stream));
 
-  peer.ontrack = e => {
+  // Handle remote track
+  peer.ontrack = event => {
+    const remoteStream = event.streams[0];
     useMeetingParticipantStore
       .getState()
-      .updateParticipantStream(socketId, e.streams[0] ?? null);
+      .updateParticipantStream(socketId, remoteStream || null);
   };
 
+  // Handle connection state changes
   peer.onconnectionstatechange = () => {
-    const cs = peer.connectionState;
-    if ((cs === 'failed' || cs === 'disconnected') && canRetry(socketId)) {
-      incrementRetryCount(socketId);
-      scheduleRetryOffer(socketId, selfSocketId, stream, sendMessage);
+    // console.log(
+    //   `[WebRTC] Connection state with ${socketId}:`,
+    //   peer.connectionState,
+    // );
+    if (
+      peer.connectionState === 'failed' ||
+      peer.connectionState === 'disconnected'
+    ) {
+      // console.warn(`[WebRTC] Connection failed/disconnected with ${socketId}`);
+
+      // Handle connection failure
+      handleConnectionFailure(socketId, selfSocketId, stream, sendMessage);
     }
   };
 
+  // Handle ICE connection state changes
   peer.oniceconnectionstatechange = () => {
-    if (peer.iceConnectionState === 'failed' && canRetry(socketId)) {
-      incrementRetryCount(socketId);
-      scheduleRetryOffer(socketId, selfSocketId, stream, sendMessage);
+    // console.log(
+    //   `[WebRTC] ICE connection state with ${socketId}:`,
+    //   peer.iceConnectionState,
+    // );
+    if (peer.iceConnectionState === 'failed') {
+      // console.log(
+      //   `[WebRTC] ICE connection failed, attempting restart for ${socketId}`,
+      // );
+      handleConnectionFailure(socketId, selfSocketId, stream, sendMessage);
     }
   };
 
-  peer.onicecandidate = e => {
-    if (e.candidate) {
-      // slight delay prevents racing before remote sets SDP
-      setTimeout(() => {
-        sendMessage({
-          type: 'webrtc:ice-candidate',
-          data: {
-            from: selfSocketId,
-            to: socketId,
-            candidate: e.candidate!.toJSON(),
-          },
-        });
-      }, 500);
+  // Handle ICE candidates
+  peer.onicecandidate = event => {
+    if (event.candidate) {
+      sendMessage({
+        type: 'webrtc:ice-candidate',
+        data: {
+          from: selfSocketId,
+          to: socketId,
+          candidate: event.candidate.toJSON(),
+        },
+      });
     }
   };
 
@@ -219,7 +302,10 @@ export const createOffer = async (
     sendMessage({
       type: 'webrtc:offer',
       data: {
-        sdp: { type: offer.type as 'offer', sdp: offer.sdp! },
+        sdp: {
+          type: offer.type as 'offer',
+          sdp: offer.sdp!,
+        },
         from: selfSocketId,
         to: socketId,
       },
@@ -229,20 +315,29 @@ export const createOffer = async (
       peer,
       iceCandidates: [],
       isRemoteDescriptionSet: false,
-      retryCount: isRetry ? (getPeerState(socketId)?.retryCount ?? 0) : 0,
-      lastRetryTime: isRetry ? (getPeerState(socketId)?.lastRetryTime ?? 0) : 0,
+      retryCount: isRetry ? getPeerState(socketId)?.retryCount || 0 : 0,
+      lastRetryTime: isRetry ? getPeerState(socketId)?.lastRetryTime || 0 : 0,
+      connectionAttempts: isRetry
+        ? getPeerState(socketId)?.connectionAttempts || 0
+        : 0,
     });
 
+    // Start health check for this connection
     startHealthCheck(socketId);
+
+    // console.log(
+    //   `[WebRTC] Created offer for ${socketId}${isRetry ? ' (retry)' : ''}`,
+    // );
   } catch {
+    // console.error(`[WebRTC] Error creating offer for ${socketId}:`, error);
     peer.close();
-    scheduleRetryOffer(socketId, selfSocketId, stream, sendMessage);
+
+    // Handle connection failure
+    handleConnectionFailure(socketId, selfSocketId, stream, sendMessage);
   }
 };
 
-/* -------------------------------------------------------------------------- */
-/*                               Answer flow                                  */
-/* -------------------------------------------------------------------------- */
+// WebRTC Answer
 
 export const createAnswer = async (
   socketId: string,
@@ -251,27 +346,56 @@ export const createAnswer = async (
   stream: MediaStream,
   sendMessage: (message: Message) => void,
 ) => {
+  // Clean up existing connection if any
   removePeer(socketId);
+
   const peer = new RTCPeerConnection(peerConfiguration);
 
-  stream.getTracks().forEach(t => peer.addTrack(t, stream));
-  peer.ontrack = e =>
+  stream.getTracks().forEach(track => peer.addTrack(track, stream));
+
+  peer.ontrack = event => {
+    const remoteStream = event.streams[0];
     useMeetingParticipantStore
       .getState()
-      .updateParticipantStream(socketId, e.streams[0] ?? null);
+      .updateParticipantStream(socketId, remoteStream || null);
+  };
 
-  peer.onicecandidate = e => {
-    if (e.candidate) {
-      setTimeout(() => {
-        sendMessage({
-          type: 'webrtc:ice-candidate',
-          data: {
-            from: selfSocketId,
-            to: socketId,
-            candidate: e.candidate!.toJSON(),
-          },
-        });
-      }, 500);
+  // Handle connection state changes
+  peer.onconnectionstatechange = () => {
+    // console.log(
+    //   `[WebRTC] Connection state with ${socketId}:`,
+    //   peer.connectionState,
+    // );
+    if (
+      peer.connectionState === 'failed' ||
+      peer.connectionState === 'disconnected'
+    ) {
+      // console.warn(`[WebRTC] Connection failed/disconnected with ${socketId}`);
+      handleConnectionFailure(socketId, selfSocketId, stream, sendMessage);
+    }
+  };
+
+  // Handle ICE connection state changes
+  peer.oniceconnectionstatechange = () => {
+    //  console.log(
+    //   `[WebRTC] ICE connection state with ${socketId}:`,
+    //   peer.iceConnectionState,
+    // );
+    if (peer.iceConnectionState === 'failed') {
+      handleConnectionFailure(socketId, selfSocketId, stream, sendMessage);
+    }
+  };
+
+  peer.onicecandidate = event => {
+    if (event.candidate) {
+      sendMessage({
+        type: 'webrtc:ice-candidate',
+        data: {
+          from: selfSocketId,
+          to: socketId,
+          candidate: event.candidate.toJSON(),
+        },
+      });
     }
   };
 
@@ -280,49 +404,74 @@ export const createAnswer = async (
     const answer = await peer.createAnswer();
     await peer.setLocalDescription(answer);
 
-    const state: PeerState = {
-      peer,
-      iceCandidates: [],
-      isRemoteDescriptionSet: true,
-      retryCount: 0,
-      lastRetryTime: 0,
-    };
-    peerConnections.set(socketId, state);
-
     sendMessage({
       type: 'webrtc:answer',
       data: {
-        sdp: { type: answer.type as 'answer', sdp: answer.sdp! },
+        sdp: {
+          type: answer.type as 'answer',
+          sdp: answer.sdp!,
+        },
         from: selfSocketId,
         to: socketId,
       },
     });
 
-    await flushIceCandidates(socketId);
+    const state = {
+      peer,
+      iceCandidates: [],
+      isRemoteDescriptionSet: true,
+      retryCount: 0,
+      lastRetryTime: 0,
+      connectionAttempts: 0,
+    };
+    peerConnections.set(socketId, state);
+
+    // Start health check for this connection
     startHealthCheck(socketId);
+
+    // Flush any queued ICE candidates
+    await flushIceCandidates(socketId);
+
+    // console.log(`[WebRTC] Created answer for ${socketId}`);
   } catch {
+    // console.error(`[WebRTC] Error creating answer for ${socketId}:`, error);
     peer.close();
+    handleConnectionFailure(socketId, selfSocketId, stream, sendMessage);
   }
 };
 
-/* -------------------------------------------------------------------------- */
-/*                          External signaling hooks                          */
-/* -------------------------------------------------------------------------- */
+// Add ICE Candidate (called on ice-candidate message)
 
-export const addIceCandidate = (socketId: string, cand: RTCIceCandidateInit) =>
-  addIceCandidateSafely(socketId, cand);
+export const addIceCandidate = async (
+  socketId: string,
+  candidate: RTCIceCandidateInit,
+) => {
+  await addIceCandidateSafely(socketId, candidate);
+};
+
+// Set Remote Description (called on offer/answer message)
 
 export const setRemoteDescription = async (
   socketId: string,
   sdp: RTCSessionDescriptionInit,
 ) => {
   const state = getPeerState(socketId);
-  if (!state) return;
+  if (!state) {
+    // console.warn(`[WebRTC] No peer found for ${socketId}`);
+    return;
+  }
+
   try {
     await state.peer.setRemoteDescription(new RTCSessionDescription(sdp));
     state.isRemoteDescriptionSet = true;
+    // console.log(`[WebRTC] Set remote description for ${socketId}`);
+
+    // Flush any queued ICE candidates
     await flushIceCandidates(socketId);
   } catch {
-    /* swallow */
+    // console.error(
+    //   `[WebRTC] Error setting remote description for ${socketId}:`,
+    //   err,
+    // );
   }
 };
