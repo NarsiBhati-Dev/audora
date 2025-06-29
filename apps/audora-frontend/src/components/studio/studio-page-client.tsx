@@ -1,13 +1,13 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useStudioSettingsStore } from '@/modules/studio/store/studio-settings-store';
+import { useStudioSettingsStore } from '@/store/studio/studio-settings-store';
 import { getStudioNameFromSlug } from '@/lib/studio/getStudioNameFromSlug';
 import { useIsDesktop } from '@/hooks/useIsDesktop';
 import { useMeetingStartStore } from '@/store/meeting-start-store';
 import StudioRoleView from './views/studio-role-view';
 import GuestLandingScreen from './views/guest-landing-screen';
-import { StudioProvider } from '@/modules/studio/providers/StudioProvider';
+import { StudioProvider } from '@/components/providers/StudioProvider';
 
 interface StudioPageClientProps {
   studioSlug: string;

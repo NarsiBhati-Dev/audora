@@ -26,11 +26,15 @@ const toClientUser = (p: {
   name: string;
   role: string;
   socketId: string;
+  micOn: boolean;
+  camOn: boolean;
 }) => ({
   userId: p.userId,
   name: p.name,
   role: p.role,
   socketId: p.socketId,
+  micOn: p.micOn,
+  camOn: p.camOn,
 });
 
 export const roomEventHandler = async ({
@@ -48,7 +52,11 @@ export const roomEventHandler = async ({
 
   switch (type) {
     case "user:join": {
-      const { name } = data;
+      const { name, micOn, camOn } = data as {
+        name: string;
+        micOn: boolean;
+        camOn: boolean;
+      };
 
       if (isUserInRoom(studioSlug, userId)) {
         sendAndClose(socket, "error", "User already in room.");
@@ -61,7 +69,14 @@ export const roomEventHandler = async ({
         userId,
         name,
         participantRole,
+        micOn,
+        camOn
       );
+
+      if (!participant) {
+        sendAndClose(socket, "error", "Failed to add participant to room.");
+        return;
+      }
 
       socket.meta = {
         ...meetingToken,
@@ -73,9 +88,9 @@ export const roomEventHandler = async ({
         studioSlug,
         {
           type: "user:joined",
-          data: { user: toClientUser(participant as Participant) },
+          data: { user: toClientUser(participant) },
         },
-        socket,
+        socket
       );
 
       const room = getRoom(studioSlug);
@@ -106,7 +121,7 @@ export const roomEventHandler = async ({
       }
 
       logger.info(
-        `[${studioSlug}] ${participantRole} (${name}) joined the room.`,
+        `[${studioSlug}] ${participantRole} (${name}) joined the room.`
       );
       break;
     }
@@ -129,7 +144,7 @@ export const roomEventHandler = async ({
             },
           },
         },
-        socket,
+        socket
       );
 
       logger.info(`[${studioSlug}] ${userId} left the room.`);

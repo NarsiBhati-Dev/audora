@@ -1,7 +1,7 @@
 import DashboardContainer from '@/components/dashboard/dashboard-container';
 import { Studio } from '@audora/types';
 import DashboardSidebar from './sidebar/dashboard-sidebar';
-import StudioSettingsProvider from '@/modules/studio/providers/studio-settings-provider';
+import StudioSettingsProvider from '@/components/providers/studio-settings-provider';
 
 interface DashboardLayoutProps {
   studio: Studio;

@@ -6,7 +6,7 @@ import {
   PiChatsCircleDuotone,
 } from 'react-icons/pi';
 // import { useUserProfileStore } from '@/store/user-profile';
-import { useStudioSettingsStore } from '@/modules/studio/store/studio-settings-store';
+import { useStudioSettingsStore } from '@/store/studio/studio-settings-store';
 import RemoveStudio from './remove-studio';
 import { ToggleSwitch } from '../toggle-switch';
 import { HiOutlineChevronDown } from 'react-icons/hi';
