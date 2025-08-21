@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import { VideoIcon, Square } from 'lucide-react';
 import clsx from 'clsx';
-import { useMeetingParticipantStore } from '@/store/webrtc/meeting-participant-store';
-import { useStudioSettingsStore } from '@/store/studio/studio-settings-store';
+// import { useMeetingParticipantStore } from '@/store/webrtc/meeting-participant-store';
+// import { useStudioSettingsStore } from '@/store/studio/studio-settings-store';
 import { useSystemStreamStore } from '@/store/webrtc/system-stream';
 import { useAdvancedRecording } from '@/hooks/recording/useAdvancedRecording';
 import { toast } from 'react-hot-toast';
@@ -21,19 +21,19 @@ const RecordingButton = ({
     const { stream } = useSystemStreamStore();
     const {
         isRecording,
-        isCountdownActive,
-        countdownValue,
-        chunkIndex,
-        totalDuration,
+        // isCountdownActive,
+        // countdownValue,
+        // chunkIndex,
+        // totalDuration,
         startRecording,
         stopRecording,
-        formatDuration,
+        // formatDuration,
     } = useAdvancedRecording({
         stream,
         chunkDurationMs: 5000, // 5 seconds per chunk
         countdownDuration: 5,
         mimeType: 'video/webm;codecs=vp9,opus',
-        onChunkAvailable: (chunk) => {
+        onChunkAvailable: () => {
             toast.success('Chunk available', {
                 duration: 3000,
             });
@@ -48,7 +48,7 @@ const RecordingButton = ({
                 duration: 3000,
             });
         },
-        onError: (error) => {
+        onError: () => {
             toast.error('Recording error', {
                 duration: 3000,
             });
@@ -56,12 +56,12 @@ const RecordingButton = ({
     });
 
     const [isHovered, setIsHovered] = useState(false);
-    const trackId = useMeetingParticipantStore.getState().self?.trackId;
-    const projectId = useMeetingParticipantStore.getState().self?.projectId;
-    const { studioSetting } = useStudioSettingsStore();
+    // const trackId = useMeetingParticipantStore.getState().self?.trackId;
+    // const projectId = useMeetingParticipantStore.getState().self?.projectId;
+    // const { studioSetting } = useStudioSettingsStore();
 
-    const onStartRecording = () => startRecording();
-    const onStopRecording = () => stopRecording();
+    // const onStartRecording = () => startRecording();
+    // const onStopRecording = () => stopRecording();
 
     const handleRecordToggle = () => {
         if (isRecording) {
