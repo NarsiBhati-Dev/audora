@@ -5,7 +5,7 @@ import React from 'react';
 
 const TeamMemberCard = (member: TeamMemberSchema) => {
   return (
-    <div className='group flex h-full flex-col rounded-3xl border border-white/10 bg-gradient-to-b from-[#0a0a0a] via-[#121212] to-[#1f1f1f] p-8 text-center shadow-xl transition-all duration-300 hover:border-[#6965db]/30 hover:shadow-2xl'>
+    <div className='group flex h-full flex-col rounded-3xl border border-white/10 gradient-bg p-8 text-center shadow-xl transition-all duration-300 hover:border-[#6965db]/30 hover:shadow-2xl'>
       <div className='relative mx-auto mb-6 h-32 w-32'>
         <div className='absolute inset-0 rounded-full bg-gradient-to-br from-[#6965db]/20 to-[#a18fff]/20 blur-xl transition-all duration-300 group-hover:blur-2xl' />
         <Image

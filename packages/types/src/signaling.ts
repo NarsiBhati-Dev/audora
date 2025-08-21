@@ -68,11 +68,11 @@ export const InboundMessageSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("webrtc:ice-candidate"), data: WebRTCDataSchema }),
   z.object({
     type: z.literal("recording:start"),
-    data: z.object({ recordingStatus: z.boolean() }),
+    data: z.object({ recordingStatus: z.boolean(), projectId: z.string() }),
   }),
   z.object({
     type: z.literal("recording:stop"),
-    data: z.object({ recordingStatus: z.boolean() }),
+    data: z.object({ recordingStatus: z.boolean(), trackId: z.string() }),
   }),
   z.object({
     type: z.literal("project-id"),
@@ -117,6 +117,8 @@ const UserSchema = z.object({
   socketId: z.string(),
   micOn: z.boolean(),
   camOn: z.boolean(),
+  projectId: z.string().optional(),
+  trackId: z.string().optional(),
 });
 
 export const OutboundMessageSchema = z.discriminatedUnion("type", [
@@ -132,12 +134,15 @@ export const OutboundMessageSchema = z.discriminatedUnion("type", [
     type: z.literal("participants:list"),
     data: z.object({
       participants: z.array(z.object({ user: UserSchema })),
-      selfSocketId: z.string().optional(),
     }),
   }),
   z.object({
     type: z.literal("room:ready"),
-    data: z.object({ selfSocketId: z.string() }),
+    data: z.object({
+      selfSocketId: z.string(),
+      projectId: z.string().optional(),
+      trackId: z.string().optional(),
+    }),
   }),
   z.object({ type: z.literal("webrtc:offer"), data: WebRTCDataSchema }),
   z.object({ type: z.literal("webrtc:answer"), data: WebRTCDataSchema }),

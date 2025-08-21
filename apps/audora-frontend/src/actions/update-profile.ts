@@ -1,3 +1,5 @@
+'use server';
+
 import axios from 'axios';
 import { API_URL } from '@/config';
 import { getServerSession } from 'next-auth';

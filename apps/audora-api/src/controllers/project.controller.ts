@@ -6,6 +6,7 @@ import {
   getProjectService,
   updateProjectService,
 } from "@audora/database/projectServices";
+import { getStudioByStudioSlugService } from "@audora/database/studioServices";
 import { HttpStatus } from "../utils/HttpStatus";
 import type { AuthRequest } from "../utils/request-type";
 
@@ -94,17 +95,36 @@ export const getProject = async (req: AuthRequest, res: Response) => {
 };
 
 export const getProjects = async (req: AuthRequest, res: Response) => {
-  const { studioId, page } = req.body;
+  const { studioSlug, page } = req.query;
 
-  if (!studioId || !page) {
+  if (!studioSlug || !page) {
     res.status(HttpStatus.BAD_REQUEST).json({
       success: false,
-      message: "Studio ID is required",
+      message: "Studio slug and page are required",
     });
     return;
   }
   try {
-    const projects = await getProjectsByStudioId(studioId, page);
+    const studio = await getStudioByStudioSlugService(studioSlug as string);
+
+    if (!studio) {
+      res.status(HttpStatus.NOT_FOUND).json({
+        success: false,
+        message: "Studio not found",
+      });
+      return;
+    }
+
+    const projects = await getProjectsByStudioId(studio.id, Number(page));
+
+    if (!projects) {
+      res.status(HttpStatus.NOT_FOUND).json({
+        success: false,
+        message: "Projects not found",
+      });
+      return;
+    }
+
     res.status(HttpStatus.OK).json({
       success: true,
       message: "Projects fetched successfully",

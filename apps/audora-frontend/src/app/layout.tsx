@@ -5,6 +5,8 @@ import siteMetadata from '@/lib/seo/siteMetadata';
 import { Toaster } from 'react-hot-toast';
 import ReactQueryProvider from '@/lib/react-query';
 import { LoadingProvider } from '@/components/providers/loading-provider';
+import { GoogleAnalytics } from '@next/third-parties/google';
+import { MEASUREMENT_ID } from '@/config';
 
 const open_sans = Open_Sans({
   variable: '--font-open-sans',
@@ -72,6 +74,7 @@ export default function RootLayout({
       />
       <meta name='apple-mobile-web-app-title' content='Audora' />
       <link rel='manifest' href='/favicons/site.webmanifest' />
+      <GoogleAnalytics gaId={MEASUREMENT_ID as string} />
       <body
         className={`${open_sans.className} scroll-pt-17 scroll-smooth bg-black antialiased`}
       >

@@ -83,10 +83,6 @@ export const useInitMeeting = ({
       isCameraOn: cameraOn,
       isMicOn: micOn,
     });
-
-    // Keep syncing if needed
-    // useMeetingParticipantStore.getState().updateSelfStream(stream);
-    // useMeetingParticipantStore.getState().updateSelfStatus(micOn, cameraOn);
   }, [
     stream,
     micOn,
