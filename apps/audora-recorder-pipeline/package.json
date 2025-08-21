@@ -7,9 +7,10 @@
     "@types/bun": "latest"
   },
   "scripts": {
-    "dev": "bun run src/index.ts",
-    "producer": "bun run src/producer.ts",
-    "consumer": "bun run src/consumer.ts"
+    "kafka": "docker-compose up -d",
+    "consumer": "bun run src/consumers/consumer.ts",
+    "dev": "bun run kafka & sleep 5 && bun run consumer",
+    "stop": "docker-compose down"
   },
   "peerDependencies": {
     "typescript": "^5"

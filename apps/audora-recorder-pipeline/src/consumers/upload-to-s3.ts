@@ -39,3 +39,9 @@ const uploadToS3 = async (
 };
 
 export default uploadToS3;
+
+export interface RecordingChunkMessage {
+  sessionId: string;
+  data: string; // base64-encoded chunk
+  isFinal: boolean;
+}

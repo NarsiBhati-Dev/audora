@@ -3,6 +3,8 @@ import { create } from 'zustand';
 export interface MeetingParticipant {
   id: string; // userId
   socketId: string;
+  projectId?: string;
+  trackId?: string;
   name: string;
   stream: MediaStream | null;
   isSpeaker: boolean;
@@ -18,6 +20,8 @@ export interface MeetingParticipantStore {
 
   setSelf: (self: MeetingParticipant) => void;
   setSelfSocketId: (socketId: string) => void;
+  setSelfProjectId: (projectId: string) => void;
+  setSelfTrackId: (trackId: string) => void;
   updateSelfStatus: (isMicOn: boolean, isCameraOn: boolean) => void;
   updateSelfStream: (stream: MediaStream | null) => void;
 
@@ -60,6 +64,16 @@ export const useMeetingParticipantStore = create<MeetingParticipantStore>(
     setSelfSocketId: (socketId: string) =>
       set(state => ({
         self: state.self ? { ...state.self, socketId } : null,
+      })),
+
+    setSelfProjectId: (projectId: string) =>
+      set(state => ({
+        self: state.self ? { ...state.self, projectId } : null,
+      })),
+
+    setSelfTrackId: (trackId: string) =>
+      set(state => ({
+        self: state.self ? { ...state.self, trackId } : null,
       })),
 
     setParticipants: participantsOrUpdater =>

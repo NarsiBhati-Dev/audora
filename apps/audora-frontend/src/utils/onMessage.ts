@@ -212,6 +212,8 @@ const onMessage = async (
     case 'room:ready': {
       // console.log('[WebRTC] Room ready, self socket ID:', data.selfSocketId);
       useMeetingParticipantStore.getState().setSelfSocketId(data.selfSocketId);
+      useMeetingParticipantStore.getState().setSelfProjectId(data.projectId!);
+      useMeetingParticipantStore.getState().setSelfTrackId(data.trackId!);
 
       // Try to establish connections with any existing participants
       const participants = useMeetingParticipantStore.getState().participants;

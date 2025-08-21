@@ -41,8 +41,8 @@ export const useMediaDevices = () => {
           permissions[0].state === 'denied' ||
           permissions[1].state === 'denied'
         ) {
-          setError('Camera or microphone access denied');
           setLoading(false);
+          setError('Camera or microphone access denied');
           return;
         }
 

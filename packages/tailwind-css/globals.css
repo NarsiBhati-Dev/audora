@@ -42,6 +42,10 @@ html {
   cursor: pointer !important;
 }
 
+.gradient-bg {
+  @apply min-h-screen bg-gradient-to-b from-[#0a0a0a] via-[#121212] to-[#1f1f1f];
+}
+
 /* Ensure links and buttons have pointer cursor */
 a,
 button,

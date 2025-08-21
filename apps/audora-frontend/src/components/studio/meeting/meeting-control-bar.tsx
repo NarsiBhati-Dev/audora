@@ -2,13 +2,12 @@
 
 import {
   Volume2,
-  // Upload,
   PhoneOff,
-  VideoIcon,
 } from 'lucide-react';
 import { useState } from 'react';
 import MeetingControllerButton from './meeting-controller-button';
 import { useSignalStore } from '@/store/webrtc/signal-store';
+import RecordingButton from './recording/recording-button';
 
 import {
   CameraIcon,
@@ -87,15 +86,7 @@ const MeetingControlBar = ({ isGuest = false }) => {
   return (
     <div className='fixed right-0 bottom-1.5 left-0 mx-auto flex w-full max-w-4xl items-center justify-between'>
       <div className='flex w-full items-center justify-center gap-6'>
-        <MeetingControllerButton
-          icon={<VideoIcon className='h-5 w-5' />}
-          label='Record'
-          className='text-white'
-          onToggle={() => {}}
-          active
-          type='record'
-          isGuest={isGuest}
-        />
+        <RecordingButton isGuest={isGuest} />
         <MeetingControllerButton
           label='Mic'
           onToggle={handleMicToggle}
@@ -124,16 +115,11 @@ const MeetingControlBar = ({ isGuest = false }) => {
         />
         <MeetingControllerButton
           label='Speaker'
-          onToggle={() => {}}
+          onToggle={() => { }}
           icon={<Volume2 className='h-5 w-5' />}
           isOn
         />
 
-        {/* <MeetingControllerButton
-                    label="Share"
-                    onToggle={() => { }}
-                    icon={<Upload className="w-5 h-5" />}
-                /> */}
         <MeetingControllerButton
           label='Leave'
           onToggle={() => setIsLeaving(true)}

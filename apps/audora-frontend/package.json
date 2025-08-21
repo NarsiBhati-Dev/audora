@@ -10,6 +10,7 @@
     "lint:fix": "next lint --fix && prettier --write ."
   },
   "dependencies": {
+    "@next/third-parties": "^15.5.0",
     "@tanstack/react-query": "^5.76.1",
     "@types/bcrypt": "^5.0.2",
     "axios": "^1.10.0",

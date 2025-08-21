@@ -23,7 +23,7 @@ export const createProjectService = async ({
 
 export const updateProjectService = async (
   projectId: string,
-  title: string,
+  title: string
 ) => {
   const project = await client.project.update({
     where: { id: projectId },
@@ -51,7 +51,7 @@ export const getProjectService = async (projectId: string) => {
 
 export const getProjectsByStudioId = async (
   studioId: string,
-  page: number = 1,
+  page: number = 1
 ) => {
   const limit: number = 10;
   const skip = (page - 1) * limit;
