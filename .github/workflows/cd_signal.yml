@@ -55,5 +55,5 @@ jobs:
               --restart always \
               ${{ secrets.DOCKERHUB_USERNAME }}/audora-signal:latest
 
-            echo "Audora Signal deployed successfully!"
+            echo "Audora Signal deployed successfully !"
             sudo docker image prune -f --filter "until=24h"

@@ -57,7 +57,7 @@ jobs:
               --restart always \
               ${{ secrets.DOCKERHUB_USERNAME }}/audora-api:latest
 
-            echo "Audora API deployed successfully!"
+            echo "Audora API deployed successfully !"
             sudo docker image prune -f --filter "until=24h"
 
      
