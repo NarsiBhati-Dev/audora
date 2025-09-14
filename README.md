@@ -1,16 +1,12 @@
 # Audora.xyz 🎙️
 
-![Audora Logo](https://via.placeholder.com/150x150.png?text=Audora)
+![Audora Logo](apps/audora-frontend/public/images/audora-logo-black.webp)
 
 ## **High-Quality Podcast Recording Platform**
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Code of Conduct](https://img.shields.io/badge/Code%20of%20Conduct-v2.0-ff69b4.svg)](CODE_OF_CONDUCT.md)
-
-## 🎬 Audora Demo
-
-[![Watch the Audora Demo](https://img.youtube.com/vi/placeholder/maxresdefault.jpg)](https://www.youtube.com/watch?v=placeholder)
 
 ## Code of Conduct
 
