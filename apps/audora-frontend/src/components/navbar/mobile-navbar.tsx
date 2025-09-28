@@ -5,7 +5,7 @@ import { products } from '@/data/ProductsList';
 import Logo from '../logo';
 import MobileDropdownSection from './mobile-dropdown-section';
 import siteMetadata from '@/lib/seo/siteMetadata';
-import GithubStar from '../github-start';
+import GithubStar from '../github-star';
 
 const noScrollbar = `
   .no-scrollbar::-webkit-scrollbar { display: none; }

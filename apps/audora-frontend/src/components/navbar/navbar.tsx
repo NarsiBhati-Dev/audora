@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { products } from '@/data/ProductsList';
 import ProductItem from './product-item';
 import siteMetadata from '@/lib/seo/siteMetadata';
-import GithubStar from '../github-start';
+import GithubStar from '../github-star';
 
 const Navbar = ({ scrolled }: { scrolled: boolean }) => {
   const textColor = scrolled
