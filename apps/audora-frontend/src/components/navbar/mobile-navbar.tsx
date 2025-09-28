@@ -5,6 +5,7 @@ import { products } from '@/data/ProductsList';
 import Logo from '../logo';
 import MobileDropdownSection from './mobile-dropdown-section';
 import siteMetadata from '@/lib/seo/siteMetadata';
+import GithubStar from '../github-start';
 
 const noScrollbar = `
   .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -45,17 +46,15 @@ const MobileNavbar = ({ scrolled }: { scrolled: boolean }) => {
 
         {/* Mobile Menu Overlay */}
         <div
-          className={`fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
-            isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
-          }`}
+          className={`fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
+            }`}
           onClick={() => setIsOpen(false)}
         />
 
         {/* Mobile Menu Content */}
         <div
-          className={`fixed top-0 left-0 z-50 h-full w-full transform rounded-b-2xl bg-white shadow-xl transition-transform duration-300 ${
-            isOpen ? 'translate-y-0' : '-translate-y-full'
-          }`}
+          className={`fixed top-0 left-0 z-50 h-full w-full transform rounded-b-2xl bg-white shadow-xl transition-transform duration-300 ${isOpen ? 'translate-y-0' : '-translate-y-full'
+            }`}
         >
           <div className='relative flex h-full flex-col p-4'>
             {/* Close button */}
@@ -121,6 +120,7 @@ const MobileNavbar = ({ scrolled }: { scrolled: boolean }) => {
               >
                 Start for Free
               </Link>
+              <GithubStar />
             </div>
           </div>
         </div>
