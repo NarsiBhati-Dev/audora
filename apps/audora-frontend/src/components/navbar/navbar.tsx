@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { products } from '@/data/ProductsList';
 import ProductItem from './product-item';
 import siteMetadata from '@/lib/seo/siteMetadata';
-import GithubStar from '../github-star';
+// import GithubStar from '../github-star';
 
 const Navbar = ({ scrolled }: { scrolled: boolean }) => {
   const textColor = scrolled
@@ -68,7 +68,7 @@ const Navbar = ({ scrolled }: { scrolled: boolean }) => {
         >
           Start for Free
         </Link>
-        <GithubStar />
+        {/* <GithubStar /> */}
       </div>
     </nav>
   );

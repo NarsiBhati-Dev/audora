@@ -5,7 +5,7 @@ import { products } from '@/data/ProductsList';
 import Logo from '../logo';
 import MobileDropdownSection from './mobile-dropdown-section';
 import siteMetadata from '@/lib/seo/siteMetadata';
-import GithubStar from '../github-star';
+// import GithubStar from '../github-star';
 
 const noScrollbar = `
   .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -120,7 +120,7 @@ const MobileNavbar = ({ scrolled }: { scrolled: boolean }) => {
               >
                 Start for Free
               </Link>
-              <GithubStar />
+              {/* <GithubStar /> */}
             </div>
           </div>
         </div>
